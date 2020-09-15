@@ -1,4 +1,4 @@
-From  vistart/cuda:10.2-devel-ubuntu20.04
+From  vistart/cuda:10.2 -devel-ubuntu20.04
 
 LABEL maintainer "zhengpeng ge"
 MAINTAINER zhengpeng ge "https://github.com/gezp"
@@ -27,31 +27,24 @@ RUN groupadd $USER && \
 #remove /etc/apt/sources.list.d/* (cuda and nvidia-ml repo in vistart/cuda)
 RUN rm -rf /etc/apt/sources.list.d/*
 
-## Install some common tools
+## Install some common tools and xfce4 desktop
 RUN apt-get update  && \
-    apt-get install -y sudo vim wget curl net-tools locales bzip2 git tmux xterm python3-pip \
-    python-numpy fonts-wqy-zenhei openssh-server software-properties-common && \
+    apt-get install -y sudo vim wget curl net-tools mesa-utils locales bzip2 git tmux xterm python3-pip \
+    python-numpy openssh-server software-properties-common fonts-wqy-zenhei xfce4 xfce4-terminal && \
     apt-get clean -y && \
     rm -rf /var/lib/apt/lists/* 
   
-#set language encode
+#set language encode and setup environment
 RUN locale-gen zh_CN.UTF-8
-# setup environment
 ENV LANG C.UTF-8
 ENV LC_ALL C.UTF-8
-
-# Install xfce desktop
-RUN set -x apt-get update && \
-    apt-get install -y xfce4 xfce4-terminal && \
-    apt-get clean -y && \
-    rm -rf /var/lib/apt/lists/* 
 
 ### Switch to user to install additional software
 USER $USER
 
 #set python package tsinghua source
-RUN   pip3 install -i https://pypi.tuna.tsinghua.edu.cn/simple pip -U  \
-      && pip3 config set global.index-url https://pypi.tuna.tsinghua.edu.cn/simple
+RUN   pip3 install -i https://pypi.tuna.tsinghua.edu.cn/simple pip -U  && \
+      pip3 config set global.index-url https://pypi.tuna.tsinghua.edu.cn/simple
 
 ### Switch to root 
 USER 0
@@ -63,6 +56,8 @@ RUN add-apt-repository ppa:x2go/stable && \
     rm -rf /var/lib/apt/lists/* 
 # SSH runtime
 RUN mkdir /var/run/sshd
+
+
 # Run it
 EXPOSE 22
 CMD ["/usr/sbin/sshd", "-D"]
