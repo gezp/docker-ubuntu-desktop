@@ -31,8 +31,11 @@ RUN rm -rf /etc/apt/sources.list.d/*
 RUN apt-get update  && \
     apt-get install -y sudo vim wget curl net-tools mesa-utils locales bzip2 git tmux xterm python3-pip \
     python-numpy openssh-server software-properties-common fonts-wqy-zenhei xfce4 xfce4-terminal && \
-    apt-get clean -y && \
     rm -rf /var/lib/apt/lists/* 
+
+#upgrade pip
+RUN pip3 install -i https://pypi.tuna.tsinghua.edu.cn/simple pip -U && \
+    rm -rf ~/.cache/pip
   
 #set language encode and setup environment
 RUN locale-gen zh_CN.UTF-8
@@ -41,13 +44,11 @@ ENV LC_ALL C.UTF-8
 
 ### Switch to user to install additional software
 USER $USER
-
 #set python package tsinghua source
-RUN   pip3 install -i https://pypi.tuna.tsinghua.edu.cn/simple pip -U  && \
-      pip3 config set global.index-url https://pypi.tuna.tsinghua.edu.cn/simple
-
+RUN  pip3 config set global.index-url https://pypi.tuna.tsinghua.edu.cn/simple
 ### Switch to root 
 USER 0
+
 # add x2go repository and install x2go
 RUN add-apt-repository ppa:x2go/stable && \
     apt-get update && \
