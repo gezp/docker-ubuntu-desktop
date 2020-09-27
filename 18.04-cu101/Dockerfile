@@ -36,8 +36,9 @@ RUN rm -rf /etc/apt/sources.list.d/*
 
 ## Install some common tools and xfce4 desktop
 RUN apt-get update  && \
-    apt-get install -y sudo vim wget curl net-tools mesa-utils locales bzip2 git python3-pip \
-    python-numpy openssh-server software-properties-common fonts-wqy-zenhei xfce4 xfce4-terminal && \
+    apt-get install -y sudo vim wget curl git net-tools mesa-utils gedit bash-completion locales \
+    bzip2 python3-pip python-numpy openssh-server software-properties-common fonts-wqy-zenhei \
+    xfce4 xfce4-terminal xfce4-screensaver && \
     rm -rf /var/lib/apt/lists/* 
 
 RUN locale-gen zh_CN.UTF-8
@@ -55,7 +56,9 @@ USER 0
 
 # install nomachine remote desktop
 RUN curl -fSL "http://download.nomachine.com/download/${NOMACHINE_BUILD}/Linux/${NOMACHINE_PACKAGE_NAME}" -o nomachine.deb && \
-    echo "${NOMACHINE_MD5} *nomachine.deb" | md5sum -c - && dpkg -i nomachine.deb && sed -i "s|#EnableClipboard both|EnableClipboard both |g" /usr/NX/etc/server.cfg &&\
+    echo "${NOMACHINE_MD5} *nomachine.deb" | md5sum -c - &&\
+    dpkg -i nomachine.deb &&\
+    sed -i "s|#EnableClipboard both|EnableClipboard both |g" /usr/NX/etc/server.cfg &&\
     sed -i '/DefaultDesktopCommand/c\DefaultDesktopCommand "/usr/bin/startxfce4"' /usr/NX/etc/node.cfg
 #keep English for user(ubuntu) home directory 
 RUN LANG=C xdg-user-dirs-update --force
