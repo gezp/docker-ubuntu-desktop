@@ -7,17 +7,22 @@
 * 支持ssh远程访问（可使用vscode remote）与nomachine图形远程访问
 * apt和pip已经设置为清华镜像源
 
-支持的版本（Tag）
+支持的基本版本（Tag）
 * 18.04-cu101
 * 18.04-cu102
 * 20.04-cu101
 * 20.04-cu102
 
+增强版本(Tag)
+* 20.04-cu101-torch160
+* 20.04-cu101-ros2-foxy
+
 ### 使用
 
 使用docker运行
 ```bash
-docker run -d -p 14000:4000 --gpus all --name nomachine --cap-add=SYS_PTRACE gezp gezp/ubuntu18.04-desktop:cu101
+docker run -d -p 14000:4000 -p 10022:22 --gpus all --name nomachine --cap-add=SYS_PTRACE gezp/ubuntu-desktop:20.04-cu101
 ```
 
-* 运行nomachine客户端访问GUI桌面: 连接端口均为14000
+* nomachine客户端访问GUI桌面: 连接端口为14000
+* ssh远程访问（可使用vscode remote）：连接端口为10022
