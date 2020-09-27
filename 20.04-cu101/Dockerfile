@@ -1,4 +1,4 @@
-From  vistart/cuda:10.2-devel-ubuntu20.04
+From  vistart/cuda:10.1-devel-ubuntu20.04
 
 LABEL maintainer "zhengpeng ge"
 MAINTAINER zhengpeng ge "https://github.com/gezp"
