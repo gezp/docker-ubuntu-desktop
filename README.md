@@ -34,6 +34,8 @@ docker exec -it my_workspace bash
 ssh ubuntu@ip -p 10022
 ```
 
+* 用户名和密码均为ubuntu
+
 ### 高级使用
 该方式支持运行GUI程序在宿主(host)桌面上
 
