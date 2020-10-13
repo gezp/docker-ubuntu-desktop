@@ -50,7 +50,7 @@ docker run -d --name my_workspace \
     gezp/ubuntu_base:20.04-cu101
 ```
 
-**运行GUI程序 ** 
+**运行GUI程序** 
 
 首先使用docker命令或者ssh访问容器
 
