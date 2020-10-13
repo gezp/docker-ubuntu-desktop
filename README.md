@@ -19,13 +19,13 @@ gezp/ubuntu_pytorch (Tag)
 ### 2.简单使用
 该方式支持ssh访问容器
 
-** 运行docker ** 
+**运行docker** 
 
 ```bash
 docker run -d --name my_workspace --gpus all  -p 10022:22  gezp/ubuntu_base:20.04-cu101
 ```
 
-** 访问容器 **
+**访问容器**
 
 ```bash
 #docker命令访问容器
@@ -37,7 +37,7 @@ ssh ubuntu@ip -p 10022
 ### 高级使用
 该方式支持运行GUI程序在宿主(host)桌面上
 
-** 运行docker **
+**运行docker**
 
 ```bash
 #支持ssh和GUI，#DISPLAY需要和host一致
@@ -50,7 +50,7 @@ docker run -d --name my_workspace \
     gezp/ubuntu_base:20.04-cu101
 ```
 
-** 运行GUI程序 ** 
+**运行GUI程序 ** 
 
 首先使用docker命令或者ssh访问容器
 
