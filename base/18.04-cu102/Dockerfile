@@ -1,4 +1,4 @@
-From  vistart/cuda:10.2-devel-ubuntu18.04
+From  nvidia/cudagl:10.2-base-ubuntu18.04
 
 LABEL maintainer "zhengpeng ge"
 MAINTAINER zhengpeng ge "https://github.com/gezp"
@@ -29,7 +29,7 @@ RUN groupadd $USER && \
     usermod  --uid $UID $USER && \
     groupmod --gid $GID $USER
 
-#remove /etc/apt/sources.list.d/* (cuda and nvidia-ml repo in vistart/cuda)
+#remove /etc/apt/sources.list.d/* 
 RUN rm -rf /etc/apt/sources.list.d/*
 
 ## Install some common tools 

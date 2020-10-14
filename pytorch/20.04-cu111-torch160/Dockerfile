@@ -1,4 +1,4 @@
-From  gezp/ubuntu_base:20.04-cu101
+From  gezp/ubuntu_base:20.04-cu111
 
 LABEL maintainer "zhengpeng ge"
 MAINTAINER zhengpeng ge "https://github.com/gezp"
