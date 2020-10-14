@@ -1,4 +1,4 @@
-From  nvidia/cudagl:11.1-base-ubuntu20.04
+From  nvidia/cudagl:11.1-devel-ubuntu20.04
 
 LABEL maintainer "zhengpeng ge"
 MAINTAINER zhengpeng ge "https://github.com/gezp"
