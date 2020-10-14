@@ -3,7 +3,7 @@
 运行于docker上的ubuntu headless工作空间
 
 * 支持ssh远程访问（可使用vscode + remote ssh插件访问)
-* 带有cuda支持（以vistart/cuda为基础镜像）。
+* 带有cuda+opengl支持（以nvidia/cudagl为基础镜像）。
 * apt和pip已经设置为清华镜像源，支持中文。
 
 gezp/ubuntu_base（Tag）
