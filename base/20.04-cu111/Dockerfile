@@ -49,13 +49,6 @@ RUN locale-gen zh_CN.UTF-8
 #upgrade pip
 RUN pip3 install -i https://pypi.tuna.tsinghua.edu.cn/simple pip -U && \
     rm -rf ~/.cache/pip
-  
-### Switch to user to install additional software
-USER $USER
-#set python package tsinghua source
-RUN  pip3 config set global.index-url https://pypi.tuna.tsinghua.edu.cn/simple
-### Switch to root 
-USER 0
 
 
 # Run it
