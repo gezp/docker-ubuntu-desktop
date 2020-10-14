@@ -1,9 +1,8 @@
-From  gezp/ubuntu_base:18.04-cu101
+From  gezp/ubuntu_base:20.04-cu111
 
 LABEL maintainer "zhengpeng ge"
 MAINTAINER zhengpeng ge "https://github.com/gezp"
 ENV REFRESHED_AT 2020-9-27
-
 
 ENV NOMACHINE_PACKAGE_NAME=nomachine_6.11.2_1_amd64.deb \
     NOMACHINE_BUILD=6.11 \

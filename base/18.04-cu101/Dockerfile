@@ -57,9 +57,6 @@ RUN  pip3 config set global.index-url https://pypi.tuna.tsinghua.edu.cn/simple
 ### Switch to root 
 USER 0
 
-#keep English for user(ubuntu) home directory 
-RUN LANG=C xdg-user-dirs-update --force
-
 # Run it
 EXPOSE 22
 CMD ["/usr/sbin/sshd", "-D"]
