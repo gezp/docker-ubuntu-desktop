@@ -12,8 +12,8 @@ gezp/ubuntu_base（Tag）
 * 20.04-cu102
 
 gezp/ubuntu_pytorch (Tag)
-* 20.04-cu101-torch160
 * 18.04-cu101-torch160
+* 20.04-cu110-torch160
 
 ### 2.简单使用
 该方式支持ssh访问容器
