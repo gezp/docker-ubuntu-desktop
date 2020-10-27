@@ -2,11 +2,10 @@
 ### 1.简介
 运行于docker上的ubuntu headless工作空间
 
-* 带有cuda+opengl支持（以nvidia/cudagl-devel为基础镜像）。
-* gezp/ubuntu_base支持ssh远程访问（可使用vscode + remote ssh插件访问)
-* gezp/ubuntu_machine支持桌面容器（支持virtualGL运行3D GUI程序）
+* gezp/ubuntu_base：cuda+opengl支持（以nvidia/cudagl-devel为基础镜像），支持ssh远程访问（可使用vscode + remote ssh插件访问)
+* gezp/ubuntu_nomachine：支持xfce4桌面容器（支持virtualGL运行3D GUI程序）
 
-| Repo                  | Tag                                                        | 说明                        |
+| Repo                  | Tag                                                        | Description                 |
 | --------------------- | ---------------------------------------------------------- | --------------------------- |
 | gezp/ubuntu_base      | 18.04-cu101<br>18.04-cu102<br/>20.04-cu110<br/>20.04-cu111 | cuda+opengl+ssh             |
 | gezp/ubuntu_nomachine | 18.04-cu101<br/>20.04-cu110                                | ubuntu_base+nomachine+xfce4 |
@@ -20,13 +19,13 @@
 
 该方式支持ssh访问容器
 
-**运行docker** 
+**Create container**
 
 ```bash
 docker run -d --name my_workspace --gpus all  -p 10022:22  gezp/ubuntu_base:18.04-cu101
 ```
 
-**访问容器**
+**Access container**
 
 ```bash
 #docker命令访问容器
@@ -40,7 +39,7 @@ ssh ubuntu@ip -p 10022
 #### 2.2 GUI使用
 该方式支持运行GUI程序在宿主(host)桌面上
 
-**运行docker**
+**Create container**
 
 ```bash
 #宿主机需要运行xhost允许所有用户访问X11服务
@@ -55,7 +54,7 @@ docker run -d --name my_workspace \
     gezp/ubuntu_base:18.04-cu101
 ```
 
-**运行GUI程序** 
+**Access container**
 
 首先使用docker命令或者ssh访问容器
 
@@ -78,6 +77,8 @@ export DISPLAY=:0  #DISPLAY需要和host一致
 
 在docker中运行xfce4 desktop环境，并使用nomachine远程访问，支持VirtualGL运行3D程序
 
+**Create container**
+
 ```bash
 docker run -d --name my_workspace \
     --cap-add=SYS_PTRACE \
@@ -89,6 +90,8 @@ docker run -d --name my_workspace \
 ```
 
 * ssh端口为10022，nomachine端口为14000
+
+**Access container**
 
 测试VirtualGL
 
