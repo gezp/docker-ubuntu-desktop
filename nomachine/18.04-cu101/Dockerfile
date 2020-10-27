@@ -7,7 +7,8 @@ ENV REFRESHED_AT 2020-10-27
 ## Install desktop
 #RUN sed -i s@/archive.ubuntu.com/@/mirrors.aliyun.com/@g /etc/apt/sources.list
 RUN apt-get update && \
-    apt-get install -y xfce4 xfce4-terminal xfce4-power-manager fonts-wqy-zenhei
+    apt-get install -y xfce4 xfce4-terminal xfce4-power-manager fonts-wqy-zenhei &&\
+    locale-gen zh_CN.UTF-8
 
 #Install Chrome
 RUN wget -q https://dl.google.com/linux/direct/google-chrome-stable_current_amd64.deb &&\
@@ -18,9 +19,12 @@ RUN apt-get install -y pulseaudio && mkdir -p /var/run/dbus
 
 ## Install nomachine
 RUN curl -fSL "https://www.nomachine.com/free/linux/64/deb" -o nomachine.deb &&\
-    dpkg -i nomachine.deb && rm nomachine.deb &&\
+    dpkg -i nomachine.deb &&\
     sed -i "s|#EnableClipboard both|EnableClipboard both |g" /usr/NX/etc/server.cfg &&\
     sed -i '/DefaultDesktopCommand/c\DefaultDesktopCommand "/usr/bin/startxfce4"' /usr/NX/etc/node.cfg
+
+#update user directory
+RUN LANG=C xdg-user-dirs-update --force
 
 # Run it
 EXPOSE 22 4000
