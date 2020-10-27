@@ -10,8 +10,8 @@ RUN apt-get update && \
     apt-get install -y xfce4 xfce4-terminal xfce4-power-manager fonts-wqy-zenhei
 
 #Install Chrome
-RUN wget https://dl.google.com/linux/direct/google-chrome-stable_current_amd64.deb && \
-    apt-get install -y google-chrome-stable_current_amd64.deb && rm google-chrome-stable_current_amd64.deb
+RUN wget -q https://dl.google.com/linux/direct/google-chrome-stable_current_amd64.deb &&\
+    apt-get install -yf ./google-chrome-stable_current_amd64.deb
     
 ENV DBUS_SYSTEM_BUS_ADDRESS=unix:path=/host/run/dbus/system_bus_socket
 RUN apt-get install -y pulseaudio && mkdir -p /var/run/dbus
