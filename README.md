@@ -2,7 +2,7 @@
 ## 1.简介
 运行于docker上的ubuntu headless工作空间
 
-* gezp/ubuntu_base：cuda+opengl支持（以nvidia/cudagl-devel为基础镜像），支持ssh远程访问（可使用vscode + remote ssh插件访问)
+* gezp/ubuntu_base：支持cuda+opengl开发（以nvidia/cudagl-devel为基础镜像），支持ssh远程访问（可使用vscode + remote ssh插件访问)
 * gezp/ubuntu_nomachine：支持xfce4桌面容器（支持virtualGL运行3D GUI程序）
 
 | Repo                  | Tag                                                        | Description                 |
