@@ -16,8 +16,8 @@ ENV USER=$user \
     GID=$gid \
     TZ=Asia/Shanghai \
     LANG=zh_CN.UTF-8 \
-    LC_ALL=${LANG} \
-    LANGUAGE=${LANG}
+    LC_ALL=zh_CN.UTF-8 \
+    LANGUAGE=zh_CN.UTF-8
 
 #add user
 RUN groupadd $USER && \
@@ -35,7 +35,7 @@ RUN rm -rf /etc/apt/sources.list.d/*
 ## Install some common tools 
 RUN apt-get update  && \
     apt-get install -y sudo vim wget curl git net-tools mesa-utils gedit openssh-server bash-completion locales \
-                    python3-pip python-numpy openssh-server software-properties-common fonts-wqy-zenhei  && \
+                    python3-pip python-numpy openssh-server software-properties-common && \
     rm -rf /var/lib/apt/lists/* 
 
 # ssh 
