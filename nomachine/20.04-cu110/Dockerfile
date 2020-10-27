@@ -9,8 +9,15 @@ ENV REFRESHED_AT 2020-10-27
 RUN apt-get update && \
     apt-get install -y xfce4 xfce4-terminal xfce4-power-manager xfce4-screensaver fonts-wqy-zenhei
 
+
+#Install Chrome
+RUN wget https://dl.google.com/linux/direct/google-chrome-stable_current_amd64.deb && \
+    dpkg -i google-chrome-stable_current_amd64.deb && rm google-chrome-stable_current_amd64.deb
+
+
 ENV DBUS_SYSTEM_BUS_ADDRESS=unix:path=/host/run/dbus/system_bus_socket
 RUN apt-get install -y pulseaudio && mkdir -p /var/run/dbus
+
 
 ## Install nomachine
 RUN curl -fSL "https://www.nomachine.com/free/linux/64/deb" -o nomachine.deb &&\
