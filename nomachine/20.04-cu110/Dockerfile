@@ -12,7 +12,7 @@ RUN apt-get update && \
 
 #Install Chrome
 RUN wget https://dl.google.com/linux/direct/google-chrome-stable_current_amd64.deb && \
-    dpkg -i google-chrome-stable_current_amd64.deb && rm google-chrome-stable_current_amd64.deb
+    apt-get install -y google-chrome-stable_current_amd64.deb && rm google-chrome-stable_current_amd64.deb
 
 
 ENV DBUS_SYSTEM_BUS_ADDRESS=unix:path=/host/run/dbus/system_bus_socket
