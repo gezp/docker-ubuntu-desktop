@@ -7,7 +7,7 @@ ENV REFRESHED_AT 2020-10-27
 ## Install desktop
 #RUN sed -i s@/archive.ubuntu.com/@/mirrors.aliyun.com/@g /etc/apt/sources.list
 RUN apt-get update && \
-    apt-get install -y xfce4 xfce4-terminal xfce4-screensaver fonts-wqy-zenhei
+    apt-get install -y xfce4 xfce4-terminal xfce4-power-manager xfce4-screensaver fonts-wqy-zenhei
 
 ENV DBUS_SYSTEM_BUS_ADDRESS=unix:path=/host/run/dbus/system_bus_socket
 RUN apt-get install -y pulseaudio && mkdir -p /var/run/dbus
