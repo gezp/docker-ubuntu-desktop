@@ -1,5 +1,5 @@
 # ubuntu_ws_docker
-### 1.简介
+## 1.简介
 运行于docker上的ubuntu headless工作空间
 
 * gezp/ubuntu_base：cuda+opengl支持（以nvidia/cudagl-devel为基础镜像），支持ssh远程访问（可使用vscode + remote ssh插件访问)
@@ -13,9 +13,9 @@
 
 * username: ubuntu,    password: ubuntu.
 
-### 2.ubuntu_base使用
+## 2.ubuntu_base使用
 
-#### 2.1.ssh使用
+### 2.1.ssh使用
 
 该方式支持ssh访问容器
 
@@ -36,7 +36,7 @@ ssh ubuntu@ip -p 10022
 
 * 用户名和密码均为ubuntu
 
-#### 2.2 GUI使用
+### 2.2 GUI使用
 该方式支持运行GUI程序在宿主(host)桌面上
 
 **Create container**
@@ -69,11 +69,11 @@ export DISPLAY=:0  #DISPLAY需要和host一致
 * 然后容器内运行gedit命令，可以看见在宿主机打开了一个记事本。
 * 支持3D GUI应用程序，如blender,gazebo等。
 
-### 3.ubuntu_pytorch使用
+## 3.ubuntu_pytorch使用
 
 * 同ubuntu_base
 
-### 4.ubuntu_nomachine使用
+## 4.ubuntu_nomachine使用
 
 在docker中运行xfce4 desktop环境，并使用nomachine远程访问，支持VirtualGL运行3D程序
 
