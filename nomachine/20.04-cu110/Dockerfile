@@ -5,7 +5,7 @@ MAINTAINER zhengpeng ge "https://github.com/gezp"
 ENV REFRESHED_AT 2020-10-27
     
 ## Install desktop
-RUN sed -i s@/archive.ubuntu.com/@/mirrors.aliyun.com/@g /etc/apt/sources.list
+#RUN sed -i s@/archive.ubuntu.com/@/mirrors.aliyun.com/@g /etc/apt/sources.list
 RUN apt-get update && \
     apt-get install -y xfce4 xfce4-terminal xfce4-power-manager xfce4-screensaver fonts-wqy-zenhei
 
@@ -16,7 +16,7 @@ RUN wget -q https://dl.google.com/linux/direct/google-chrome-stable_current_amd6
 
 
 ENV DBUS_SYSTEM_BUS_ADDRESS=unix:path=/host/run/dbus/system_bus_socket
-RUN apt-get install -y pulseaudio x11-utils && mkdir -p /var/run/dbus
+RUN apt-get install -y pulseaudio && mkdir -p /var/run/dbus
 
 
 ## Install nomachine
