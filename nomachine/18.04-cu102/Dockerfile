@@ -18,8 +18,6 @@ RUN curl -fSL "http://download.nomachine.com/download/${NOMACHINE_BUILD}/Linux/$
     dpkg -i nomachine.deb &&\
     sed -i "s|#EnableClipboard both|EnableClipboard both |g" /usr/NX/etc/server.cfg &&\
     sed -i '/DefaultDesktopCommand/c\DefaultDesktopCommand "/usr/bin/startxfce4"' /usr/NX/etc/node.cfg
-#keep English for user(ubuntu) home directory 
-RUN LANG=C xdg-user-dirs-update --force
 
 # Run it
 EXPOSE 22 4000
