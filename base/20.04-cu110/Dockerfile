@@ -44,11 +44,6 @@ RUN mkdir /var/run/sshd &&  \
     sed -i 's/#*PermitRootLogin prohibit-password/PermitRootLogin yes/g' /etc/ssh/sshd_config && \
     sed -i 's@session\s*required\s*pam_loginuid.so@session optional pam_loginuid.so@g' /etc/pam.d/sshd
 
-#RUN locale-gen zh_CN.UTF-8
-
-#upgrade pip
-RUN pip3 install -i https://pypi.tuna.tsinghua.edu.cn/simple pip -U && \
-    rm -rf ~/.cache/pip
 
 
 # Run it

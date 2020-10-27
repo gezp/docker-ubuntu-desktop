@@ -5,7 +5,7 @@ MAINTAINER zhengpeng ge "https://github.com/gezp"
 ENV REFRESHED_AT 2020-10-27
     
 ## Install desktop
-RUN sed -i s@/archive.ubuntu.com/@/mirrors.aliyun.com/@g /etc/apt/sources.list
+#RUN sed -i s@/archive.ubuntu.com/@/mirrors.aliyun.com/@g /etc/apt/sources.list
 RUN apt-get update && \
     apt-get install -y xfce4 xfce4-terminal xfce4-screensaver fonts-wqy-zenhei
 
