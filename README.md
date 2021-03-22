@@ -1,97 +1,54 @@
-# Ubuntu Remote Desktop (urd) based on Docker
+# Ubuntu Desktop based on Docker
 ## 1.简介
-运行于docker上的ubuntu headless工作空间
+基于docker实现，运行于ubuntu headless主机上的的虚拟桌面系统，你几乎可以把它当作虚拟机使用，可以使用远程桌面访问，特别的，支持nvidia GPU加速。
 
-* gezp/ubuntu-base：支持cuda+opengl开发（以nvidia/cudagl-devel为基础镜像），支持ssh远程访问（可使用vscode + remote ssh插件访问)
-* gezp/ubuntu-nomachine：支持xfce4桌面容器（支持virtualGL运行3D GUI程序）
+特性：
 
-| Repo                  | Tag                                                        | Description                   |
-| --------------------- | ---------------------------------------------------------- | ----------------------------- |
-| gezp/ubuntu-base      | 18.04-cu101<br>18.04-cu102<br/>20.04-cu110<br/>20.04-cu111 | cuda+opengl+ssh               |
-| gezp/ubuntu-nomachine | 18.04-cu101<br/>20.04-cu110                                | `ubuntu-base`+nomachine+xfce4 |
-| gezp/ubuntu-pytorch   | 18.04-cu101-torch160 <br/>20.04-cu110-torch160             | `ubuntu-base`+pytorch         |
+* 支持ssh远程访问，支持xfce4远程桌面访问
+* 自带Cuda,支持深度学习训练（如pytorch,tensorflow）
+* 支持GPU 硬件3D加速，可运行3D渲染软件（如gazebo,blender）
 
-* username: ubuntu,    password: ubuntu.
+> 实现方法：
+>
+> * nvidia/cudagl-devel为基础镜像 +  nomachine远程桌面软件（支持VirtualGL）。
 
-## 2.ubuntu-base使用
+## 2.基本使用
 
-### 2.1.ssh使用
-
-该方式支持ssh访问容器
+### 2.1 创建容器
 
 **Create container**
 
 ```bash
-docker run -d --name my_workspace --gpus all  -p 10022:22  gezp/ubuntu-base:18.04-cu101
-```
-
-**Access container**
-
-```bash
-#docker命令访问容器
-docker exec -it my_workspace bash
-#ssh访问容器
-ssh ubuntu@ip -p 10022
-```
-
-* 用户名和密码均为ubuntu
-
-### 2.2 GUI使用
-该方式支持运行GUI程序在宿主(host)桌面上
-
-**Create container**
-
-```bash
-#宿主机需要运行xhost允许所有用户访问X11服务
+#宿主机需要运行xhost允许所有用户访问X11服务（运行一次即可）
 xhost +
 #支持ssh和GUI，#DISPLAY需要和host一致
 docker run -d --name my_workspace \
-	--gpus all \
-    -e DISPLAY=$DISPLAY \
-    --device=/dev/dri:/dev/dri \
-    -v /tmp/.X11-unix:/tmp/.X11-unix \
-    -p 10022:22 \
-    gezp/ubuntu-base:18.04-cu101
-```
-
-**Access container**
-
-首先使用docker命令或者ssh访问容器
-
-```bash
-#docker命令访问容器
-docker exec -it my_workspace bash
-#ssh访问容器
-ssh ubuntu@ip -p 10022
-export DISPLAY=:0  #DISPLAY需要和host一致
-```
-
-* 然后容器内运行gedit命令，可以看见在宿主机打开了一个记事本。
-* 支持3D GUI应用程序，如blender,gazebo等。
-
-## 3.ubuntu-pytorch使用
-
-* 同ubuntu_base
-
-## 4.ubuntu-nomachine使用
-
-在docker中运行xfce4 desktop环境，并使用nomachine远程访问，支持VirtualGL运行3D程序
-
-**Create container**
-
-```bash
-docker run -d --name my_workspace \
     --cap-add=SYS_PTRACE \
     --gpus all  \
-    -v /tmp/.X11-unix:/tmp/.X11-unix \
+    --shm-size=1024m \
+    -v /tmp/.X11-unix:/tmp/.X11-unix:rw \
     -p 10022:22  \
     -p 14000:4000  \
-    gezp/ubuntu-desktop:20.04-cu110
+    gezp/ubuntu-base:20.04-cu110
 ```
 
-* ssh端口为10022，nomachine端口为14000
+> 支持Tag:  18.04-cu101，18.04-cu102，20.04-cu110，20.04-cu111
 
-**Access container**
+### 2.2 ssh连接容器
+
+```bash
+#ssh访问容器
+ssh ubuntu@host-ip -p 10022
+```
+
+* 用户名和密码均为ubuntu
+* 可使用vscode + remote ssh插件访问
+
+### 2.3.远程桌面连接容器
+
+* 下载nomachine软件，ip为主机ip，端口为14000，进行连接即可
+
+## 3. 3D硬件加速
 
 测试VirtualGL
 
@@ -104,3 +61,6 @@ sudo /etc/NX/nxserver --virtualgl yes
 * 显示包含VirtualGL则表示正确
 
 > host主机上的DISPLAY必须为`:0` .
+
+运行3D软件时，需要加上`/usr/NX/scripts/vgl/vglrun` 命令前缀。
+
