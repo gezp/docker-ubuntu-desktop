@@ -1,4 +1,4 @@
-# ubuntu_ws_docker
+# Ubuntu WorkSpace based on  Docker  (UWD)
 ## 1.简介
 运行于docker上的ubuntu headless工作空间
 
