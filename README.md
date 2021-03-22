@@ -18,7 +18,7 @@ docker容器作为虚拟开发环境，可以用于日常软件开发，目前�
 ubuntu-desktop特性：
 
 * 支持ssh远程访问，支持xfce4远程桌面访问
-* 自带Cuda,支持深度学习训练（如pytorch,tensorflow）
+* 自带cuda,支持深度学习训练（如pytorch,tensorflow）
 * 支持GPU 硬件3D加速，可运行3D渲染软件（如gazebo,blender）
 
 > 实现方法：
