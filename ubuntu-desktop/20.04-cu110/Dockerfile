@@ -33,6 +33,7 @@ RUN groupadd $USER && \
 RUN rm -rf /etc/apt/sources.list.d/*
 
 ## Install some common tools 
+#RUN sed -i s@/archive.ubuntu.com/@/mirrors.aliyun.com/@g /etc/apt/sources.list
 RUN apt-get update  && \
     apt-get install -y sudo vim wget curl git net-tools mesa-utils gedit openssh-server bash-completion locales \
                     python3-pip python-numpy openssh-server software-properties-common && \
@@ -45,9 +46,7 @@ RUN mkdir /var/run/sshd &&  \
     sed -i 's@session\s*required\s*pam_loginuid.so@session optional pam_loginuid.so@g' /etc/pam.d/sshd
 
 
-
 ## Install desktop
-#RUN sed -i s@/archive.ubuntu.com/@/mirrors.aliyun.com/@g /etc/apt/sources.list
 RUN apt-get update && \
     apt-get install -y xfce4 xfce4-terminal xfce4-power-manager xfce4-screensaver fonts-wqy-zenhei &&\
     locale-gen zh_CN.UTF-8
@@ -73,3 +72,5 @@ EXPOSE 22 4000
 ADD nxserver.sh /
 RUN chmod +x /nxserver.sh
 ENTRYPOINT ["/nxserver.sh"]
+
+RUN /etc/init.d/dbus start
