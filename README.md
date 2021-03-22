@@ -1,8 +1,21 @@
 # Ubuntu Desktop based on Docker
-## 1.简介
-基于docker实现，运行于ubuntu headless主机上的的虚拟桌面系统，你几乎可以把它当作虚拟机使用，可以使用远程桌面访问，特别的，支持nvidia GPU加速。
 
-特性：
+[![DockerHub](https://img.shields.io/badge/DockerHub-brightgreen.svg?style=popout&logo=Docker)](https://hub.docker.com/r/gezp/ubuntu-desktop) 
+
+## 1.简介
+基于docker运行于ubuntu headless主机上的的虚拟桌面系统，你几乎可以把它当作虚拟机使用，可以使用远程桌面访问，它可以当作ubuntu机器使用，作为日常的开发环境（适合教研室公共主机共享使用），特别的，它支持nvidia GPU加速，支持深度学习训练以及3D GUI程序的运行。
+
+
+docker容器作为虚拟开发环境，可以用于日常软件开发，目前市面上的docker的桌面系统方案，大部分不支持3D软件，就算支持配置步骤也相当繁琐，违背了日常开发可以方便更换虚拟机的需求求。所以这个项目就诞生了，该解决方案支持3D软件和远程桌面，几乎满足大部分开发需求（service软件除外），而且使用也方便。
+
+> 相比虚拟机，容器是轻量级的，虽然把容器当作虚拟使用，原则上是不合理的，但是在某些情况，使用真机开发或者虚拟机开发会经常出现一些问题：
+> 
+> * 经常将开发环境搞崩，需要重新配置环境，费时费力。
+> * 需要进行多个项目，两个项目之间的软件包版本冲突，不能在一个真机上搞。
+> * 很多时候用到虚拟机是杀鸡用牛刀，虚拟机既能运行win,又能运行linux,但我们想要的只是在ubuntu系统上运行ubuntu虚拟机，只需要隔离功能而已。
+> * 虚拟机配置麻烦，启动也慢，运行OS之上的虚拟机对GPU支持差。
+
+ubuntu-desktop特性：
 
 * 支持ssh远程访问，支持xfce4远程桌面访问
 * 自带Cuda,支持深度学习训练（如pytorch,tensorflow）
