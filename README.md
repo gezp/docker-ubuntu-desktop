@@ -1,4 +1,4 @@
-# Ubuntu Nvidia WorkSpace based on Docker  (UNWSD)
+# Ubuntu Remote Desktop (urd) based on Docker
 ## 1.简介
 运行于docker上的ubuntu headless工作空间
 
