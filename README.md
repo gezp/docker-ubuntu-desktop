@@ -1,4 +1,4 @@
-# Ubuntu WorkSpace based on  Docker  (UWD)
+# Ubuntu Nvidia WorkSpace based on Docker  (UNWSD)
 ## 1.简介
 运行于docker上的ubuntu headless工作空间
 
