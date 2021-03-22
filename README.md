@@ -27,7 +27,14 @@ ubuntu-desktop特性：
 
 ## 2.基本使用
 
-### 2.1 创建容器
+### 2.1 准备工作
+
+* 安装nvidia驱动
+* 安装docker和nvidia-container-runtime.
+
+> 注意nvidia版本驱动，过老的版本驱动不支持新版本的cuda.(容器自带cuda)
+
+### 2.2 创建容器
 
 **Create container**
 
@@ -47,7 +54,7 @@ docker run -d --name my_workspace \
 
 > 支持Tag:  18.04-cu101，18.04-cu102，20.04-cu110，20.04-cu111
 
-### 2.2 ssh连接容器
+### 2.3 ssh连接容器
 
 ```bash
 #ssh访问容器
@@ -57,7 +64,7 @@ ssh ubuntu@host-ip -p 10022
 * 用户名和密码均为ubuntu
 * 可使用vscode + remote ssh插件访问
 
-### 2.3.远程桌面连接容器
+### 2.4 远程桌面连接容器
 
 * 下载nomachine软件，ip为主机ip，端口为14000，进行连接即可
 
