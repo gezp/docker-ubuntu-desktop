@@ -4,6 +4,11 @@ LABEL maintainer "zhengpeng ge"
 MAINTAINER zhengpeng ge "https://github.com/gezp"
 ENV REFRESHED_AT 2020-10-13
 
+# env for cuda
+ENV CUDA_HOME /usr/local/cuda
+ENV PATH /usr/local/cuda/bin:$PATH
+ENV LD_LIBRARY_PATH /usr/local/cuda/lib64:$LD_LIBRARY_PATH
+
 # Configure user
 ARG user=ubuntu
 ARG passwd=ubuntu
@@ -33,10 +38,11 @@ RUN groupadd $USER && \
 RUN rm -rf /etc/apt/sources.list.d/*
 
 ## Install some common tools 
-#RUN sed -i s@/archive.ubuntu.com/@/mirrors.aliyun.com/@g /etc/apt/sources.list
 RUN apt-get update  && \
     apt-get install -y sudo vim wget curl git net-tools mesa-utils gedit openssh-server bash-completion locales \
                     python3-pip python-numpy openssh-server software-properties-common && \
+    update-alternatives --install /usr/bin/python python /usr/bin/python3 2 && \
+    pip3 install --upgrade pip &&\
     rm -rf /var/lib/apt/lists/* 
 
 # ssh 
@@ -66,6 +72,16 @@ RUN curl -fSL "https://www.nomachine.com/free/linux/64/deb" -o nomachine.deb &&\
 
 #update user directory
 RUN LANG=C xdg-user-dirs-update --force
+
+#set apt-get source
+RUN sed -i s@/archive.ubuntu.com/@/mirrors.aliyun.com/@g /etc/apt/sources.list
+### Switch to user to install additional software
+USER $USER
+#set python package tsinghua source
+RUN  pip config set global.index-url https://pypi.tuna.tsinghua.edu.cn/simple 
+
+### Switch to root 
+USER 0
 
 # Run it
 EXPOSE 22 4000
