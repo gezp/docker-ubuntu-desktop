@@ -4,11 +4,6 @@ LABEL maintainer "zhengpeng ge"
 MAINTAINER zhengpeng ge "https://github.com/gezp"
 ENV REFRESHED_AT 2020-10-13
 
-# env for cuda
-ENV CUDA_HOME /usr/local/cuda
-ENV PATH /usr/local/cuda/bin:$PATH
-ENV LD_LIBRARY_PATH /usr/local/cuda/lib64:$LD_LIBRARY_PATH
-
 # Configure user
 ARG user=ubuntu
 ARG passwd=ubuntu
@@ -79,6 +74,9 @@ RUN sed -i s@/archive.ubuntu.com/@/mirrors.aliyun.com/@g /etc/apt/sources.list
 USER $USER
 #set python package tsinghua source
 RUN  pip config set global.index-url https://pypi.tuna.tsinghua.edu.cn/simple 
+RUN  echo "export CUDA_HOME=/usr/local/cuda" >> ~/.bashrc &&\
+     echo "export PATH=/usr/local/cuda/bin:$PATH" >> ~/.bashrc &&\
+     echo "export LD_LIBRARY_PATH=/usr/local/cuda/lib64:$LD_LIBRARY_PATH" >> ~/.bashrc
 
 ### Switch to root 
 USER 0
