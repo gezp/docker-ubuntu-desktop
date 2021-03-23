@@ -75,8 +75,8 @@ USER $USER
 #set python package tsinghua source
 RUN  pip config set global.index-url https://pypi.tuna.tsinghua.edu.cn/simple 
 RUN  echo "export CUDA_HOME=/usr/local/cuda" >> ~/.bashrc &&\
-     echo "export PATH=/usr/local/cuda/bin:$PATH" >> ~/.bashrc &&\
-     echo "export LD_LIBRARY_PATH=/usr/local/cuda/lib64:$LD_LIBRARY_PATH" >> ~/.bashrc
+     echo "export PATH=/usr/local/cuda/bin:\$PATH" >> ~/.bashrc &&\
+     echo "export LD_LIBRARY_PATH=/usr/local/cuda/lib64:\$LD_LIBRARY_PATH" >> ~/.bashrc
 
 ### Switch to root 
 USER 0
@@ -87,4 +87,4 @@ ADD nxserver.sh /
 RUN chmod +x /nxserver.sh
 ENTRYPOINT ["/nxserver.sh"]
 
-RUN /etc/init.d/dbus start
+#RUN /etc/init.d/dbus start
