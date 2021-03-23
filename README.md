@@ -49,7 +49,7 @@ docker run -d --name my_workspace \
     -v /tmp/.X11-unix:/tmp/.X11-unix:rw \
     -p 10022:22  \
     -p 14000:4000  \
-    gezp/ubuntu-base:20.04-cu110
+    gezp/ubuntu-desktop:20.04-cu110
 ```
 
 > 支持Tag:  18.04-cu101，18.04-cu102，20.04-cu110，20.04-cu111
