@@ -2,7 +2,7 @@ From  nvidia/cudagl:10.2-devel-ubuntu18.04
 
 LABEL maintainer "zhengpeng ge"
 MAINTAINER zhengpeng ge "https://github.com/gezp"
-ENV REFRESHED_AT 2020-10-13
+ENV REFRESHED_AT 2021-03-26
 
 # Configure user
 ARG user=ubuntu
@@ -36,6 +36,8 @@ RUN rm -rf /etc/apt/sources.list.d/*
 RUN apt-get update  && \
     apt-get install -y sudo vim wget curl git net-tools mesa-utils gedit openssh-server bash-completion locales \
                     python3-pip python-numpy openssh-server software-properties-common && \
+    update-alternatives --install /usr/bin/python python /usr/bin/python3 2 && \
+    pip3 install --upgrade pip &&\
     rm -rf /var/lib/apt/lists/* 
 
 # ssh 
@@ -44,8 +46,8 @@ RUN mkdir /var/run/sshd &&  \
     sed -i 's/#*PermitRootLogin prohibit-password/PermitRootLogin yes/g' /etc/ssh/sshd_config && \
     sed -i 's@session\s*required\s*pam_loginuid.so@session optional pam_loginuid.so@g' /etc/pam.d/sshd
 
+
 ## Install desktop
-#RUN sed -i s@/archive.ubuntu.com/@/mirrors.aliyun.com/@g /etc/apt/sources.list
 RUN apt-get update && \
     apt-get install -y xfce4 xfce4-terminal xfce4-power-manager xfce4-screensaver fonts-wqy-zenhei &&\
     locale-gen zh_CN.UTF-8
@@ -66,8 +68,23 @@ RUN curl -fSL "https://www.nomachine.com/free/linux/64/deb" -o nomachine.deb &&\
 #update user directory
 RUN LANG=C xdg-user-dirs-update --force
 
+#set apt-get source
+RUN sed -i s@/archive.ubuntu.com/@/mirrors.aliyun.com/@g /etc/apt/sources.list
+### Switch to user to install additional software
+USER $USER
+#set python package tsinghua source
+RUN  pip config set global.index-url https://pypi.tuna.tsinghua.edu.cn/simple 
+RUN  echo "export CUDA_HOME=/usr/local/cuda" >> ~/.bashrc &&\
+     echo "export PATH=/usr/local/cuda/bin:\$PATH" >> ~/.bashrc &&\
+     echo "export LD_LIBRARY_PATH=/usr/local/cuda/lib64:\$LD_LIBRARY_PATH" >> ~/.bashrc
+
+### Switch to root 
+USER 0
+
 # Run it
 EXPOSE 22 4000
 ADD nxserver.sh /
 RUN chmod +x /nxserver.sh
 ENTRYPOINT ["/nxserver.sh"]
+
+#RUN /etc/init.d/dbus start

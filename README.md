@@ -36,8 +36,14 @@ ubuntu-desktop特性：
 
 ### 2.2 创建容器
 
-**Create container**
-
+docker pull: 国内用户可使用阿里云仓库
+```bash
+docker pull registry.cn-shenzhen.aliyuncs.com/gezp/ubuntu-desktop:20.04-cu110
+#重命名镜像
+docker image tag registry.cn-shenzhen.aliyuncs.com/gezp/ubuntu-desktop:20.04-cu110 gezp/ubuntu-desktop:20.04-cu110
+docker rmi registry.cn-shenzhen.aliyuncs.com/gezp/ubuntu-desktop:20.04-cu110
+```
+docker run: 创建并运行容器
 ```bash
 #宿主机需要运行xhost允许所有用户访问X11服务（运行一次即可）
 xhost +
