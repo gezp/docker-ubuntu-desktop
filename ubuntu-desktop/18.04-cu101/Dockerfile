@@ -49,7 +49,7 @@ RUN mkdir /var/run/sshd &&  \
 
 ## Install desktop
 RUN apt-get update && \
-    apt-get install -y xfce4 xfce4-terminal xfce4-power-manager xfce4-screensaver fonts-wqy-zenhei &&\
+    apt-get install -y xfce4 xfce4-terminal xfce4-power-manager fonts-wqy-zenhei &&\
     locale-gen zh_CN.UTF-8
 
 #Install Chrome
