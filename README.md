@@ -48,7 +48,8 @@ docker run: 创建并运行容器
 #宿主机需要运行xhost允许所有用户访问X11服务（运行一次即可）
 xhost +
 #支持ssh和GUI，#DISPLAY需要和host一致
-docker run -d --name my_workspace \
+docker run -d --restart=on-failure \
+    --name my_workspace \
     --cap-add=SYS_PTRACE \
     --gpus all  \
     --shm-size=1024m \
