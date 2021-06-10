@@ -75,7 +75,8 @@ USER $USER
 RUN  pip config set global.index-url https://mirrors.bfsu.edu.cn/pypi/web/simple
 RUN  echo "export CUDA_HOME=/usr/local/cuda" >> ~/.bashrc &&\
      echo "export PATH=/usr/local/cuda/bin:\$PATH" >> ~/.bashrc &&\
-     echo "export LD_LIBRARY_PATH=/usr/local/cuda/lib64:\$LD_LIBRARY_PATH" >> ~/.bashrc
+     echo "export LD_LIBRARY_PATH=/usr/local/cuda/lib64:\$LD_LIBRARY_PATH" >> ~/.bashrc &&\
+     echo "export PATH=/usr/NX/scripts/vgl:\$PATH" >> ~/.bashrc 
 ## Copy config
 COPY config/xfce4 /home/$user/.config/xfce4
 
