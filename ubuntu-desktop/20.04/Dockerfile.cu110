@@ -19,8 +19,6 @@ ENV USER=$user \
     LC_ALL=zh_CN.UTF-8 \
     LANGUAGE=zh_CN.UTF-8
 
-COPY ../config/nxserver.sh /
-
 #add user
 RUN groupadd $USER && \
     useradd --create-home --no-log-init -g $USER $USER && \
