@@ -85,7 +85,7 @@ USER 0
 
 # Run it
 EXPOSE 22 4000
-COPY ../config/nxserver.sh /
+COPY config/nxserver.sh /
 RUN chmod +x /nxserver.sh
 ENTRYPOINT ["/nxserver.sh"]
 
