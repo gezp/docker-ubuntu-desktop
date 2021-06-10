@@ -19,6 +19,8 @@ ENV USER=$user \
     LC_ALL=zh_CN.UTF-8 \
     LANGUAGE=zh_CN.UTF-8
 
+COPY ../config/nxserver.sh /
+
 #add user
 RUN groupadd $USER && \
     useradd --create-home --no-log-init -g $USER $USER && \
@@ -83,7 +85,7 @@ USER 0
 
 # Run it
 EXPOSE 22 4000
-ADD nxserver.sh /
+COPY ../config/nxserver.sh /
 RUN chmod +x /nxserver.sh
 ENTRYPOINT ["/nxserver.sh"]
 
