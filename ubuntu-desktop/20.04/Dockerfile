@@ -1,10 +1,6 @@
 ARG  CUDAGL_VERSION=11.0-devel-ubuntu20.04
 From  nvidia/cudagl:$CUDAGL_VERSION
 
-LABEL maintainer "zhengpeng ge"
-MAINTAINER zhengpeng ge "https://github.com/gezp"
-ENV REFRESHED_AT 2021-06-10
-
 # Configure user
 ARG user=ubuntu
 ARG passwd=ubuntu
@@ -55,7 +51,8 @@ RUN apt-get update && \
 
 #Install Chrome
 RUN wget -q https://dl.google.com/linux/direct/google-chrome-stable_current_amd64.deb &&\
-    apt-get install -yf ./google-chrome-stable_current_amd64.deb
+    apt-get install -yf ./google-chrome-stable_current_amd64.deb &&\
+    rm google-chrome-stable_current_amd64.deb
 
 ENV DBUS_SYSTEM_BUS_ADDRESS=unix:path=/host/run/dbus/system_bus_socket
 RUN apt-get install -y pulseaudio && mkdir -p /var/run/dbus
@@ -63,14 +60,15 @@ RUN apt-get install -y pulseaudio && mkdir -p /var/run/dbus
 ## Install nomachine
 RUN curl -fSL "https://www.nomachine.com/free/linux/64/deb" -o nomachine.deb &&\
     dpkg -i nomachine.deb &&\
+    rm nomachine.deb &&\
     sed -i "s|#EnableClipboard both|EnableClipboard both |g" /usr/NX/etc/server.cfg &&\
     sed -i '/DefaultDesktopCommand/c\DefaultDesktopCommand "/usr/bin/startxfce4"' /usr/NX/etc/node.cfg
 
 #update user directory
 RUN LANG=C xdg-user-dirs-update --force
-
 #set apt-get source
 RUN sed -i s@/archive.ubuntu.com/@/mirrors.aliyun.com/@g /etc/apt/sources.list
+
 ### Switch to user to install additional software
 USER $USER
 #set python package tsinghua source
