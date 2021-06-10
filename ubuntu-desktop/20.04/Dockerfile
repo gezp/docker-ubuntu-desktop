@@ -1,4 +1,5 @@
-From  nvidia/cudagl:11.1-devel-ubuntu20.04
+ARG  CUDAGL_VERSION=11.0-devel-ubuntu20.04
+From  nvidia/cudagl:$CUDAGL_VERSION
 
 LABEL maintainer "zhengpeng ge"
 MAINTAINER zhengpeng ge "https://github.com/gezp"
@@ -89,3 +90,4 @@ COPY nxserver.sh /
 RUN chmod +x /nxserver.sh
 ENTRYPOINT ["/nxserver.sh"]
 
+#RUN /etc/init.d/dbus start
