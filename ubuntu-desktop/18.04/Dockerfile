@@ -1,8 +1,9 @@
-From  nvidia/cudagl:10.2-devel-ubuntu18.04
+ARG  CUDAGL_VERSION=10.1-devel-ubuntu18.04
+From  nvidia/cudagl:$CUDAGL_VERSION
 
 LABEL maintainer "zhengpeng ge"
 MAINTAINER zhengpeng ge "https://github.com/gezp"
-ENV REFRESHED_AT 2021-03-26
+ENV REFRESHED_AT 2021-06-10
 
 # Configure user
 ARG user=ubuntu
