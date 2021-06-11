@@ -28,5 +28,6 @@ jobs:
           docker build ubuntu-desktop/20.04 --file ubuntu-desktop/20.04/Dockerfile  \
              --build-arg CUDAGL_VERSION=${cuda_version}-devel-ubuntu20.04 \
              --tag ubuntu-desktop:20.04-$cuda_version
-          docker push ubuntu-desktop:20.04-${cuda_version}
+          docker tag ubuntu-desktop:20.04-${cuda_version} gezp/ubuntu-desktop:20.04-${cuda_version}
+          docker push gezp/ubuntu-desktop:20.04-${cuda_version}
         done
