@@ -32,6 +32,11 @@ xfce4（远程）桌面示意图
 >
 > * nvidia/cudagl-devel为基础镜像 +  nomachine远程桌面软件（支持VirtualGL）。
 
+支持的镜像TAG
+* ubuntu18.04系列：`18.04-cu10.1`,`18.04-cu10.2`,`18.04-cu11.0`
+* ubuntu18.04系列：`20.04-cu11.0`,`20.04-cu11.1`
+
+
 ## 2.基本使用
 
 ### 2.1 准备工作
@@ -45,10 +50,10 @@ xfce4（远程）桌面示意图
 
 docker pull: 国内用户可使用阿里云仓库
 ```bash
-docker pull registry.cn-shenzhen.aliyuncs.com/gezp/ubuntu-desktop:20.04-cu110
+docker pull registry.cn-shenzhen.aliyuncs.com/gezp/ubuntu-desktop:20.04-cu11.0
 #重命名镜像
-docker image tag registry.cn-shenzhen.aliyuncs.com/gezp/ubuntu-desktop:20.04-cu110 gezp/ubuntu-desktop:20.04-cu110
-docker rmi registry.cn-shenzhen.aliyuncs.com/gezp/ubuntu-desktop:20.04-cu110
+docker image tag registry.cn-shenzhen.aliyuncs.com/gezp/ubuntu-desktop:20.04-cu11.0 gezp/ubuntu-desktop:20.04-cu11.0
+docker rmi registry.cn-shenzhen.aliyuncs.com/gezp/ubuntu-desktop:20.04-cu11.0
 ```
 docker run: 创建并运行容器
 ```bash
@@ -63,10 +68,9 @@ docker run -d --restart=on-failure \
     -v /tmp/.X11-unix:/tmp/.X11-unix:rw \
     -p 10022:22  \
     -p 14000:4000  \
-    gezp/ubuntu-desktop:20.04-cu110
+    gezp/ubuntu-desktop:20.04-cu11.0
 ```
 
-> 支持Tag:  18.04-cu101，18.04-cu102，20.04-cu110，20.04-cu111
 
 ### 2.3 ssh连接容器
 
@@ -87,14 +91,13 @@ ssh ubuntu@host-ip -p 10022
 测试VirtualGL
 
 ```bash
-sudo /etc/NX/nxserver --virtualgl-install
-sudo /etc/NX/nxserver --virtualgl yes
-/usr/NX/scripts/vgl/vglrun glxinfo | grep -i "opengl"
+#vglrun路径为/usr/NX/scripts/vgl/vglrun，root下需使用全路径，或者加入PATH环境变量
+vglrun glxinfo | grep -i "opengl"
 ```
 
 * 显示包含VirtualGL则表示正确
 
 > host主机上的DISPLAY必须为`:0` .
 
-运行3D软件时，需要加上`/usr/NX/scripts/vgl/vglrun` 命令前缀。
+运行3D软件时，需要加上`vglrun` 命令前缀，如`vglrun gazebo`。
 
