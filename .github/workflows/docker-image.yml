@@ -2,16 +2,12 @@ name: Docker Image CI
 
 on:
   push:
-    branches: [ main ]
-  pull_request:
-    branches: [ main ]
-
+    tags:
+      - '*'
 jobs:
 
   build:
-
     runs-on: ubuntu-latest
-
     steps:
     - name: Checkout
       uses: actions/checkout@v2
@@ -20,14 +16,37 @@ jobs:
       with:
         username: ${{ secrets.DOCKERHUB_USERNAME }}
         password: ${{ secrets.DOCKERHUB_TOKEN }}
+    - name: Login to Aliyun Docker Registry
+      uses: docker/login-action@v1
+      with:
+        registry: registry.cn-shenzhen.aliyuncs.com
+        username: ${{ secrets.ALIYUN_USERNAME }}
+        password: ${{ secrets.ALIYUN_PASSWORD }}
     - name: Build and push the Docker image for ubuntu 20.04
+      if: "contains(github.ref, '20.04')"
       env:
         cuda_versions: 11.0 11.1
       run: |
         for cuda_version in $cuda_versions; do 
           docker build ubuntu-desktop/20.04 --file ubuntu-desktop/20.04/Dockerfile  \
              --build-arg CUDAGL_VERSION=${cuda_version}-devel-ubuntu20.04 \
-             --tag ubuntu-desktop:20.04-$cuda_version
-          docker tag ubuntu-desktop:20.04-${cuda_version} gezp/ubuntu-desktop:20.04-${cuda_version}
-          docker push gezp/ubuntu-desktop:20.04-${cuda_version}
+             --tag ubuntu-desktop:20.04-cu$cuda_version
+          docker tag ubuntu-desktop:20.04-cu${cuda_version} gezp/ubuntu-desktop:20.04-cu${cuda_version}
+          docker push gezp/ubuntu-desktop:20.04-cu${cuda_version}
+          docker tag ubuntu-desktop:20.04-cu${cuda_version} registry.cn-shenzhen.aliyuncs.com/gezp/ubuntu-desktop:20.04-cu${cuda_version}
+          docker push registry.cn-shenzhen.aliyuncs.com/gezp/ubuntu-desktop:20.04-cu${cuda_version}
+        done
+    - name: Build and push the Docker image for ubuntu 18.04
+      if: "contains(github.ref, '18.04')"
+      env:
+        cuda_versions: 10.0 10.1 11.0 
+      run: |
+        for cuda_version in $cuda_versions; do 
+          docker build ubuntu-desktop/18.04 --file ubuntu-desktop/18.04/Dockerfile  \
+             --build-arg CUDAGL_VERSION=${cuda_version}-devel-ubuntu18.04 \
+             --tag ubuntu-desktop:18.04-cu$cuda_version
+          docker tag ubuntu-desktop:18.04-cu${cuda_version} gezp/ubuntu-desktop:18.04-cu${cuda_version}
+          docker push gezp/ubuntu-desktop:18.04-cu${cuda_version}
+          docker tag ubuntu-desktop:18.04-cu${cuda_version} registry.cn-shenzhen.aliyuncs.com/gezp/ubuntu-desktop:18.04-cu${cuda_version}
+          docker push registry.cn-shenzhen.aliyuncs.com/gezp/ubuntu-desktop:18.04-cu${cuda_version}
         done
