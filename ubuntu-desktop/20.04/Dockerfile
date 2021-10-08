@@ -1,5 +1,5 @@
-ARG  CUDAGL_VERSION=11.0-devel-ubuntu20.04
-From  nvidia/cudagl:$CUDAGL_VERSION
+ARG  CUDAGL_TAG=11.0-devel-ubuntu20.04
+From  nvidia/cudagl:$CUDAGL_TAG
 
 # Configure user
 ARG user=ubuntu
@@ -31,8 +31,8 @@ RUN rm -rf /etc/apt/sources.list.d/*
 
 ## Install some common tools 
 RUN apt-get update  && \
-    apt-get install -y sudo vim wget curl git net-tools mesa-utils gedit openssh-server bash-completion locales \
-                    python3-pip python-numpy openssh-server software-properties-common && \
+    apt-get install -y sudo vim gedit locales wget curl git gnupg2 lsb-release net-tools iputils-ping mesa-utils \
+                    openssh-server bash-completion software-properties-common python3-pip python-numpy  && \
     update-alternatives --install /usr/bin/python python /usr/bin/python3 2 && \
     pip3 install --upgrade pip &&\
     rm -rf /var/lib/apt/lists/* 
@@ -68,10 +68,9 @@ RUN curl -fSL "https://www.nomachine.com/free/linux/64/deb" -o nomachine.deb &&\
 RUN LANG=C xdg-user-dirs-update --force
 #set apt-get source
 RUN sed -i s@/archive.ubuntu.com/@/mirrors.aliyun.com/@g /etc/apt/sources.list
-
 ### Switch to user to install additional software
 USER $USER
-#set python package tsinghua source
+#set python package source
 RUN  pip config set global.index-url https://mirrors.bfsu.edu.cn/pypi/web/simple
 RUN  echo "export CUDA_HOME=/usr/local/cuda" >> ~/.bashrc &&\
      echo "export PATH=/usr/local/cuda/bin:\$PATH" >> ~/.bashrc &&\
