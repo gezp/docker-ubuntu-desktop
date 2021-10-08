@@ -1,6 +1,6 @@
 #!/bin/bash
 
-# usage: ./build_and_push.sh 20.04-cu11.0
+# usage: ./docker_build.sh 20.04-cu11.0
 
 # echo "argv: $1"
 UBUNTU_VERSION=`echo $1 | awk -F '-cu' '{print $1}'`
@@ -22,8 +22,8 @@ if [[ $? != 0 ]]; then
 fi
 
 # #build ubuntu-desktop image
-DOCKER_TAG = ${UBUNTU_VERSION}-cu${CUDA_VERSION}
-docker build ubuntu-desktop/${UBUNTU_VERSION} --file ubuntu-desktop/${UBUNTU_VERSION}/Dockerfile  \
+DOCKER_TAG=${UBUNTU_VERSION}-cu${CUDA_VERSION}
+docker build ubuntu-desktop --file ubuntu-desktop/Dockerfile.${UBUNTU_VERSION}  \
              --build-arg CUDAGL_TAG=${CUDAGL_TAG} \
              --tag ubuntu-desktop:${DOCKER_TAG}
 if [[ $? != 0 ]]; then 

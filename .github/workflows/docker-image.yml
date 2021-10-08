@@ -22,6 +22,7 @@ jobs:
         registry: registry.cn-shenzhen.aliyuncs.com
         username: ${{ secrets.ALIYUN_USERNAME }}
         password: ${{ secrets.ALIYUN_PASSWORD }}
-    - name: Build and Push Docker Image
-      run: bash build_and_push.sh ${GITHUB_REF#refs/tags/}
-
+    - name: Build Docker Image
+      run: bash docker_push.sh ${GITHUB_REF#refs/tags/}
+    - name: Push Docker Image
+      run: bash docker_push.sh ${GITHUB_REF#refs/tags/}
