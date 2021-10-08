@@ -6,7 +6,7 @@ on:
       - '*'
 jobs:
 
-  build:
+  build_and_push:
     runs-on: ubuntu-latest
     steps:
     - name: Checkout
@@ -23,5 +23,5 @@ jobs:
         username: ${{ secrets.ALIYUN_USERNAME }}
         password: ${{ secrets.ALIYUN_PASSWORD }}
     - name: Build and Push Docker Image
-      run: build_and_push.sh ${{github.ref}}
+      run: bash build_and_push.sh ${GITHUB_REF#refs/tags/}
 
