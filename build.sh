@@ -1,10 +1,11 @@
 #!/bin/bash
 
-# usage: build.sh 20.04-cu11.0
+# usage: ./build_and_push.sh 20.04-cu11.0
 
 # echo "argv: $1"
 UBUNTU_VERSION=`echo $1 | awk -F '-cu' '{print $1}'`
 CUDA_VERSION=`echo $1 | awk -F '-cu' '{print $2}'`
+echo "ubuntu version:${UBUNTU_VERSION},cuda version:${CUDA_VERSION}"
 
 # check ubuntu version
 if [[(${UBUNTU_VERSION} != "18.04") && (${UBUNTU_VERSION} != "20.04")]];then
