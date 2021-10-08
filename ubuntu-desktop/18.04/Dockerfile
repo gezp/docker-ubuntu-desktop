@@ -3,7 +3,7 @@ From  nvidia/cudagl:$CUDAGL_TAG
 
 LABEL maintainer "zhengpeng ge"
 MAINTAINER zhengpeng ge "https://github.com/gezp"
-ENV REFRESHED_AT 2021-06-10
+ENV REFRESHED_AT 2021-10-08
 
 # Configure user
 ARG user=ubuntu

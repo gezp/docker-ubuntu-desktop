@@ -1,6 +1,10 @@
 ARG  CUDAGL_TAG=11.0-devel-ubuntu20.04
 From  nvidia/cudagl:$CUDAGL_TAG
 
+LABEL maintainer "zhengpeng ge"
+MAINTAINER zhengpeng ge "https://github.com/gezp"
+ENV REFRESHED_AT 2021-10-08
+
 # Configure user
 ARG user=ubuntu
 ARG passwd=ubuntu
