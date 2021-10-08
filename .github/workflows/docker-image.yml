@@ -22,31 +22,6 @@ jobs:
         registry: registry.cn-shenzhen.aliyuncs.com
         username: ${{ secrets.ALIYUN_USERNAME }}
         password: ${{ secrets.ALIYUN_PASSWORD }}
-    - name: Build and push the Docker image for ubuntu 20.04
-      if: "contains(github.ref, '20.04')"
-      env:
-        cuda_versions: 11.0 11.1
-      run: |
-        for cuda_version in $cuda_versions; do 
-          docker build ubuntu-desktop/20.04 --file ubuntu-desktop/20.04/Dockerfile  \
-             --build-arg CUDAGL_VERSION=${cuda_version}-devel-ubuntu20.04 \
-             --tag ubuntu-desktop:20.04-cu$cuda_version
-          docker tag ubuntu-desktop:20.04-cu${cuda_version} gezp/ubuntu-desktop:20.04-cu${cuda_version}
-          docker push gezp/ubuntu-desktop:20.04-cu${cuda_version}
-          docker tag ubuntu-desktop:20.04-cu${cuda_version} registry.cn-shenzhen.aliyuncs.com/gezp/ubuntu-desktop:20.04-cu${cuda_version}
-          docker push registry.cn-shenzhen.aliyuncs.com/gezp/ubuntu-desktop:20.04-cu${cuda_version}
-        done
-    - name: Build and push the Docker image for ubuntu 18.04
-      if: "contains(github.ref, '18.04')"
-      env:
-        cuda_versions: 10.0 10.1 11.0 
-      run: |
-        for cuda_version in $cuda_versions; do 
-          docker build ubuntu-desktop/18.04 --file ubuntu-desktop/18.04/Dockerfile  \
-             --build-arg CUDAGL_VERSION=${cuda_version}-devel-ubuntu18.04 \
-             --tag ubuntu-desktop:18.04-cu$cuda_version
-          docker tag ubuntu-desktop:18.04-cu${cuda_version} gezp/ubuntu-desktop:18.04-cu${cuda_version}
-          docker push gezp/ubuntu-desktop:18.04-cu${cuda_version}
-          docker tag ubuntu-desktop:18.04-cu${cuda_version} registry.cn-shenzhen.aliyuncs.com/gezp/ubuntu-desktop:18.04-cu${cuda_version}
-          docker push registry.cn-shenzhen.aliyuncs.com/gezp/ubuntu-desktop:18.04-cu${cuda_version}
-        done
+    - name: Build and Push Docker Image
+      run: build_and_push.sh ${{github.ref}}
+
