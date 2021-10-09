@@ -5,6 +5,8 @@
 ## 1.简介
 该项目提供了一个docker镜像，可以将虚拟桌面系统（xfce4桌面）运行于ubuntu headless主机上的docker容器中，并且可以使用ssh或远程桌面访问，你几乎可以把容器当作虚拟机使用。
 
+> 对于ubuntu headless服务器（无外接显示器），需要使用`HDMI欺骗器`,淘宝也就3元左右。
+
 ubuntu-desktop docker镜像特性：
 
 * 支持ssh远程访问，支持xfce4远程桌面访问
