@@ -20,7 +20,7 @@ ENV USER=$user \
     LC_ALL=zh_CN.UTF-8 \
     LANGUAGE=zh_CN.UTF-8
 
-#add user
+# add user
 RUN groupadd $USER && \
     useradd --create-home --no-log-init -g $USER $USER && \
     usermod -aG sudo $USER && \
@@ -30,7 +30,7 @@ RUN groupadd $USER && \
     usermod  --uid $UID $USER && \
     groupmod --gid $GID $USER
 
-#remove /etc/apt/sources.list.d/* 
+# remove /etc/apt/sources.list.d/* 
 RUN rm -rf /etc/apt/sources.list.d/*
 
 ## Install some common tools 
@@ -68,19 +68,16 @@ RUN curl -fSL "https://www.nomachine.com/free/linux/64/deb" -o nomachine.deb &&\
     sed -i "s|#EnableClipboard both|EnableClipboard both |g" /usr/NX/etc/server.cfg &&\
     sed -i '/DefaultDesktopCommand/c\DefaultDesktopCommand "/usr/bin/startxfce4"' /usr/NX/etc/node.cfg
 
-#update user directory
+# update user directory
 RUN LANG=C xdg-user-dirs-update --force
-### Switch to user to install additional software
-USER $USER
-RUN  echo "export CUDA_HOME=/usr/local/cuda" >> ~/.bashrc &&\
-     echo "export PATH=/usr/local/cuda/bin:\$PATH" >> ~/.bashrc &&\
-     echo "export LD_LIBRARY_PATH=/usr/local/cuda/lib64:\$LD_LIBRARY_PATH" >> ~/.bashrc &&\
-     echo "export PATH=/usr/NX/scripts/vgl:\$PATH" >> ~/.bashrc 
+# Set .bashrc
+RUN  echo "export CUDA_HOME=/usr/local/cuda" >> /home/$user/.bashrc &&\
+     echo "export PATH=/usr/local/cuda/bin:\$PATH" >> /home/$user/.bashrc &&\
+     echo "export LD_LIBRARY_PATH=/usr/local/cuda/lib64:\$LD_LIBRARY_PATH" >> /home/$user/.bashrc &&\
+     echo "export PATH=/usr/NX/scripts/vgl:\$PATH" >> /home/$user/.bashrc
 ## Copy config
 COPY config/xfce4 /home/$user/.config/xfce4
-
-### Switch to root 
-USER 0
+RUN chown -R $GID:$UID /home/$user/.config
 
 # Run it
 EXPOSE 22 4000
