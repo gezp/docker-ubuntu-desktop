@@ -23,7 +23,7 @@ fi
 
 # #build ubuntu-desktop image
 DOCKER_TAG=${UBUNTU_VERSION}-cu${CUDA_VERSION}
-docker build ubuntu-desktop --file ubuntu-desktop/Dockerfile.${UBUNTU_VERSION}  \
+docker build ubuntu-desktop --file ubuntu-desktop/${UBUNTU_VERSION}/Dockerfile \
              --build-arg CUDAGL_TAG=${CUDAGL_TAG} \
              --tag ubuntu-desktop:${DOCKER_TAG}
 if [[ $? != 0 ]]; then 
