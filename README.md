@@ -32,9 +32,9 @@ xfce4（远程）桌面示意图
 >
 > * nvidia/cudagl-devel为基础镜像 +  nomachine远程桌面软件（支持VirtualGL）。
 
-支持的镜像TAG
-* ubuntu18.04系列：`18.04-cu10.1`,`18.04-cu10.2`,`18.04-cu11.0`
-* ubuntu20.04系列：`20.04-cu11.0`,`20.04-cu11.1`
+支持的镜像TAG (对应[Github Tag](https://github.com/gezp/docker-ubuntu-desktop/tags))
+* ubuntu18.04系列：`18.04-cu10.1`,`18.04-cu10.2`,`18.04-cu11.0`,`18.04-cu11.1`等
+* ubuntu20.04系列：`20.04-cu11.0`,`20.04-cu11.1`等
 
 
 ## 2.基本使用
@@ -72,8 +72,9 @@ docker run -d --restart=on-failure \
 ```
 
 
-### 2.3 ssh连接容器
+### 2.3 连接容器
 
+ssh连接
 ```bash
 #ssh访问容器
 ssh ubuntu@host-ip -p 10022
@@ -82,16 +83,15 @@ ssh ubuntu@host-ip -p 10022
 * 用户名和密码均为ubuntu
 * 可使用vscode + remote ssh插件访问
 
-### 2.4 远程桌面连接容器
+远程桌面连接
 
 * 下载nomachine软件，ip为主机ip，端口为14000，进行连接即可
 
-## 3. 3D硬件加速
+### 2.4 3D硬件渲染加速
 
 测试VirtualGL
 
 ```bash
-#vglrun路径为/usr/NX/scripts/vgl/vglrun，root下需使用全路径，或者加入PATH环境变量
 vglrun glxinfo | grep -i "opengl"
 ```
 
@@ -101,3 +101,13 @@ vglrun glxinfo | grep -i "opengl"
 
 运行3D软件时，需要加上`vglrun` 命令前缀，如`vglrun gazebo`。
 
+
+## 3. 本地镜像构建
+
+例如
+```bash
+git clone https://github.com/gezp/docker-ubuntu-desktop.git
+cd docker-ubuntu-desktop
+# for 20.04-cu11.0
+./docker_build.sh 20.04-cu11.0
+```
