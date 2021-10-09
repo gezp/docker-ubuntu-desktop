@@ -68,12 +68,9 @@ RUN curl -fSL "https://www.nomachine.com/free/linux/64/deb" -o nomachine.deb &&\
 
 #update user directory
 RUN LANG=C xdg-user-dirs-update --force
-#set apt-get source
-RUN sed -i s@/archive.ubuntu.com/@/mirrors.aliyun.com/@g /etc/apt/sources.list
 ### Switch to user to install additional software
 USER $USER
-RUN  pip config set global.index-url https://mirrors.bfsu.edu.cn/pypi/web/simple &&\
-     echo "export CUDA_HOME=/usr/local/cuda" >> ~/.bashrc &&\
+RUN  echo "export CUDA_HOME=/usr/local/cuda" >> ~/.bashrc &&\
      echo "export PATH=/usr/local/cuda/bin:\$PATH" >> ~/.bashrc &&\
      echo "export LD_LIBRARY_PATH=/usr/local/cuda/lib64:\$LD_LIBRARY_PATH" >> ~/.bashrc &&\
      echo "export PATH=/usr/NX/scripts/vgl:\$PATH" >> ~/.bashrc 
