@@ -59,9 +59,9 @@ docker rmi registry.cn-shenzhen.aliyuncs.com/gezp/ubuntu-desktop:20.04-cu11.0
 ```
 docker run: 创建并运行容器
 ```bash
-#宿主机需要运行xhost允许所有用户访问X11服务（运行一次即可）
+#宿主机需要运行xhost允许所有用户访问X11服务（运行一次即可）,宿主机环境变量$DISPLAY必须为0
 xhost +
-#支持ssh和GUI，#DISPLAY需要和host一致
+#支持ssh和GUI
 docker run -d --restart=on-failure \
     --name my_workspace \
     --cap-add=SYS_PTRACE \
