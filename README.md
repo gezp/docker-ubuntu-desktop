@@ -5,14 +5,14 @@
 ## 1.简介
 该项目提供了一个docker镜像，可以将虚拟桌面系统（xfce4桌面）运行于ubuntu headless主机上的docker容器中，并且可以使用ssh或远程桌面访问，你几乎可以把容器当作虚拟机使用。
 
-> 注意，这里的宿主机需要安装Ubuntu Desktop系统（自带桌面系统，不支持Ubuntu Server系统），可使用`HDMI欺骗器`代替显示器，从而实现headless主机的效果。
+> 注意，这里的宿主机需要安装Ubuntu Desktop系统（自带桌面系统，不支持宿主机为Ubuntu Server系统），可使用`HDMI欺骗器`代替显示器，从而实现headless主机的效果。
 
 ubuntu-desktop Docker镜像特性：
 
 * 支持ssh远程访问，支持xfce4远程桌面访问。
-* 支持使用GPU硬件加速的OpenGL渲染，而不是软件模拟的OpenGL渲染，可运行3D渲染软件（如gazebo, blender）。
-* 自带CUDA，支持深度学习训练（如pytorch, tensorflow）。
+* 支持使用GPU硬件加速的OpenGL渲染，而不是软件模拟的OpenGL渲染，可运行3D渲染软件 (如gazebo, blender)。
 * 自带Chrome浏览器。
+* 自带CUDA, 支持深度学习训练 (如pytorch, tensorflow)。
 
 > 它可以当作ubuntu虚拟开发环境使用，适合教研室公共主机共享使用。相比虚拟机，容器是轻量级的（虽然把容器当作虚拟使用不符合容器的哲学：一个容器运行一个APP），其优点如下：
 >
@@ -33,13 +33,12 @@ xfce4（远程）桌面示意图
 镜像TAG:
 
 支持的镜像TAG对应[Github Tag](https://github.com/gezp/docker-ubuntu-desktop/tags)，具有两类：
-* 基本镜像(基于`nvidia/opengl`)的TAG：`18.04`, `20.04`
-* 支持CUDA的镜像((基于`nvidia/cudagl`)的TAG：`18.04-cu10.1`, `20.04-cu11.0`, `20.04-cu11.2.0`等, 命名规则为`{UBUNTU VERSION}-cu{CUDA VERSION}`, 其中cuda的版本号支持列表见[Docker Image <nvidia/cudagl>](https://gitlab.com/nvidia/container-images/cudagl/-/blob/DOCS/supported-tags.md)
+* 基本镜像(基于`nvidia/opengl`基础镜像)的TAG：`18.04`, `20.04`
+* 支持CUDA的镜像(基于`nvidia/cudagl`基础镜像)的TAG：`18.04-cu10.1`, `20.04-cu11.0`, `20.04-cu11.2.0`等, 命名规则为`{UBUNTU VERSION}-cu{CUDA VERSION}`, 其中cuda的版本号支持列表见[Docker Image <nvidia/cudagl>](https://gitlab.com/nvidia/container-images/cudagl/-/blob/DOCS/supported-tags.md)
 
 >目前支持CUDA版本号：
 > * Ubuntu18.04支持的CUDA版本号：`10.1`, `10.2`, `11.0`, `11.1`, `11.2.0`, `11.3.0`, `11.4.0`
 > * Ubuntu20.04支持的CUDA版本号：`11.0`, `11.1`, `11.2.0`, `11.3.0`, `11.4.0`
-
 
 ## 2.基本使用
 
@@ -106,13 +105,13 @@ vglrun glxinfo | grep -i "opengl"
 
 ### 2.4 CUDA使用说明
 
-需要在`.bashrc`文件中加入以下变量
+需要在`.bashrc`文件中加入以下语句更新环境变量
 ```bash
 export CUDA_HOME=/usr/local/cuda
 export PATH=/usr/local/cuda/bin:$PATH
 export LD_LIBRARY_PATH=/usr/local/cuda/lib64:$LD_LIBRARY_PATH
 ```
-* 更多使用参考`nvidia/cuda`的说明。
+* 更多使用参考`nvidia/cuda`Docker镜像的说明。
 
 ## 3. 本地镜像构建
 
@@ -120,8 +119,8 @@ export LD_LIBRARY_PATH=/usr/local/cuda/lib64:$LD_LIBRARY_PATH
 ```bash
 git clone https://github.com/gezp/docker-ubuntu-desktop.git
 cd docker-ubuntu-desktop
-# for 20.04 (基于nvidia/opengl镜像)
+# for 20.04 (基于nvidia/opengl基础镜像)
 ./docker_build.sh 20.04
-# for 20.04-cu11.0  (基于nvidia/cudagl镜像)
+# for 20.04-cu11.0  (基于nvidia/cudagl基础镜像)
 ./docker_build.sh 20.04-cu11.0
 ```
