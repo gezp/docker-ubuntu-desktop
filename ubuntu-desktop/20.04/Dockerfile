@@ -1,26 +1,19 @@
-ARG  CUDAGL_TAG=11.0-devel-ubuntu20.04
-From  nvidia/cudagl:$CUDAGL_TAG
+ARG BASE_IMAGE=nvidia/cudagl:11.0-devel-ubuntu20.04
+From $BASE_IMAGE
 
-LABEL maintainer "zhengpeng ge"
-MAINTAINER zhengpeng ge "https://github.com/gezp"
-ENV REFRESHED_AT 2021-10-08
+MAINTAINER zhenpeng ge "https://github.com/gezp"
 
-# Configure user
-ARG user=ubuntu
-ARG passwd=ubuntu
-ARG uid=1000
-ARG gid=1000
 ENV DEBIAN_FRONTEND=noninteractive
-ENV USER=$user \
-    PASSWD=$passwd \
-    UID=$uid \
-    GID=$gid \
+ENV USER=ubuntu \
+    PASSWD=ubuntu \
+    UID=1000 \
+    GID=1000 \
     TZ=Asia/Shanghai \
     LANG=zh_CN.UTF-8 \
     LC_ALL=zh_CN.UTF-8 \
     LANGUAGE=zh_CN.UTF-8
 
-# add user
+## Add default user
 RUN groupadd $USER && \
     useradd --create-home --no-log-init -g $USER $USER && \
     usermod -aG sudo $USER && \
@@ -30,7 +23,7 @@ RUN groupadd $USER && \
     usermod  --uid $UID $USER && \
     groupmod --gid $GID $USER
 
-# remove /etc/apt/sources.list.d/* 
+## Remove /etc/apt/sources.list.d/* 
 RUN rm -rf /etc/apt/sources.list.d/*
 
 ## Install some common tools 
@@ -41,19 +34,12 @@ RUN apt-get update  && \
     pip3 install --upgrade pip &&\
     rm -rf /var/lib/apt/lists/* 
 
-# ssh 
-RUN mkdir /var/run/sshd &&  \
-    echo 'root:THEPASSWORDYOUCREATED' | chpasswd && \
-    sed -i 's/#*PermitRootLogin prohibit-password/PermitRootLogin yes/g' /etc/ssh/sshd_config && \
-    sed -i 's@session\s*required\s*pam_loginuid.so@session optional pam_loginuid.so@g' /etc/pam.d/sshd
-
-
 ## Install desktop
 RUN apt-get update && \
     apt-get install -y xfce4 xfce4-terminal xfce4-power-manager xfce4-screensaver fonts-wqy-zenhei &&\
     locale-gen zh_CN.UTF-8
 
-# Install Chrome
+## Install Chrome
 RUN wget -q https://dl.google.com/linux/direct/google-chrome-stable_current_amd64.deb &&\
     apt-get install -yf ./google-chrome-stable_current_amd64.deb &&\
     rm google-chrome-stable_current_amd64.deb
@@ -68,21 +54,24 @@ RUN curl -fSL "https://www.nomachine.com/free/linux/64/deb" -o nomachine.deb &&\
     sed -i "s|#EnableClipboard both|EnableClipboard both |g" /usr/NX/etc/server.cfg &&\
     sed -i '/DefaultDesktopCommand/c\DefaultDesktopCommand "/usr/bin/startxfce4"' /usr/NX/etc/node.cfg
 
-# update user directory
-RUN LANG=C xdg-user-dirs-update --force
-# Set .bashrc
-RUN  echo "export CUDA_HOME=/usr/local/cuda" >> /home/$user/.bashrc &&\
-     echo "export PATH=/usr/local/cuda/bin:\$PATH" >> /home/$user/.bashrc &&\
-     echo "export LD_LIBRARY_PATH=/usr/local/cuda/lib64:\$LD_LIBRARY_PATH" >> /home/$user/.bashrc &&\
-     echo "export PATH=/usr/NX/scripts/vgl:\$PATH" >> /home/$user/.bashrc
-## Copy config
-COPY config/xfce4 /home/$user/.config/xfce4
-RUN chown -R $GID:$UID /home/$user/.config
+## Configure ssh 
+RUN mkdir /var/run/sshd &&  \
+    echo 'root:THEPASSWORDYOUCREATED' | chpasswd && \
+    sed -i 's/#*PermitRootLogin prohibit-password/PermitRootLogin yes/g' /etc/ssh/sshd_config && \
+    sed -i 's@session\s*required\s*pam_loginuid.so@session optional pam_loginuid.so@g' /etc/pam.d/sshd
 
-# Run it
+## Set .bashrc
+RUN  echo "export CUDA_HOME=/usr/local/cuda" >> /home/$USER/.bashrc &&\
+     echo "export PATH=/usr/local/cuda/bin:\$PATH" >> /home/$USER/.bashrc &&\
+     echo "export LD_LIBRARY_PATH=/usr/local/cuda/lib64:\$LD_LIBRARY_PATH" >> /home/$USER/.bashrc &&\
+     echo "export PATH=/usr/NX/scripts/vgl:\$PATH" >> /home/$USER/.bashrc
+
+## Copy config
+COPY config/xfce4 /home/$USER/.config/xfce4
+RUN chown -R $GID:$UID /home/$USER/.config
+
 EXPOSE 22 4000
+
 COPY nxserver.sh /
 RUN chmod +x /nxserver.sh
 ENTRYPOINT ["/nxserver.sh"]
-
-#RUN /etc/init.d/dbus start

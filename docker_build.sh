@@ -13,18 +13,18 @@ if [[(${UBUNTU_VERSION} != "18.04") && (${UBUNTU_VERSION} != "20.04")]];then
     exit -1
 fi
 
-# pull cudagl docker image
-CUDAGL_TAG=${CUDA_VERSION}-devel-ubuntu${UBUNTU_VERSION}
-docker pull nvidia/cudagl:${CUDAGL_TAG}
+# pull base image (cudagl)
+BASE_IMAGE=nvidia/cudagl:${CUDA_VERSION}-devel-ubuntu${UBUNTU_VERSION}
+docker pull ${BASE_IMAGE}
 if [[ $? != 0 ]]; then 
-    echo "Failed to pull docker image 'nvidia/cudagl:${CUDAGL_TAG}'"
+    echo "Failed to pull docker image '${BASE_IMAGE}'"
     exit -2
 fi
 
-# #build ubuntu-desktop image
+# build ubuntu-desktop image
 DOCKER_TAG=${UBUNTU_VERSION}-cu${CUDA_VERSION}
 docker build ubuntu-desktop --file ubuntu-desktop/${UBUNTU_VERSION}/Dockerfile \
-             --build-arg CUDAGL_TAG=${CUDAGL_TAG} \
+             --build-arg BASE_IMAGE=${BASE_IMAGE} \
              --tag ubuntu-desktop:${DOCKER_TAG}
 if [[ $? != 0 ]]; then 
     echo "Failed to build docker image 'ubuntu-desktop:${DOCKER_TAG}'"
