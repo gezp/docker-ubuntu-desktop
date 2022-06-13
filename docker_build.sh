@@ -8,13 +8,19 @@ CUDA_VERSION=`echo $1 | awk -F '-cu' '{print $2}'`
 echo "ubuntu version:${UBUNTU_VERSION},cuda version:${CUDA_VERSION}"
 
 # check ubuntu version
-if [[(${UBUNTU_VERSION} != "18.04") && (${UBUNTU_VERSION} != "20.04")]];then
+if [[(${UBUNTU_VERSION} != "18.04") && (${UBUNTU_VERSION} != "20.04") && (${UBUNTU_VERSION} != "22.04")]];then
     echo "Invalid ubuntu version:${UBUNTU_VERSION}"
     exit -1
 fi
 
 # pull base image (cudagl)
-BASE_IMAGE=nvidia/cudagl:${CUDA_VERSION}-devel-ubuntu${UBUNTU_VERSION}
+if [[("${CUDA_VERSION}" == "")]];then
+    BASE_IMAGE=nvidia/opengl:1.2-glvnd-devel-ubuntu${UBUNTU_VERSION}
+else
+    BASE_IMAGE=nvidia/cudagl:${CUDA_VERSION}-devel-ubuntu${UBUNTU_VERSION}
+fi
+echo ${BASE_IMAGE}
+
 docker pull ${BASE_IMAGE}
 if [[ $? != 0 ]]; then 
     echo "Failed to pull docker image '${BASE_IMAGE}'"
@@ -22,7 +28,12 @@ if [[ $? != 0 ]]; then
 fi
 
 # build ubuntu-desktop image
-DOCKER_TAG=${UBUNTU_VERSION}-cu${CUDA_VERSION}
+if [[("${CUDA_VERSION}" == "")]];then
+    DOCKER_TAG=${UBUNTU_VERSION}
+else
+    DOCKER_TAG=${UBUNTU_VERSION}-cu${CUDA_VERSION}
+fi
+
 docker build ubuntu-desktop --file ubuntu-desktop/${UBUNTU_VERSION}/Dockerfile \
              --build-arg BASE_IMAGE=${BASE_IMAGE} \
              --tag ubuntu-desktop:${DOCKER_TAG}

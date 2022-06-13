@@ -5,14 +5,14 @@
 ## 1.简介
 该项目提供了一个docker镜像，可以将虚拟桌面系统（xfce4桌面）运行于ubuntu headless主机上的docker容器中，并且可以使用ssh或远程桌面访问，你几乎可以把容器当作虚拟机使用。
 
-> 对于ubuntu headless服务器（无外接显示器），需要使用`HDMI欺骗器`,淘宝也就3元左右。
+> 注意，这里的宿主机需要安装Ubuntu Desktop系统（自带桌面系统，不支持Ubuntu Server系统），可使用`HDMI欺骗器`代替显示器，从而实现headless主机的效果。
 
-ubuntu-desktop docker镜像特性：
+ubuntu-desktop Docker镜像特性：
 
-* 支持ssh远程访问，支持xfce4远程桌面访问
-* 自带cuda，支持深度学习训练（如pytorch,tensorflow）
-* 支持GPU 硬件3D加速，可运行3D渲染软件（如gazebo,blender）
-
+* 支持ssh远程访问，支持xfce4远程桌面访问。
+* 支持使用GPU硬件加速的OpenGL渲染，而不是软件模拟的OpenGL渲染，可运行3D渲染软件（如gazebo, blender）。
+* 自带CUDA，支持深度学习训练（如pytorch, tensorflow）。
+* 自带Chrome浏览器。
 
 > 它可以当作ubuntu虚拟开发环境使用，适合教研室公共主机共享使用。相比虚拟机，容器是轻量级的（虽然把容器当作虚拟使用不符合容器的哲学：一个容器运行一个APP），其优点如下：
 >
@@ -26,17 +26,19 @@ xfce4（远程）桌面示意图
 
 ![](img/desktop.png)
 
-* 使用nomachine客户端连接docker容器的远程桌面。
-* 支持Chrome浏览器使用。
-* 支持Blender使用GPU硬件加速的OpenGL渲染，而不是软件模拟的OpenGL渲染。
-
-> 实现方法：
+>实现原理:
 >
-> * nvidia/cudagl-devel为基础镜像 + nomachine远程桌面软件（支持VirtualGL）。
+> 采用`nvidia/opengl`为基础镜像 + xfce4桌面软件 + nomachine远程桌面软件（支持VirtualGL），从而实现3D GUI程序运行，替换基础镜像为`nvidia/cudagl`，从而实现支持cuda的能力。
 
-支持的镜像TAG对应[Github Tag](https://github.com/gezp/docker-ubuntu-desktop/tags)，规则为`{UBUNTU VERSION}-cu{CUDA VERSION}`, 其中cuda的版本号支持列表见[Docker Image<nvidia/cudagl>](https://gitlab.com/nvidia/container-images/cudagl/-/blob/DOCS/supported-tags.md):
-* Ubuntu18.04支持的CUDA版本号：`10.1`, `10.2`, `11.0`, `11.1`, `11.2.0`, `11.3.0`, `11.4.0`等（例如`18.04-cu10.1`)
-* Ubuntu20.04支持的CUDA版本号：`11.0`, `11.1`, `11.2.0`, `11.3.0`, `11.4.0`等（例如`20.04-cu11.0`)
+镜像TAG:
+
+支持的镜像TAG对应[Github Tag](https://github.com/gezp/docker-ubuntu-desktop/tags)，具有两类：
+* 基本镜像(基于`nvidia/opengl`)的TAG：`18.04`, `20.04`
+* 支持CUDA的镜像((基于`nvidia/cudagl`)的TAG：`18.04-cu10.1`, `20.04-cu11.0`, `20.04-cu11.2.0`等, 命名规则为`{UBUNTU VERSION}-cu{CUDA VERSION}`, 其中cuda的版本号支持列表见[Docker Image <nvidia/cudagl>](https://gitlab.com/nvidia/container-images/cudagl/-/blob/DOCS/supported-tags.md)
+
+>目前支持CUDA版本号：
+> * Ubuntu18.04支持的CUDA版本号：`10.1`, `10.2`, `11.0`, `11.1`, `11.2.0`, `11.3.0`, `11.4.0`
+> * Ubuntu20.04支持的CUDA版本号：`11.0`, `11.1`, `11.2.0`, `11.3.0`, `11.4.0`
 
 
 ## 2.基本使用
@@ -46,7 +48,7 @@ xfce4（远程）桌面示意图
 * 安装nvidia驱动
 * 安装docker和nvidia-container-runtime.
 
-> 注意nvidia版本驱动，过老的版本驱动不支持新版本的cuda.(容器自带cuda)
+> 注意nvidia版本驱动，过老的版本驱动不支持新版本的cuda容器.
 
 ### 2.2 创建容器
 
@@ -73,7 +75,6 @@ docker run -d --restart=on-failure \
     gezp/ubuntu-desktop:20.04-cu11.0
 ```
 
-
 ### 2.3 连接容器
 
 ssh连接
@@ -97,11 +98,21 @@ ssh ubuntu@host-ip -p 10022
 vglrun glxinfo | grep -i "opengl"
 ```
 
-* 显示包含VirtualGL则表示正确
+* 显示包含NVIDIA GPU型号，则表示正确
 
 > host主机上的DISPLAY必须为`:0` .
 
-运行3D软件时，需要加上`vglrun` 命令前缀，如`vglrun gazebo`。
+运行3D软件时，需要加上`vglrun`命令前缀，如`vglrun gazebo`。
+
+### 2.4 CUDA使用说明
+
+需要在`.bashrc`文件中加入以下变量
+```bash
+export CUDA_HOME=/usr/local/cuda
+export PATH=/usr/local/cuda/bin:$PATH
+export LD_LIBRARY_PATH=/usr/local/cuda/lib64:$LD_LIBRARY_PATH
+```
+* 更多使用参考`nvidia/cuda`的说明。
 
 ## 3. 本地镜像构建
 
@@ -109,6 +120,8 @@ vglrun glxinfo | grep -i "opengl"
 ```bash
 git clone https://github.com/gezp/docker-ubuntu-desktop.git
 cd docker-ubuntu-desktop
-# for 20.04-cu11.0
+# for 20.04 (基于nvidia/opengl镜像)
+./docker_build.sh 20.04
+# for 20.04-cu11.0  (基于nvidia/cudagl镜像)
 ./docker_build.sh 20.04-cu11.0
 ```

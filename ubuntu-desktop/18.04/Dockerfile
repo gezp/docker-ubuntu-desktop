@@ -1,4 +1,4 @@
-ARG BASE_IMAGE=nvidia/cudagl:11.0-devel-ubuntu18.04
+ARG BASE_IMAGE=nvidia/opengl:1.2-glvnd-devel-ubuntu18.04
 From $BASE_IMAGE
 
 LABEL maintainer "zhengpeng ge"
@@ -62,10 +62,7 @@ RUN mkdir /var/run/sshd &&  \
     sed -i 's@session\s*required\s*pam_loginuid.so@session optional pam_loginuid.so@g' /etc/pam.d/sshd
 
 ## Set .bashrc
-RUN  echo "export CUDA_HOME=/usr/local/cuda" >> /home/$USER/.bashrc &&\
-     echo "export PATH=/usr/local/cuda/bin:\$PATH" >> /home/$USER/.bashrc &&\
-     echo "export LD_LIBRARY_PATH=/usr/local/cuda/lib64:\$LD_LIBRARY_PATH" >> /home/$USER/.bashrc &&\
-     echo "export PATH=/usr/NX/scripts/vgl:\$PATH" >> /home/$USER/.bashrc
+RUN  echo "export PATH=/usr/NX/scripts/vgl:\$PATH" >> /home/$USER/.bashrc
 
 ## Copy config
 COPY config/xfce4 /home/$USER/.config/xfce4
