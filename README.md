@@ -5,12 +5,13 @@
 ## 1.简介
 该项目提供了一个docker镜像，可以将虚拟桌面系统（xfce4桌面）运行于ubuntu headless主机上的docker容器中，并且可以使用ssh或远程桌面访问，你几乎可以把容器当作虚拟机使用。
 
-> 注意，这里的宿主机需要安装Ubuntu Desktop系统（自带桌面系统，不支持宿主机为Ubuntu Server系统），可使用`HDMI欺骗器`代替显示器，从而实现headless主机的效果。
+> 注意，如果需要使用GPU硬件加速的OpenGL渲染，这里的宿主机需要安装Ubuntu Desktop系统（自带桌面系统，不支持宿主机为Ubuntu Server系统），可使用`HDMI欺骗器`代替显示器。
 
 ubuntu-desktop Docker镜像特性：
 
 * 支持ssh远程访问，支持xfce4远程桌面访问。
-* 支持使用GPU硬件加速的OpenGL渲染，而不是软件模拟的OpenGL渲染，可运行3D渲染软件 (如gazebo, blender)。
+* 支持软件模拟的OpenGL渲染，可运行3D渲染软件 (如gazebo, blender)。
+* 支持GPU硬件加速的OpenGL渲染（需要Nvidia GPU支持，宿主机必须是桌面系统）
 * 自带Chrome浏览器。
 * 自带CUDA, 支持深度学习训练 (如pytorch, tensorflow)。
 
@@ -54,15 +55,15 @@ xfce4（远程）桌面示意图
 docker pull: 国内用户可使用阿里云仓库
 ```bash
 docker pull registry.cn-shenzhen.aliyuncs.com/gezp/ubuntu-desktop:20.04-cu11.0
-#重命名镜像
+# 重命名镜像
 docker image tag registry.cn-shenzhen.aliyuncs.com/gezp/ubuntu-desktop:20.04-cu11.0 gezp/ubuntu-desktop:20.04-cu11.0
 docker rmi registry.cn-shenzhen.aliyuncs.com/gezp/ubuntu-desktop:20.04-cu11.0
 ```
 docker run: 创建并运行容器
 ```bash
-#宿主机需要运行xhost允许所有用户访问X11服务（运行一次即可）,宿主机环境变量$DISPLAY必须为0
+# 宿主机需要运行xhost允许所有用户访问X11服务（运行一次即可）,宿主机环境变量$DISPLAY必须为0
 xhost +
-#支持ssh和GUI
+# 支持ssh和 3D GUI
 docker run -d --restart=on-failure \
     --name my_workspace \
     --cap-add=SYS_PTRACE \
@@ -73,6 +74,7 @@ docker run -d --restart=on-failure \
     -p 14000:4000  \
     gezp/ubuntu-desktop:20.04-cu11.0
 ```
+> 可以运行在云服务器（如阿里云，腾讯云等）上，但是不支持GPU 3D加速。
 
 ### 2.3 连接容器
 

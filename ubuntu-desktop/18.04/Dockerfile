@@ -30,7 +30,7 @@ RUN rm -rf /etc/apt/sources.list.d/*
 ## Install some common tools 
 RUN apt-get update  && \
     apt-get install -y sudo vim gedit locales wget curl git gnupg2 lsb-release net-tools iputils-ping mesa-utils \
-                    openssh-server bash-completion software-properties-common python3-pip python-numpy  && \
+                    openssh-server bash-completion software-properties-common python3-pip && \
     update-alternatives --install /usr/bin/python python /usr/bin/python3 2 && \
     pip3 install --upgrade pip &&\
     rm -rf /var/lib/apt/lists/* 
