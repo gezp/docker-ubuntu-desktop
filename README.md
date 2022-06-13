@@ -32,11 +32,11 @@ xfce4（远程）桌面示意图
 
 > 实现方法：
 >
-> * nvidia/cudagl-devel为基础镜像 +  nomachine远程桌面软件（支持VirtualGL）。
+> * nvidia/cudagl-devel为基础镜像 + nomachine远程桌面软件（支持VirtualGL）。
 
-支持的镜像TAG (对应[Github Tag](https://github.com/gezp/docker-ubuntu-desktop/tags))
-* ubuntu18.04系列：`18.04-cu10.1`,`18.04-cu10.2`,`18.04-cu11.0`,`18.04-cu11.1`等
-* ubuntu20.04系列：`20.04-cu11.0`,`20.04-cu11.1`等
+支持的镜像TAG对应[Github Tag](https://github.com/gezp/docker-ubuntu-desktop/tags)，规则为`{UBUNTU VERSION}-cu{CUDA VERSION}`, 其中cuda的版本号支持列表见[Docker Image<nvidia/cudagl>](https://gitlab.com/nvidia/container-images/cudagl/-/blob/DOCS/supported-tags.md):
+* Ubuntu18.04支持的CUDA版本号：`10.1`, `10.2`, `11.0`, `11.1`, `11.2.0`, `11.3.0`, `11.4.0`等（例如`18.04-cu10.1`)
+* Ubuntu20.04支持的CUDA版本号：`11.0`, `11.1`, `11.2.0`, `11.3.0`, `11.4.0`等（例如`20.04-cu11.0`)
 
 
 ## 2.基本使用
@@ -102,7 +102,6 @@ vglrun glxinfo | grep -i "opengl"
 > host主机上的DISPLAY必须为`:0` .
 
 运行3D软件时，需要加上`vglrun` 命令前缀，如`vglrun gazebo`。
-
 
 ## 3. 本地镜像构建
 
