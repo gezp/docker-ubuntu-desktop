@@ -48,12 +48,12 @@ RUN wget -q https://dl.google.com/linux/direct/google-chrome-stable_current_amd6
 ENV DBUS_SYSTEM_BUS_ADDRESS=unix:path=/host/run/dbus/system_bus_socket
 RUN apt-get install -y pulseaudio && mkdir -p /var/run/dbus
 
-## Install nomachine
-RUN curl -fSL "https://www.nomachine.com/free/linux/64/deb" -o nomachine.deb &&\
-    dpkg -i nomachine.deb &&\
-    rm nomachine.deb &&\
-    sed -i "s|#EnableClipboard both|EnableClipboard both |g" /usr/NX/etc/server.cfg &&\
-    sed -i '/DefaultDesktopCommand/c\DefaultDesktopCommand "/usr/bin/startxfce4"' /usr/NX/etc/node.cfg
+## Install VNC
+RUN curl -fSL "https://downloads.realvnc.com/download/file/viewer.files/VNC-Viewer-6.22.315-Linux-x86.deb?_ga=2.62389231.253462561.1655388363-858609972.1655388363" -o vnc.deb &&\
+    dpkg -i vnc.deb &&\
+    rm vnc.deb &&\
+    sed -i "s|#EnableClipboard both|EnableClipboard both |g" /usr/vnc/etc/server.cfg &&\
+    sed -i '/DefaultDesktopCommand/c\DefaultDesktopCommand "/usr/bin/startxfce4"' /usr/vnc/etc/node.cfg
 
 ## Configure ssh 
 RUN mkdir /var/run/sshd &&  \
