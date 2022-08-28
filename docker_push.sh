@@ -8,8 +8,8 @@ DOCKER_TAG=$1
 docker tag ubuntu-desktop:${DOCKER_TAG} gezp/ubuntu-desktop:${DOCKER_TAG}
 docker push gezp/ubuntu-desktop:${DOCKER_TAG}
 # push to aliyun
-docker tag ubuntu-desktop:${DOCKER_TAG} registry.cn-shenzhen.aliyuncs.com/gezp/ubuntu-desktop:${DOCKER_TAG}
-docker push registry.cn-shenzhen.aliyuncs.com/gezp/ubuntu-desktop:${DOCKER_TAG}
+docker tag ubuntu-desktop:${DOCKER_TAG} registry.cn-hongkong.aliyuncs.com/gezp/ubuntu-desktop:${DOCKER_TAG}
+docker push registry.cn-hongkong.aliyuncs.com/gezp/ubuntu-desktop:${DOCKER_TAG}
 
 exit 0
 

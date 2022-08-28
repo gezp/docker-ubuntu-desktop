@@ -6,6 +6,7 @@
 该项目提供了一个docker镜像，可以将虚拟桌面系统（xfce4桌面）运行于ubuntu headless主机上的docker容器中，并且可以使用ssh或远程桌面访问，你几乎可以把容器当作虚拟机使用。
 
 > 注意，如果需要使用GPU硬件加速的OpenGL渲染，这里的宿主机需要安装Ubuntu Desktop系统（自带桌面系统，不支持宿主机为Ubuntu Server系统），可使用`HDMI欺骗器`代替显示器。
+> 可以运行在云服务器（如阿里云，腾讯云等）上，但是不支持GPU 3D加速。
 
 ubuntu-desktop Docker镜像特性：
 
@@ -50,15 +51,15 @@ xfce4（远程）桌面示意图
 
 > 注意nvidia版本驱动，过老的版本驱动不支持新版本的cuda容器.
 
-### 2.2 创建容器
+### 2.2 快速使用
 
-docker pull: 国内用户可使用阿里云仓库
+docker pull: 拉取镜像
 ```bash
-docker pull registry.cn-shenzhen.aliyuncs.com/gezp/ubuntu-desktop:20.04-cu11.0
-# 重命名镜像
-docker image tag registry.cn-shenzhen.aliyuncs.com/gezp/ubuntu-desktop:20.04-cu11.0 gezp/ubuntu-desktop:20.04-cu11.0
-docker rmi registry.cn-shenzhen.aliyuncs.com/gezp/ubuntu-desktop:20.04-cu11.0
+docker pull gezp/ubuntu-desktop:20.04-cu11.0
+# 国内用户可使用阿里云仓库
+# docker pull registry.cn-hongkong.aliyuncs.com/gezp/ubuntu-desktop:20.04-cu11.0
 ```
+
 docker run: 创建并运行容器
 ```bash
 # 宿主机需要运行xhost允许所有用户访问X11服务（运行一次即可）,宿主机环境变量$DISPLAY必须为0
@@ -74,24 +75,42 @@ docker run -d --restart=on-failure \
     -p 14000:4000  \
     gezp/ubuntu-desktop:20.04-cu11.0
 ```
-> 可以运行在云服务器（如阿里云，腾讯云等）上，但是不支持GPU 3D加速。
+* 默认用户名和密码均为ubuntu
 
-### 2.3 连接容器
-
-ssh连接
+ssh连接容器
 ```bash
 #ssh访问容器
 ssh ubuntu@host-ip -p 10022
 ```
 
-* 用户名和密码均为ubuntu
 * 可使用vscode + remote ssh插件访问
 
-远程桌面连接
+远程桌面连接容器
 
 * 下载nomachine软件，ip为主机ip，端口为14000，进行连接即可
 
-### 2.4 3D硬件渲染加速
+## 3.扩展使用
+
+### 3.1 自定义用户参数
+
+在创建容器时可使用环境变量自定义`USER`, `PASSWORD`, `GID`, `UID`配置，例如：
+```bash
+docker run -d --restart=on-failure \
+    --name my_workspace \
+    --cap-add=SYS_PTRACE \
+    --gpus all  \
+    -e USER=cat \
+    -e PASSWORD=cat123 \
+    -e GID=1001 \
+    -e UID=1001 \
+    --shm-size=1024m \
+    -v /tmp/.X11-unix:/tmp/.X11-unix:rw \
+    -p 10022:22  \
+    -p 14000:4000  \
+    gezp/ubuntu-desktop:20.04-cu11.0
+```
+
+### 3.2 3D硬件渲染加速
 
 测试VirtualGL
 
@@ -105,7 +124,7 @@ vglrun glxinfo | grep -i "opengl"
 
 运行3D软件时，需要加上`vglrun`命令前缀，如`vglrun gazebo`。
 
-### 2.4 CUDA使用说明
+### 3.3 CUDA使用说明
 
 需要在`.bashrc`文件中加入以下语句更新环境变量
 ```bash
@@ -115,7 +134,7 @@ export LD_LIBRARY_PATH=/usr/local/cuda/lib64:$LD_LIBRARY_PATH
 ```
 * 更多使用参考`nvidia/cuda`Docker镜像的说明。
 
-## 3. 本地镜像构建
+## 4. 本地镜像构建
 
 例如
 ```bash
