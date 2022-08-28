@@ -8,6 +8,8 @@ jobs:
 
   build_and_push:
     runs-on: ubuntu-latest
+    env:
+      DOCKER_TAG: ${GITHUB_REF#refs/tags/}
     steps:
     - name: Checkout
       uses: actions/checkout@v2
@@ -23,6 +25,12 @@ jobs:
         username: ${{ secrets.ALIYUN_USERNAME }}
         password: ${{ secrets.ALIYUN_PASSWORD }}
     - name: Build Docker Image
-      run: bash docker_build.sh ${GITHUB_REF#refs/tags/}
-    - name: Push Docker Image
-      run: bash docker_push.sh ${GITHUB_REF#refs/tags/}
+      run: bash docker_build.sh ${{env.DOCKER_TAG}}
+    - name: Push Docker Image to Docker Hub
+      run: |
+        docker tag ubuntu-desktop:${{env.DOCKER_TAG}} gezp/ubuntu-desktop:${{env.DOCKER_TAG}}
+        docker push gezp/ubuntu-desktop:${{env.DOCKER_TAG}}
+    - name: Push Docker Image to Aliyun Docker Registry (hongkong)
+      run: |
+        docker tag ubuntu-desktop:${{env.DOCKER_TAG}} registry.cn-hongkong.aliyuncs.com/gezp/ubuntu-desktop:${{env.DOCKER_TAG}}
+        docker push registry.cn-hongkong.aliyuncs.com/gezp/ubuntu-desktop:${{env.DOCKER_TAG}}
