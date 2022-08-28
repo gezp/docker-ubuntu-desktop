@@ -6,23 +6,13 @@ MAINTAINER zhenpeng ge "https://github.com/gezp"
 
 ENV DEBIAN_FRONTEND=noninteractive
 ENV USER=ubuntu \
-    PASSWD=ubuntu \
+    PASSWORD=ubuntu \
     UID=1000 \
     GID=1000 \
     TZ=Asia/Shanghai \
     LANG=zh_CN.UTF-8 \
     LC_ALL=zh_CN.UTF-8 \
     LANGUAGE=zh_CN.UTF-8
-
-## Add default user
-RUN groupadd $USER && \
-    useradd --create-home --no-log-init -g $USER $USER && \
-    usermod -aG sudo $USER && \
-    echo "$PASSWD:$PASSWD" | chpasswd && \
-    chsh -s /bin/bash $USER && \
-    # Replace 1000 with your user/group id
-    usermod  --uid $UID $USER && \
-    groupmod --gid $GID $USER
 
 ## Remove /etc/apt/sources.list.d/* 
 RUN rm -rf /etc/apt/sources.list.d/*
@@ -61,15 +51,9 @@ RUN mkdir /var/run/sshd &&  \
     sed -i 's/#*PermitRootLogin prohibit-password/PermitRootLogin yes/g' /etc/ssh/sshd_config && \
     sed -i 's@session\s*required\s*pam_loginuid.so@session optional pam_loginuid.so@g' /etc/pam.d/sshd
 
-## Set .bashrc
-RUN  echo "export PATH=/usr/NX/scripts/vgl:\$PATH" >> /home/$USER/.bashrc
-
 ## Copy config
-COPY config/xfce4 /home/$USER/.config/xfce4
-RUN chown -R $GID:$UID /home/$USER/.config
+COPY docker_config /docker_config
 
 EXPOSE 22 4000
 
-COPY nxserver.sh /
-RUN chmod +x /nxserver.sh
-ENTRYPOINT ["/nxserver.sh"]
+ENTRYPOINT ["/docker_config/startup.sh"]
