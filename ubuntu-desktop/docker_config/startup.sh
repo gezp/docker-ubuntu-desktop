@@ -1,7 +1,7 @@
 #!/bin/sh
 
 ## initialize environment
-if [ ! -f "/docker_config/init" ]; then
+if [ ! -f "/docker_config/init_flag" ]; then
     # create user
     groupadd -g $GID $USER
     useradd --create-home --no-log-init -u $UID -g $GID $USER
@@ -12,10 +12,12 @@ if [ ! -f "/docker_config/init" ]; then
     mkdir /home/$USER/.config
     cp -r /docker_config/xfce4 /home/$USER/.config
     chown -R $UID:$GID /home/$USER/.config
-    # config user
-    su $USER -s /bin/bash /docker_config/config_user.sh
+    # vgl for user
+    echo "export PATH=/usr/NX/scripts/vgl:\$PATH" >> /home/$USER/.bashrc
+    # custom init
+    bash /docker_config/init.sh
     # update init flag
-    echo  "ok" > /docker_config/init
+    echo  "ok" > /docker_config/init_flag
 fi
 
 /usr/sbin/sshd
