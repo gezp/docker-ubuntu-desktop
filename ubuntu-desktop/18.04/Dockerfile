@@ -35,7 +35,8 @@ RUN apt-get update && \
     rm -rf /var/lib/apt/lists/*
 
 ENV DBUS_SYSTEM_BUS_ADDRESS=unix:path=/host/run/dbus/system_bus_socket
-RUN apt-get install -y pulseaudio && mkdir -p /var/run/dbus
+RUN apt-get update && apt-get install -y pulseaudio && mkdir -p /var/run/dbus &&\
+    rm -rf /var/lib/apt/lists/*
 
 ## Install nomachine
 RUN curl -fSL "https://www.nomachine.com/free/linux/64/deb" -o nomachine.deb &&\
