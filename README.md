@@ -9,7 +9,7 @@ This project provides a docker image which supports ubuntu desktop (xfce4, light
 Hardware GPU accelerated rendering for 3D GUI application is supported in container, but it's based on the host's rendering capability, so 
 the host must be a `ubuntu desktop system` with `monitor`  (you can use `HDMI dummy plug` instead of monitor), Nvidia GPU and driver need also be installed on the host.
 
-> Tip: if you needn't hardware GPU accelerated rendering, you can also run this container based on this image on headless host (like Cloud Server),
+> Tip: if you needn't hardware GPU accelerated rendering, you can also run this container based on this image on headless host without GPU (like Cloud Server),
 remote desktop and 3d GUI based on software rendering (high cpu usgae) is also supported.
 
 ## Features
