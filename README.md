@@ -4,14 +4,18 @@
 
 [简体中文](README_cn.md)
 
-This project provides a docker image which supports ubuntu desktop (xfce4), so that you can run virtual ubuntu desktop in container on the headless host, you can use ssh or remote desktop access which like a virtual machine.
+This project provides a docker image which supports ubuntu desktop (xfce4, lightweight, fast and low on system resources), so that you can run virtual ubuntu desktop in container, you can access it by using ssh or remote desktop just like a virtual machine.
 
-> Tip: you can run this container based on this image on headless host (like Cloud Server), but if you want to run 3D GUI based on HW GPU accelerated rendering, you need run this container on Ubuntu Desktop host with monitor (you can use `HDMI dummy plug` instead of monitor).
+Hardware GPU accelerated rendering for 3D GUI application is supported in container, but it's based on the host's rendering capability, so 
+the host must be a `ubuntu desktop system` with `monitor`  (you can use `HDMI dummy plug` instead of monitor), Nvidia GPU and driver need also be installed on the host.
+
+> Tip: if you needn't hardware GPU accelerated rendering, you can also run this container based on this image on headless host (like Cloud Server),
+remote desktop and 3d GUI based on software rendering (high cpu usgae) is also supported.
 
 ## Features
 
 * Remote access by ssh and nomachine(remote desktop).
-* OpenGL rendering based on software rasterizer (LLVMpipe).
+* OpenGL rendering based on software rasterizer (LLVMpipe) with high CPU usgae.
 * OpenGL rendering based on Nvidia GPU hardware-accelerated (requires Nvidia GPU support, and the host must be a desktop system).
 * Pre-installed chrome browser.
 * pre-installed CUDA toolkit, which is useful for deep learning (such as pytorch, tensorflow).
@@ -39,14 +43,19 @@ Supported Tags (you can find here [Github Tag](https://github.com/gezp/docker-ub
 
 ## Preliminary
 
-* install nvidia driver
-* install docker and nvidia-container-runtime.
+* install `nvidia driver`
+* install `docker` and `nvidia-container-runtime`.
 
 xhost
 ```bash
-# enable all users to access X11 service on host machine (run once) and $DISPLAY must be 0
+# enable all users to access X11 service on host machine (run once).
 xhost +
+# check DISPLAY setting, $DISPLAY must be 0
 echo $DISPLAY
+# check host rendering setting, the host must use nvidia GPU for opengl
+sudo apt install mesa-utils
+# it's output contain must `NVIDIA Product Series`.
+glxinfo | grep -i "opengl"
 ```
 
 > Tip: the newer cuda version isn't supported if you use older nvidia driver.
