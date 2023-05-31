@@ -33,13 +33,14 @@ xfce4 desktop:
 ## Docker Image Tags:
 
 Supported Tags (you can find here [Github Tag](https://github.com/gezp/docker-ubuntu-desktop/tags))：
-* Tags of base image (based on `nvidia/opengl`)：`18.04`, `20.04`
-* Tags of image with cuda(based on `nvidia/cudagl`)：`18.04-cu10.1`, `20.04-cu11.0` etc. 
-* naming rules is `{UBUNTU VERSION}-cu{CUDA VERSION}`, you can find supported `{CUDA VERSION}` in [Docker Image <nvidia/cudagl>](https://gitlab.com/nvidia/container-images/cudagl/-/blob/DOCS/supported-tags.md)
+* Tags of base image：`18.04`, `20.04`, `22.04`
+* Tags of image with cuda (based on `nvidia/cuda`)：`18.04-cu10.1`, `20.04-cu11.0` etc. 
+* naming rules is `{UBUNTU VERSION}-cu{CUDA VERSION}`, you can find supported `{CUDA VERSION}` in [Docker Image <nvidia/cuda>](https://gitlab.com/nvidia/container-images/cuda/-/blob/master/doc/supported-tags.md)
 
 > Supported {CUDA VERSION}:
-> * Ubuntu18.04：`10.1`, `10.2`, `11.0`, `11.1`, `11.2.0`, `11.3.0`, `11.4.0`
-> * Ubuntu20.04：`11.0`, `11.1`, `11.2.0`, `11.3.0`, `11.4.0`
+> * Ubuntu18.04：`10.1`, `10.2`, `11.0`, `11.1`, `11.2.0`
+> * Ubuntu20.04：`11.0.3`, `11.1.0`, `11.2.0`, `11.3.0`, `11.4.0`
+> * Ubuntu22.04：`11.7.0`, `11.8.0`, `12.0.0`, `12.1.0`
 
 ## Preliminary
 
@@ -50,7 +51,7 @@ xhost
 ```bash
 # enable all users to access X11 service on host machine (run once).
 xhost +
-# check DISPLAY setting, $DISPLAY must be 0
+# check DISPLAY setting
 echo $DISPLAY
 # check host rendering setting, the host must use nvidia GPU for opengl
 sudo apt install mesa-utils
@@ -64,9 +65,9 @@ glxinfo | grep -i "opengl"
 
 pull docker image
 ```bash
-docker pull gezp/ubuntu-desktop:20.04-cu11.0
+docker pull gezp/ubuntu-desktop:20.04-cu11.0.3
 # use aliyuncs mirror for chinese users (国内用户可使用阿里云仓库)
-# docker pull registry.cn-hongkong.aliyuncs.com/gezp/ubuntu-desktop:20.04-cu11.0
+# docker pull registry.cn-hongkong.aliyuncs.com/gezp/ubuntu-desktop:20.04-cu11.0.3
 ```
 
 create conatiner
@@ -77,10 +78,9 @@ docker run -d --restart=on-failure \
     --cap-add=SYS_PTRACE \
     --gpus all  \
     --shm-size=1024m \
-    -v /tmp/.X11-unix:/tmp/.X11-unix:rw \
     -p 10022:22  \
     -p 14000:4000  \
-    gezp/ubuntu-desktop:20.04-cu11.0
+    gezp/ubuntu-desktop:20.04-cu11.0.3
 ```
 * the default username and password are both ubuntu.
 
@@ -110,7 +110,6 @@ docker run -d --restart=on-failure \
     -e GID=1001 \
     -e UID=1001 \
     --shm-size=1024m \
-    -v /tmp/.X11-unix:/tmp/.X11-unix:rw \
     -p 10022:22  \
     -p 14000:4000  \
     gezp/ubuntu-desktop:20.04-cu11.0
@@ -125,8 +124,6 @@ vglrun glxinfo | grep -i "opengl"
 ```
 
 * hardware-accelerated is enable successfully if it's output contain `NVIDIA Product Series`.
-
-> environment variable `$DISPLAY` on host must be `:0` .
 
 you need add prefix  `vglrun`  for command when you run 3D software, for example `vglrun gazebo`.
 
@@ -146,8 +143,8 @@ for example
 ```bash
 git clone https://github.com/gezp/docker-ubuntu-desktop.git
 cd docker-ubuntu-desktop
-# for 20.04 (based on nvidia/opengl)
+# for 20.04
 ./docker_build.sh 20.04
-# for 20.04-cu11.0  (based on nvidia/cudagl)
+# for 20.04-cu11.0  (based on nvidia/cuda)
 ./docker_build.sh 20.04-cu11.0
 ```
