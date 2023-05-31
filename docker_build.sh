@@ -15,7 +15,7 @@ fi
 
 # pull base image (cudagl)
 if [[("${CUDA_VERSION}" == "")]];then
-    BASE_IMAGE=nvidia/opengl:1.2-glvnd-devel-ubuntu${UBUNTU_VERSION}
+    BASE_IMAGE=ubuntu:${UBUNTU_VERSION}
 else
     BASE_IMAGE=nvidia/cudagl:${CUDA_VERSION}-devel-ubuntu${UBUNTU_VERSION}
 fi
