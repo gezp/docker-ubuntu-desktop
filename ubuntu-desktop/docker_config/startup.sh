@@ -15,7 +15,6 @@ if [ ! -f "/docker_config/init_flag" ]; then
     # vgl for user
     echo "export PATH=/usr/NX/scripts/vgl:\$PATH" >> /home/$USER/.bashrc
     echo "export VGL_DISPLAY=egl" >> /home/$USER/.bashrc
-    echo "alias vglrun=\"export __GLX_VENDOR_LIBRARY_NAME=nvidia && export __NV_PRIME_RENDER_OFFLOAD=1 && vglrun\"" >> /home/$USER/.bashrc
     # custom init
     bash /docker_config/init.sh
     # update init flag
