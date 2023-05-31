@@ -47,18 +47,6 @@ Supported Tags (you can find here [Github Tag](https://github.com/gezp/docker-ub
 * install `nvidia driver`
 * install `docker` and `nvidia-container-runtime`.
 
-xhost
-```bash
-# enable all users to access X11 service on host machine (run once).
-xhost +
-# check DISPLAY setting
-echo $DISPLAY
-# check host rendering setting, the host must use nvidia GPU for opengl
-sudo apt install mesa-utils
-# it's output contain must `NVIDIA Product Series`.
-glxinfo | grep -i "opengl"
-```
-
 > Tip: the newer cuda version isn't supported if you use older nvidia driver.
 
 ## Quickly Start
