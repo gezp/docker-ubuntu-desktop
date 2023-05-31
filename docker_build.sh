@@ -13,11 +13,11 @@ if [[(${UBUNTU_VERSION} != "18.04") && (${UBUNTU_VERSION} != "20.04") && (${UBUN
     exit -1
 fi
 
-# pull base image (cudagl)
+# pull base image (ubuntu/cuda)
 if [[("${CUDA_VERSION}" == "")]];then
     BASE_IMAGE=ubuntu:${UBUNTU_VERSION}
 else
-    BASE_IMAGE=nvidia/cudagl:${CUDA_VERSION}-devel-ubuntu${UBUNTU_VERSION}
+    BASE_IMAGE=nvidia/cuda:${CUDA_VERSION}-devel-ubuntu${UBUNTU_VERSION}
 fi
 echo ${BASE_IMAGE}
 
