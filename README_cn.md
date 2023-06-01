@@ -30,7 +30,7 @@ xfce4（远程）桌面示意图
 * 支持CUDA的镜像(基于`nvidia/cuda`基础镜像)的TAG：`18.04-cu10.1`, `20.04-cu11.0.3`等, 命名规则为`{UBUNTU VERSION}-cu{CUDA VERSION}`, 其中cuda的版本号支持列表见[Docker Image <nvidia/cuda>](https://gitlab.com/nvidia/container-images/cuda/-/blob/master/doc/supported-tags.md)
 
 >目前支持CUDA版本号：
-> * Ubuntu18.04：`10.1`, `10.2`, `11.0`, `11.1`, `11.2.0`
+> * Ubuntu18.04：`10.1`, `10.2`, `11.0.3`, `11.1.1`, `11.2.0`
 > * Ubuntu20.04：`11.0.3`, `11.1.0`, `11.2.0`, `11.3.0`, `11.4.0`, `11.5.0`, `11.6.0`, `11.7.0`
 > * Ubuntu22.04：`11.7.0`, `11.8.0`, `12.0.0`, `12.1.0`
 
