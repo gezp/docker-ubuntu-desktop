@@ -19,8 +19,7 @@ ENV NVIDIA_DRIVER_CAPABILITIES=all
 ENV VGL_DISPLAY=egl
 
 # Install for OpenGL
-RUN dpkg --add-architecture i386 && \
-    apt-get update && \
+RUN apt-get update && \
     apt-get install -y --no-install-recommends \
         libxau6 libxdmcp6 libxcb1 libxext6 libx11-6 \
         libglvnd0 libgl1 libglx0 libegl1 libgles2 \
@@ -35,7 +34,7 @@ RUN dpkg --add-architecture i386 && \
     }" > /usr/share/glvnd/egl_vendor.d/10_nvidia.json
 
 ## Install some common tools 
-RUN apt-get update  && \
+RUN apt-get update && \
     apt-get install -y sudo vim gedit locales wget curl git gnupg2 lsb-release net-tools iputils-ping mesa-utils \
                     openssh-server bash-completion software-properties-common python3-pip && \
     update-alternatives --install /usr/bin/python python /usr/bin/python3 2 && \

@@ -19,8 +19,7 @@ ENV NVIDIA_DRIVER_CAPABILITIES=all
 ENV VGL_DISPLAY=egl
 
 # Install for OpenGL
-RUN dpkg --add-architecture i386 && \
-    apt-get update && \
+RUN apt-get update && \
     apt-get install -y --no-install-recommends \
         libxau6 libxdmcp6 libxcb1 libxext6 libx11-6 \
         libglvnd0 libgl1 libglx0 libegl1 libgles2 \
