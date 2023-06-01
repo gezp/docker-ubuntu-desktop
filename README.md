@@ -1,3 +1,5 @@
+
+
 # Ubuntu Desktop based on Docker
 
 [![DockerHub](https://img.shields.io/badge/DockerHub-brightgreen.svg?style=popout&logo=Docker)](https://hub.docker.com/r/gezp/ubuntu-desktop)
@@ -6,19 +8,17 @@
 
 This project provides a docker image which supports ubuntu desktop (xfce4, lightweight, fast and low on system resources), so that you can run virtual ubuntu desktop in container, you can access it by using ssh or remote desktop just like a virtual machine.
 
-Hardware GPU accelerated rendering for 3D GUI application is supported in container, but it's based on the host's rendering capability, so 
-the host must be a `ubuntu desktop system` with `monitor`  (you can use `HDMI dummy plug` instead of monitor), Nvidia GPU and driver need also be installed on the host.
+Hardware GPU accelerated rendering for 3D GUI application is supported in container, it's based on EGL by using [VirtualGL](https://github.com/VirtualGL/virtualgl), and doesn't require `/tmp/.X11-unix`. if you needn't hardware GPU accelerated rendering, you can also run this container on headless host without GPU (for exmaple, Cloud Server), remote desktop and 3d GUI based on software rendering (high cpu usgae) is also supported.
 
-> Tip: if you needn't hardware GPU accelerated rendering, you can also run this container based on this image on headless host without GPU (like Cloud Server),
-remote desktop and 3d GUI based on software rendering (high cpu usgae) is also supported.
+> Tip: Hardware GPU accelerated rendering is only verified on `ubuntu desktop system` host with `monitor`.  i'm not sure if hardware GPU accelerated rendering can work for  headless `ubuntu server system` host.
 
 ## Features
 
-* Remote access by ssh and nomachine(remote desktop).
-* OpenGL rendering based on software rasterizer (LLVMpipe) with high CPU usgae.
-* OpenGL rendering based on Nvidia GPU hardware-accelerated (requires Nvidia GPU support, and the host must be a desktop system).
+* Remote access by ssh and nomachine (remote desktop).
+* OpenGL rendering based on software rasterizer (LLVMpipe) with high CPU usgae. (default)
+* OpenGL rendering based on Nvidia GPU hardware-accelerated.
 * Pre-installed chrome browser.
-* pre-installed CUDA toolkit, which is useful for deep learning (such as pytorch, tensorflow).
+* pre-installed CUDA toolkit, which is useful for deep learning, such as pytorch, tensorflow.
 
 > Tip:  it's useful to share public computer resources in labs, you can run a independent computer environment like a virtual machine, but more lightweight, and easier to deploy.
 >
@@ -34,7 +34,7 @@ xfce4 desktop:
 
 Supported Tags (you can find here [Github Tag](https://github.com/gezp/docker-ubuntu-desktop/tags))：
 * Tags of base image：`18.04`, `20.04`, `22.04`
-* Tags of image with cuda (based on `nvidia/cuda`)：`18.04-cu10.1`, `20.04-cu11.0` etc. 
+* Tags of image with cuda (based on `nvidia/cuda`)：`18.04-cu10.1`, `20.04-cu11.0.3` etc. 
 * naming rules is `{UBUNTU VERSION}-cu{CUDA VERSION}`, you can find supported `{CUDA VERSION}` in [Docker Image <nvidia/cuda>](https://gitlab.com/nvidia/container-images/cuda/-/blob/master/doc/supported-tags.md)
 
 > Supported {CUDA VERSION}:

@@ -4,14 +4,12 @@
 
 该项目提供了一个docker镜像，可以将虚拟桌面系统（xfce4桌面）运行于ubuntu headless主机上的docker容器中，并且可以使用ssh或远程桌面访问，你几乎可以把容器当作虚拟机使用。
 
-> 注意，如果需要使用GPU硬件加速的OpenGL渲染，这里的宿主机需要安装Ubuntu Desktop系统（自带桌面系统，不支持宿主机为Ubuntu Server系统），可使用`HDMI欺骗器`代替显示器。
-> 可以运行在云服务器（如阿里云，腾讯云等）上，但是不支持GPU 3D加速。
 
 ## 1.特点
 
 * 支持ssh远程访问，支持xfce4远程桌面访问。
 * 支持软件模拟的OpenGL渲染，可运行3D渲染软件 (如gazebo, blender)。
-* 支持GPU硬件加速的OpenGL渲染（需要Nvidia GPU支持，宿主机必须是桌面系统）。
+* 支持GPU硬件加速的OpenGL渲染（需要Nvidia GPU支持）。
 * 自带Chrome浏览器。
 * 自带CUDA, 支持深度学习训练 (如pytorch, tensorflow)。
 
@@ -25,19 +23,16 @@ xfce4（远程）桌面示意图
 
 ![](img/desktop.png)
 
->实现原理:
->
-> 采用`nvidia/opengl`为基础镜像 + xfce4桌面软件 + nomachine远程桌面软件（支持VirtualGL），从而实现3D GUI程序运行，替换基础镜像为`nvidia/cudagl`，从而实现支持cuda的能力。
-
 镜像TAG:
 
 支持的镜像TAG对应[Github Tag](https://github.com/gezp/docker-ubuntu-desktop/tags)，具有两类：
-* 基本镜像(基于`nvidia/opengl`基础镜像)的TAG：`18.04`, `20.04`
-* 支持CUDA的镜像(基于`nvidia/cudagl`基础镜像)的TAG：`18.04-cu10.1`, `20.04-cu11.0`等, 命名规则为`{UBUNTU VERSION}-cu{CUDA VERSION}`, 其中cuda的版本号支持列表见[Docker Image <nvidia/cudagl>](https://gitlab.com/nvidia/container-images/cudagl/-/blob/DOCS/supported-tags.md)
+* 基本镜像的TAG：`18.04`, `20.04`, `22.04`
+* 支持CUDA的镜像(基于`nvidia/cuda`基础镜像)的TAG：`18.04-cu10.1`, `20.04-cu11.0.3`等, 命名规则为`{UBUNTU VERSION}-cu{CUDA VERSION}`, 其中cuda的版本号支持列表见[Docker Image <nvidia/cuda>](https://gitlab.com/nvidia/container-images/cuda/-/blob/master/doc/supported-tags.md)
 
 >目前支持CUDA版本号：
-> * Ubuntu18.04支持的CUDA版本号：`10.1`, `10.2`, `11.0`, `11.1`, `11.2.0`, `11.3.0`, `11.4.0`
-> * Ubuntu20.04支持的CUDA版本号：`11.0`, `11.1`, `11.2.0`, `11.3.0`, `11.4.0`
+> * Ubuntu18.04：`10.1`, `10.2`, `11.0`, `11.1`, `11.2.0`
+> * Ubuntu20.04：`11.0.3`, `11.1.0`, `11.2.0`, `11.3.0`, `11.4.0`
+> * Ubuntu22.04：`11.7.0`, `11.8.0`, `12.0.0`, `12.1.0`
 
 ## 2.基本使用
 
@@ -52,25 +47,22 @@ xfce4（远程）桌面示意图
 
 docker pull: 拉取镜像
 ```bash
-docker pull gezp/ubuntu-desktop:20.04-cu11.0
+docker pull gezp/ubuntu-desktop:20.04-cu11.0.3
 # 国内用户可使用阿里云仓库
-# docker pull registry.cn-hongkong.aliyuncs.com/gezp/ubuntu-desktop:20.04-cu11.0
+# docker pull registry.cn-hongkong.aliyuncs.com/gezp/ubuntu-desktop:20.04-cu11.0.3
 ```
 
 docker run: 创建并运行容器
 ```bash
-# 宿主机需要运行xhost允许所有用户访问X11服务（运行一次即可）,宿主机环境变量$DISPLAY必须为0
-xhost +
 # 支持ssh和 3D GUI
 docker run -d --restart=on-failure \
     --name my_workspace \
     --cap-add=SYS_PTRACE \
     --gpus all  \
     --shm-size=1024m \
-    -v /tmp/.X11-unix:/tmp/.X11-unix:rw \
     -p 10022:22  \
     -p 14000:4000  \
-    gezp/ubuntu-desktop:20.04-cu11.0
+    gezp/ubuntu-desktop:20.04-cu11.0.3
 ```
 * 默认用户名和密码均为ubuntu
 
@@ -101,10 +93,9 @@ docker run -d --restart=on-failure \
     -e GID=1001 \
     -e UID=1001 \
     --shm-size=1024m \
-    -v /tmp/.X11-unix:/tmp/.X11-unix:rw \
     -p 10022:22  \
     -p 14000:4000  \
-    gezp/ubuntu-desktop:20.04-cu11.0
+    gezp/ubuntu-desktop:20.04-cu11.0.3
 ```
 
 ### 3.2 3D硬件渲染加速
@@ -116,8 +107,6 @@ vglrun glxinfo | grep -i "opengl"
 ```
 
 * 显示包含NVIDIA GPU型号，则表示正确
-
-> host主机上的DISPLAY必须为`:0` .
 
 运行3D软件时，需要加上`vglrun`命令前缀，如`vglrun gazebo`。
 
