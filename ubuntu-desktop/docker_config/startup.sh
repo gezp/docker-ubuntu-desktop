@@ -14,7 +14,7 @@ if [ ! -f "/docker_config/init_flag" ]; then
     chown -R $UID:$GID /home/$USER/.config
     # vgl for user
     echo "export PATH=/usr/NX/scripts/vgl:\$PATH" >> /home/$USER/.bashrc
-    echo "export VGL_DISPLAY=egl" >> /home/$USER/.bashrc
+    echo "export VGL_DISPLAY=$VGL_DISPLAY" >> /home/$USER/.bashrc
     # custom init
     bash /docker_config/init.sh
     # update init flag

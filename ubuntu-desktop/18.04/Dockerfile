@@ -16,6 +16,7 @@ ENV USER=ubuntu \
 
 ENV NVIDIA_VISIBLE_DEVICES=all
 ENV NVIDIA_DRIVER_CAPABILITIES=all
+ENV VGL_DISPLAY=egl
 
 # Install for OpenGL
 RUN dpkg --add-architecture i386 && \
