@@ -9,10 +9,7 @@ ENV USER=ubuntu \
     PASSWORD=ubuntu \
     UID=1000 \
     GID=1000 \
-    TZ=Asia/Shanghai \
-    LANG=zh_CN.UTF-8 \
-    LC_ALL=zh_CN.UTF-8 \
-    LANGUAGE=zh_CN.UTF-8
+    TZ=Asia/Shanghai
 
 ENV NVIDIA_VISIBLE_DEVICES=all
 ENV NVIDIA_DRIVER_CAPABILITIES=all
@@ -39,7 +36,6 @@ RUN apt-get update && \
                     openssh-server bash-completion software-properties-common python3-pip && \
     update-alternatives --install /usr/bin/python python /usr/bin/python3 2 && \
     pip3 install --upgrade pip &&\
-    locale-gen zh_CN.UTF-8 &&\
     rm -rf /var/lib/apt/lists/* 
 
 ## Install desktop and chrome
