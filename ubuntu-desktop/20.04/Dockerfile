@@ -8,8 +8,7 @@ ENV DEBIAN_FRONTEND=noninteractive
 ENV USER=ubuntu \
     PASSWORD=ubuntu \
     UID=1000 \
-    GID=1000 \
-    TZ=Asia/Shanghai
+    GID=1000
 
 ENV NVIDIA_VISIBLE_DEVICES=all
 ENV NVIDIA_DRIVER_CAPABILITIES=all
