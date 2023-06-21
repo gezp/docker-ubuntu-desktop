@@ -73,4 +73,4 @@ COPY docker_config /docker_config
 
 EXPOSE 22 4000
 
-ENTRYPOINT ["/docker_config/startup.sh"]
+ENTRYPOINT ["/docker_config/entrypoint.sh"]
