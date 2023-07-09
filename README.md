@@ -115,6 +115,15 @@ vglrun glxinfo | grep -i "opengl"
 
 you need add prefix  `vglrun`  for command when you run 3D software, for example `vglrun gazebo`.
 
+#### Test vulkan
+
+
+```bash
+vulkaninfo | grep -i "GPU"
+```
+
+* it's output should contain `NVIDIA Product Series` if vulkan works well.
+
 #### CUDA
 
 add shell in `.bashrc` to update environment variable
