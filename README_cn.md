@@ -27,7 +27,7 @@ xfce4（远程）桌面示意图
 
 支持的镜像TAG对应[Github Tag](https://github.com/gezp/docker-ubuntu-desktop/tags)，具有两类：
 * 基本镜像的TAG：`18.04`, `20.04`, `22.04`
-* 支持CUDA的镜像(基于`nvidia/cuda`基础镜像)的TAG：`18.04-cu10.1`, `20.04-cu11.0.3`等, 命名规则为`{UBUNTU VERSION}-cu{CUDA VERSION}`, 其中cuda的版本号支持列表见[Docker Image <nvidia/cuda>](https://gitlab.com/nvidia/container-images/cuda/-/blob/master/doc/supported-tags.md)
+* 支持CUDA的镜像(基于`nvidia/cuda`基础镜像)的TAG：`18.04-cu11.0.3`, `20.04-cu11.0.3`等, 命名规则为`{UBUNTU VERSION}-cu{CUDA VERSION}`, 其中cuda的版本号支持列表见[Docker Image <nvidia/cuda>](https://gitlab.com/nvidia/container-images/cuda/-/blob/master/doc/supported-tags.md)
 
 >目前支持CUDA版本号：
 > * Ubuntu18.04：`11.0.3`, `11.1.1`, `11.2.2`

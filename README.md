@@ -34,7 +34,7 @@ xfce4 desktop:
 
 Supported Tags (you can find here [Github Tag](https://github.com/gezp/docker-ubuntu-desktop/tags))：
 * Tags of base image：`18.04`, `20.04`, `22.04`
-* Tags of image with cuda (based on `nvidia/cuda`)：`18.04-cu10.1`, `20.04-cu11.0.3` etc. 
+* Tags of image with cuda (based on `nvidia/cuda`)：`18.04-cu11.0.3`, `20.04-cu11.0.3` etc. 
 * naming rules is `{UBUNTU VERSION}-cu{CUDA VERSION}`, you can find supported `{CUDA VERSION}` in [Docker Image <nvidia/cuda>](https://gitlab.com/nvidia/container-images/cuda/-/blob/master/doc/supported-tags.md)
 
 > Supported {CUDA VERSION}:
@@ -100,7 +100,7 @@ docker run -d --restart=on-failure \
     --shm-size=1024m \
     -p 10022:22  \
     -p 14000:4000  \
-    gezp/ubuntu-desktop:20.04-cu11.0
+    gezp/ubuntu-desktop:20.04-cu11.0.3
 ```
 
 #### Enable GPU hardware-accelerated rendering
