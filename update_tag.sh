@@ -1,9 +1,9 @@
 #!/bin/bash
 
 ubuntu_tags=(18.04 20.04 22.04)
-ubuntu18_cuda_tags=(10.1 10.2 11.0.3 11.1.1 11.2.0)
-ubuntu20_cuda_tags=(11.0.3 11.1.1 11.2.0 11.3.0 11.4.0 11.5.0 11.6.0 11.7.0)
-ubuntu22_cuda_tags=(11.7.0 11.8.0 12.0.0 12.1.0)
+ubuntu18_cuda_tags=(11.0.3 11.1.1 11.2.2)
+ubuntu20_cuda_tags=(11.0.3 11.1.1 11.2.2 11.3.1 11.4.0 11.5.2 11.6.2 11.7.1)
+ubuntu22_cuda_tags=(11.7.1 11.8.0 12.0.1 12.1.1)
 
 for value in ${ubuntu_tags[@]}
 do
