@@ -14,7 +14,7 @@ ENV NVIDIA_VISIBLE_DEVICES=all
 ENV NVIDIA_DRIVER_CAPABILITIES=all
 ENV VGL_DISPLAY=egl
 
-# Install for OpenGL
+## Install and Configure OpenGL
 RUN apt-get update && \
     apt-get install -y --no-install-recommends \
         libxau6 libxdmcp6 libxcb1 libxext6 libx11-6 \
@@ -28,6 +28,20 @@ RUN apt-get update && \
         \"library_path\": \"libEGL_nvidia.so.0\"\n\
     }\n\
     }" > /usr/share/glvnd/egl_vendor.d/10_nvidia.json
+
+## Install and Configure Vulkan
+RUN apt-get update && \
+    apt-get install -y --no-install-recommends vulkan-utils && \
+    rm -rf /var/lib/apt/lists/* && \
+    VULKAN_API_VERSION=$(dpkg -s libvulkan1 | grep -oP 'Version: [0-9|\.]+' | grep -oP '[0-9]+(\.[0-9]+)(\.[0-9]+)') && \
+    mkdir -p /etc/vulkan/icd.d/ && \
+    echo "{\n\
+    \"file_format_version\" : \"1.0.0\",\n\
+    \"ICD\": {\n\
+        \"library_path\": \"libGLX_nvidia.so.0\",\n\
+        \"api_version\" : \"${VULKAN_API_VERSION}\"\n\
+    }\n\
+    }" > /etc/vulkan/icd.d/nvidia_icd.json
 
 ## Install some common tools 
 RUN apt-get update  && \

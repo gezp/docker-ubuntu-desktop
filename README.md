@@ -136,3 +136,8 @@ cd docker-ubuntu-desktop
 # for 20.04-cu11.0  (based on nvidia/cuda)
 ./docker_build.sh 20.04-cu11.0
 ```
+
+## Acknowledgement
+
+thanks to the authors of following related projects:
+* https://github.com/selkies-project/docker-nvidia-egl-desktop
