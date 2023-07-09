@@ -117,9 +117,11 @@ you need add prefix  `vglrun`  for command when you run 3D software, for example
 
 #### Test vulkan
 
-
 ```bash
+# vulkan info
 vulkaninfo | grep -i "GPU"
+# vulkan demo
+vkcube
 ```
 
 * it's output should contain `NVIDIA Product Series` if vulkan works well.
