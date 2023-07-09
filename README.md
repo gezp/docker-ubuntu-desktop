@@ -39,7 +39,7 @@ Supported Tags (you can find here [Github Tag](https://github.com/gezp/docker-ub
 
 > Supported {CUDA VERSION}:
 > * Ubuntu18.04：`11.0.3`, `11.1.1`, `11.2.2`
-> * Ubuntu20.04：`11.0.3`, `11.1.0`, `11.2.2`, `11.3.1`, `11.4.0`, `11.5.2`, `11.6.2`, `11.7.1`
+> * Ubuntu20.04：`11.0.3`, `11.1.0`, `11.2.2`, `11.3.1`, `11.4.3`, `11.5.2`, `11.6.2`, `11.7.1`
 > * Ubuntu22.04：`11.7.1`, `11.8.0`, `12.0.1`, `12.1.1`
 
 ## Preliminary
