@@ -56,7 +56,9 @@ RUN apt-get update && \
     # add apt repo for firefox
     add-apt-repository -y ppa:mozillateam/ppa &&\
     mkdir -p /etc/apt/preferences.d &&\
-    echo -e "Package: firefox*\nPin: release o=LP-PPA-mozillateam\nPin-Priority: 1001" > /etc/apt/preferences.d/mozilla-firefox  &&\
+    echo "Package: firefox*\n\
+    Pin: release o=LP-PPA-mozillateam\n\
+    Pin-Priority: 1001" > /etc/apt/preferences.d/mozilla-firefox &&\
     # install xfce4 and firefox
     apt-get install -y xfce4 terminator fonts-wqy-zenhei firefox &&\
     # set firefox as default web browser
