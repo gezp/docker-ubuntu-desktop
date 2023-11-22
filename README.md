@@ -17,7 +17,7 @@ Hardware GPU accelerated rendering for 3D GUI application is supported in contai
 * Remote access by ssh and nomachine (remote desktop).
 * OpenGL rendering based on software rasterizer (LLVMpipe) with high CPU usgae. (default)
 * OpenGL rendering based on Nvidia GPU hardware-accelerated.
-* Pre-installed chrome browser.
+* Pre-installed Firefox web browser.
 * pre-installed CUDA toolkit, which is useful for deep learning, such as pytorch, tensorflow.
 
 > Tip:  it's useful to share public computer resources in labs, you can run a independent computer environment like a virtual machine, but more lightweight, and easier to deploy.
@@ -105,7 +105,7 @@ docker run -d --restart=on-failure \
 
 #### Enable GPU hardware-accelerated rendering
 
-test VirtualGL
+#### Test VirtualGL
 
 ```bash
 vglrun glxinfo | grep -i "opengl"

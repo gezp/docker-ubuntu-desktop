@@ -10,7 +10,7 @@
 * 支持ssh远程访问，支持xfce4远程桌面访问。
 * 支持软件模拟的OpenGL渲染，可运行3D渲染软件 (如gazebo, blender)。
 * 支持GPU硬件加速的OpenGL渲染（需要Nvidia GPU支持）。
-* 自带Chrome浏览器。
+* 自带Firefox浏览器。
 * 自带CUDA, 支持深度学习训练 (如pytorch, tensorflow)。
 
 > 它可以当作ubuntu虚拟开发环境使用，适合教研室公共主机共享使用。相比虚拟机，容器是轻量级的（虽然把容器当作虚拟使用不符合容器的哲学：一个容器运行一个APP），其优点如下：
