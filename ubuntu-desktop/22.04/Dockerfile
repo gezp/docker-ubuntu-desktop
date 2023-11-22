@@ -51,12 +51,16 @@ RUN apt-get update  && \
     pip3 install --upgrade pip &&\
     rm -rf /var/lib/apt/lists/* 
 
-## Install desktop and chrome
+## Install desktop
 RUN apt-get update && \
-    apt-get install -y xfce4 terminator fonts-wqy-zenhei &&\
-    wget -q https://dl.google.com/linux/direct/google-chrome-stable_current_amd64.deb &&\
-    apt-get install -yf ./google-chrome-stable_current_amd64.deb &&\
-    rm google-chrome-stable_current_amd64.deb &&\
+    # add apt repo for firefox
+    add-apt-repository -y ppa:mozillateam/ppa &&\
+    mkdir -p /etc/apt/preferences.d &&\
+    echo -e "Package: firefox*\nPin: release o=LP-PPA-mozillateam\nPin-Priority: 1001" > /etc/apt/preferences.d/mozilla-firefox  &&\
+    # install xfce4 and firefox
+    apt-get install -y xfce4 terminator fonts-wqy-zenhei firefox &&\
+    # set firefox as default web browser
+    update-alternatives --set x-www-browser /usr/bin/firefox &&\
     rm -rf /var/lib/apt/lists/*
 
 ENV DBUS_SYSTEM_BUS_ADDRESS=unix:path=/host/run/dbus/system_bus_socket
@@ -77,8 +81,6 @@ RUN mkdir /var/run/sshd &&  \
     sed -i 's/#*PermitRootLogin prohibit-password/PermitRootLogin yes/g' /etc/ssh/sshd_config && \
     sed -i 's@session\s*required\s*pam_loginuid.so@session optional pam_loginuid.so@g' /etc/pam.d/sshd
 
-## Copy config
-COPY docker_config /docker_config
 
 EXPOSE 22 4000
 

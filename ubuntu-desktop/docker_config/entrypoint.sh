@@ -7,10 +7,6 @@ if [ ! -f "/docker_config/init_flag" ]; then
     usermod -aG sudo $USER
     echo "$USER:$PASSWORD" | chpasswd
     chsh -s /bin/bash $USER
-    # copy xfce4 config
-    mkdir /home/$USER/.config
-    cp -r /docker_config/xfce4 /home/$USER/.config
-    chown -R $UID:$GID /home/$USER/.config
     # vgl for user
     echo "export PATH=/usr/NX/scripts/vgl:\$PATH" >> /home/$USER/.bashrc
     echo "export VGL_DISPLAY=$VGL_DISPLAY" >> /home/$USER/.bashrc
