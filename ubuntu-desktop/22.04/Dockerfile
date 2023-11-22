@@ -75,7 +75,11 @@ RUN curl -fSL "https://www.nomachine.com/free/linux/64/deb" -o nomachine.deb &&\
     groupmod -g 2000 nx &&\
     rm nomachine.deb &&\
     sed -i "s|#EnableClipboard both|EnableClipboard both |g" /usr/NX/etc/server.cfg &&\
-    sed -i '/DefaultDesktopCommand/c\DefaultDesktopCommand "/usr/bin/startxfce4 && xset s off"' /usr/NX/etc/node.cfg
+    sed -i '/DefaultDesktopCommand/c\DefaultDesktopCommand "/usr/bin/startxfce4 && xset s off"' /usr/NX/etc/node.cfg &&\
+    # config pulseaudio
+    cp -R /etc/pulse/* /usr/NX/share/audio/ &&\
+    sed -i '/AudioInterface pipewire/c\AudioInterface pulseaudio' /usr/NX/etc/node.cfg  &&\
+    sed -i '/CommandStartPulseAudio/c\CommandStartPulseAudio "/usr/bin/pulseaudio --high-priority=no"' /usr/NX/etc/node.cfg
 
 ## Configure ssh 
 RUN mkdir /var/run/sshd &&  \
