@@ -54,6 +54,7 @@ RUN apt-get update  && \
 ## Install desktop and chrome
 RUN apt-get update && \
     apt-get install -y xfce4 terminator fonts-wqy-zenhei &&\
+    # disable terminator dbus
     sed -i "s/python/python2/" /usr/share/terminator/terminator &&\
     sed -i "s/if OPTIONS.nodbus:/if True:/" /usr/share/terminator/terminator &&\
     wget -q https://dl.google.com/linux/direct/google-chrome-stable_current_amd64.deb &&\
