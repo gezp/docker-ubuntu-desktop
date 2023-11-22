@@ -53,7 +53,7 @@ RUN apt-get update && \
 
 ## Install desktop and chrome
 RUN apt-get update && \
-    apt-get install -y xfce4 xfce4-power-manager xfce4-screensaver terminator fonts-wqy-zenhei &&\
+    apt-get install -y xfce4 terminator fonts-wqy-zenhei &&\
     wget -q https://dl.google.com/linux/direct/google-chrome-stable_current_amd64.deb &&\
     apt-get install -yf ./google-chrome-stable_current_amd64.deb &&\
     rm google-chrome-stable_current_amd64.deb &&\
@@ -69,7 +69,7 @@ RUN curl -fSL "https://www.nomachine.com/free/linux/64/deb" -o nomachine.deb &&\
     groupmod -g 2000 nx &&\
     rm nomachine.deb &&\
     sed -i "s|#EnableClipboard both|EnableClipboard both |g" /usr/NX/etc/server.cfg &&\
-    sed -i '/DefaultDesktopCommand/c\DefaultDesktopCommand "/usr/bin/startxfce4"' /usr/NX/etc/node.cfg
+    sed -i '/DefaultDesktopCommand/c\DefaultDesktopCommand "/usr/bin/startxfce4 && xset s off"' /usr/NX/etc/node.cfg
 
 ## Configure ssh
 RUN mkdir /var/run/sshd &&  \
