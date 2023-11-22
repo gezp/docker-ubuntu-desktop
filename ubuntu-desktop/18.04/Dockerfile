@@ -52,7 +52,9 @@ RUN apt-get update  && \
 
 ## Install desktop and chrome
 RUN apt-get update && \
-    apt-get install -y xfce4 xfce4-power-manager xfce4-terminal fonts-wqy-zenhei &&\
+    apt-get install -y xfce4 xfce4-power-manager terminator fonts-wqy-zenhei &&\
+    sed -i "s/python/python2/" /usr/share/terminator/terminator &&\
+    sed -i "s/if OPTIONS.nodbus:/if True:/" /usr/share/terminator/terminator &&\
     wget -q https://dl.google.com/linux/direct/google-chrome-stable_current_amd64.deb &&\
     apt-get install -yf ./google-chrome-stable_current_amd64.deb &&\
     rm google-chrome-stable_current_amd64.deb &&\
