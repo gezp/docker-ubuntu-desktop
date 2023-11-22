@@ -60,7 +60,7 @@ RUN apt-get update && \
     Pin: release o=LP-PPA-mozillateam\n\
     Pin-Priority: 1001" > /etc/apt/preferences.d/mozilla-firefox &&\
     # install xfce4 and firefox
-    apt-get install -y xfce4 terminator fonts-wqy-zenhei firefox &&\
+    apt-get install -y xfce4 terminator fonts-wqy-zenhei ffmpeg firefox &&\
     # disable terminator dbus
     sed -i "s/python/python2/" /usr/share/terminator/terminator &&\
     sed -i "s/if OPTIONS.nodbus:/if True:/" /usr/share/terminator/terminator &&\
