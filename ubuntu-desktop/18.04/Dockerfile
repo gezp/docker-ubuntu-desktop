@@ -23,11 +23,11 @@ RUN apt-get update && \
     rm -rf /var/lib/apt/lists/* && \
     mkdir -p /usr/share/glvnd/egl_vendor.d/ && \
     echo "{\n\
-    \"file_format_version\" : \"1.0.0\",\n\
-    \"ICD\": {\n\
-        \"library_path\": \"libEGL_nvidia.so.0\"\n\
-    }\n\
-    }" > /usr/share/glvnd/egl_vendor.d/10_nvidia.json
+\"file_format_version\" : \"1.0.0\",\n\
+\"ICD\": {\n\
+    \"library_path\": \"libEGL_nvidia.so.0\"\n\
+}\n\
+}" > /usr/share/glvnd/egl_vendor.d/10_nvidia.json
 
 ## Install and Configure Vulkan
 RUN apt-get update && \
@@ -36,12 +36,12 @@ RUN apt-get update && \
     VULKAN_API_VERSION=$(dpkg -s libvulkan1 | grep -oP 'Version: [0-9|\.]+' | grep -oP '[0-9]+(\.[0-9]+)(\.[0-9]+)') && \
     mkdir -p /etc/vulkan/icd.d/ && \
     echo "{\n\
-    \"file_format_version\" : \"1.0.0\",\n\
-    \"ICD\": {\n\
-        \"library_path\": \"libGLX_nvidia.so.0\",\n\
-        \"api_version\" : \"${VULKAN_API_VERSION}\"\n\
-    }\n\
-    }" > /etc/vulkan/icd.d/nvidia_icd.json
+\"file_format_version\" : \"1.0.0\",\n\
+\"ICD\": {\n\
+    \"library_path\": \"libGLX_nvidia.so.0\",\n\
+    \"api_version\" : \"${VULKAN_API_VERSION}\"\n\
+}\n\
+}" > /etc/vulkan/icd.d/nvidia_icd.json
 
 ## Install some common tools 
 RUN apt-get update  && \
@@ -57,8 +57,8 @@ RUN apt-get update && \
     add-apt-repository -y ppa:mozillateam/ppa &&\
     mkdir -p /etc/apt/preferences.d &&\
     echo "Package: firefox*\n\
-    Pin: release o=LP-PPA-mozillateam\n\
-    Pin-Priority: 1001" > /etc/apt/preferences.d/mozilla-firefox &&\
+Pin: release o=LP-PPA-mozillateam\n\
+Pin-Priority: 1001" > /etc/apt/preferences.d/mozilla-firefox &&\
     # install xfce4 and firefox
     apt-get install -y xfce4 terminator fonts-wqy-zenhei ffmpeg firefox &&\
     # disable terminator dbus
