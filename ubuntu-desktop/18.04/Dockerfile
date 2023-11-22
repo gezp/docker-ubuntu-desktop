@@ -86,6 +86,8 @@ RUN mkdir /var/run/sshd &&  \
     sed -i 's/#*PermitRootLogin prohibit-password/PermitRootLogin yes/g' /etc/ssh/sshd_config && \
     sed -i 's@session\s*required\s*pam_loginuid.so@session optional pam_loginuid.so@g' /etc/pam.d/sshd
 
+## Copy config
+COPY docker_config /docker_config
 
 EXPOSE 22 4000
 
