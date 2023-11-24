@@ -2,8 +2,8 @@ name: Docker Image CI for Ubuntu with Cuda
 
 on:
   push:
-    tag:
-      - "*-cu*"
+    tags:
+      - '*-cu*'
 
 jobs:
   build_and_push:
@@ -29,11 +29,11 @@ jobs:
     - name: Check Github Tag
       id: checker
       run: |
-        UBUNTU_VERSION=`echo $1 | awk -F '-cu' '{print $1}'`
-        CUDA_VERSION=`echo $1 | awk -F '-cu' '{print $2}'`
+        UBUNTU_VERSION=`echo ${GITHUB_REF#refs/tags/} | awk -F '-cu' '{print $1}'`
+        CUDA_VERSION=`echo ${GITHUB_REF#refs/tags/} | awk -F '-cu' '{print $2}'`
         echo "ubuntu version:${UBUNTU_VERSION},cuda version:${CUDA_VERSION}"
-        echo "UBUNTU_VERSION=${UBUNTU_VERSION}" >> $GITHUB_OUTPUT
-        echo "CUDA_VERSION=${CUDA_VERSION}" >> $GITHUB_OUTPUT
+        echo "UBUNTU_VERSION=$UBUNTU_VERSION" >> "$GITHUB_ENV"
+        echo "CUDA_VERSION=$CUDA_VERSION" >> "$GITHUB_ENV"
     - name: Build and Push
       uses: docker/build-push-action@v5
       with:
@@ -46,6 +46,3 @@ jobs:
         tags: |
           gezp/ubuntu-desktop:${{env.UBUNTU_VERSION}}-cu${{env.CUDA_VERSION}}
           registry.cn-hongkong.aliyuncs.com/gezp/ubuntu-desktop:${{env.UBUNTU_VERSION}}-cu${{env.CUDA_VERSION}}
-        env: |
-          UBUNTU_VERSION: ${{ steps.checker.outputs.UBUNTU_VERSION }}
-          CUDA_VERSION: ${{ steps.checker.outputs.CUDA_VERSION }}
