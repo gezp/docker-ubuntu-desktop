@@ -46,6 +46,6 @@ jobs:
         tags: |
           gezp/ubuntu-desktop:${{env.UBUNTU_VERSION}}-cu${{env.CUDA_VERSION}}
           registry.cn-hongkong.aliyuncs.com/gezp/ubuntu-desktop:${{env.UBUNTU_VERSION}}-cu${{env.CUDA_VERSION}}
-        env:
+        env: |
           UBUNTU_VERSION: ${{ steps.checker.outputs.UBUNTU_VERSION }}
           CUDA_VERSION: ${{ steps.checker.outputs.CUDA_VERSION }}
