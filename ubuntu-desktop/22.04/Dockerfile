@@ -61,6 +61,8 @@ Pin: release o=LP-PPA-mozillateam\n\
 Pin-Priority: 1001" > /etc/apt/preferences.d/mozilla-firefox &&\
     # install xfce4 and firefox
     apt-get install -y xfce4 terminator fonts-wqy-zenhei ffmpeg firefox &&\
+    # remove and disable screensaver
+    apt-get remove -y xfce4-screensaver --purge &&\
     # set firefox as default web browser
     update-alternatives --set x-www-browser /usr/bin/firefox &&\
     rm -rf /var/lib/apt/lists/*
