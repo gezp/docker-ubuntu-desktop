@@ -14,6 +14,9 @@ ENV NVIDIA_VISIBLE_DEVICES=all
 ENV NVIDIA_DRIVER_CAPABILITIES=all
 ENV VGL_DISPLAY=egl
 
+## Copy config
+COPY docker_config /docker_config
+
 ## Install and Configure OpenGL
 RUN apt-get update && \
     apt-get install -y --no-install-recommends \
@@ -73,10 +76,8 @@ RUN apt-get update && apt-get install -y pulseaudio && mkdir -p /var/run/dbus &&
     rm -rf /var/lib/apt/lists/*
 
 ## Install nomachine
-RUN curl -fSL "https://www.nomachine.com/free/linux/64/deb" -o nomachine.deb &&\
-    dpkg -i nomachine.deb &&\
+RUN bash /docker_config/install_nomachine.sh &&\
     groupmod -g 2000 nx &&\
-    rm nomachine.deb &&\
     sed -i "s|#EnableClipboard both|EnableClipboard both |g" /usr/NX/etc/server.cfg &&\
     sed -i '/DefaultDesktopCommand/c\DefaultDesktopCommand "xset s off && /usr/bin/startxfce4"' /usr/NX/etc/node.cfg
 
@@ -85,9 +86,6 @@ RUN mkdir /var/run/sshd &&  \
     echo 'root:THEPASSWORDYOUCREATED' | chpasswd && \
     sed -i 's/#*PermitRootLogin prohibit-password/PermitRootLogin yes/g' /etc/ssh/sshd_config && \
     sed -i 's@session\s*required\s*pam_loginuid.so@session optional pam_loginuid.so@g' /etc/pam.d/sshd
-
-## Copy config
-COPY docker_config /docker_config
 
 EXPOSE 22 4000
 
