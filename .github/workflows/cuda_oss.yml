@@ -1,0 +1,84 @@
+name: Docker Image CI for Ubuntu with Cuda
+
+on:
+  workflow_dispatch:
+    inputs:
+      version:
+        description: 'ubuntu version'
+        required: true
+        default: '22.04'
+        type: choice
+        options:
+          - '18.04'
+          - '20.04'
+          - '22.04'
+      cuda_version:
+        description: 'cuda version'
+        required: true
+        default: '12.1.1'
+        type: choice
+        options:
+          - '12.1.1'
+          - '11.8.0'
+      remote_dir:
+        description: 'remote dir'
+        required: true
+        default: '/'
+        type: string
+
+jobs:
+  build_and_push:
+    runs-on: ubuntu-latest
+    env:
+      UBUNTU_VERSION: ${{ github.event.inputs.version }}
+      CUDA_VERSION: ${{ github.event.inputs.cuda_version }}
+      IMAGE_NAME: ${{ github.repository_owner }}/ubuntu-desktop:${{ env.UBUNTU_VERSION }}-cu${{ env.CUDA_VERSION }}
+      IMAGE_FILENAME: ubuntu-desktop-${{ env.UBUNTU_VERSION }}-cu${{ env.CUDA_VERSION }}.tar
+    steps:
+    - name: Checkout
+      uses: actions/checkout@v4
+    - name: Set up QEMU
+      uses: docker/setup-qemu-action@v3
+    - name: Set up Docker Buildx
+      uses: docker/setup-buildx-action@v3
+    # - name: Login to Docker Hub
+    #   uses: docker/login-action@v3
+    #   with:
+    #     username: ${{ secrets.DOCKERHUB_USERNAME }}
+    #     password: ${{ secrets.DOCKERHUB_TOKEN }}
+    # - name: Login to Aliyun Docker Registry
+    #   uses: docker/login-action@v3
+    #   with:
+    #     registry: registry.cn-hongkong.aliyuncs.com
+    #     username: ${{ secrets.ALIYUN_USERNAME }}
+    #     password: ${{ secrets.ALIYUN_PASSWORD }}
+    - name: Build and Push
+      uses: docker/build-push-action@v5
+      with:
+        context: ubuntu-desktop
+        file: ubuntu-desktop/${{env.UBUNTU_VERSION}}/Dockerfile
+        platforms: linux/amd64,linux/arm64
+        build-args: |
+          BASE_IMAGE=nvidia/cuda:${{env.CUDA_VERSION}}-devel-ubuntu${{env.UBUNTU_VERSION}}
+        push: false
+        load: true
+        tags: |
+          ${{ env.IMAGE_NAME }}
+    - name: Inspect
+      run: |
+        docker image inspect ${{ env.IMAGE_NAME }}
+    - name: Export
+      run: |
+        docker save ${{ env.IMAGE_NAME }} -o ${{ env.IMAGE_FILENAME }}
+    - name: Upload to OSS
+      uses: taixw2/deploy-aliyun-oss@v1
+      with:
+        # aliyun config
+        region: oss-cn-hongkong.aliyuncs.com
+        access-key-id: ${{ secrets.ACCESS_KEY_ID }}
+        access-key-secret: ${{ secrets.ACCESS_KEY_SECRET }}
+        bucket: ${{ secrets.BUCKET }}
+        secure: true
+        # deploy config
+        entry: ${{ env.IMAGE_FILENAME }}
+        remote-dir: ${{ github.event.inputs.remote_dir }}
