@@ -1,4 +1,4 @@
-name: Docker Image CI for Ubuntu with Cuda
+name: Docker Image CI for Ubuntu with Cuda on Arm64
 
 on:
   push:
@@ -39,10 +39,10 @@ jobs:
       with:
         context: ubuntu-desktop
         file: ubuntu-desktop/${{env.UBUNTU_VERSION}}/Dockerfile
-        platforms: linux/amd64
+        platforms: linux/arm64
         build-args: |
           BASE_IMAGE=nvidia/cuda:${{env.CUDA_VERSION}}-devel-ubuntu${{env.UBUNTU_VERSION}}
         push: true
         tags: |
-          gezp/ubuntu-desktop:${{env.UBUNTU_VERSION}}-cu${{env.CUDA_VERSION}}
-          registry.cn-hongkong.aliyuncs.com/gezp/ubuntu-desktop:${{env.UBUNTU_VERSION}}-cu${{env.CUDA_VERSION}}
+          gezp/ubuntu-desktop:${{env.UBUNTU_VERSION}}-cu${{env.CUDA_VERSION}}-arm
+          registry.cn-hongkong.aliyuncs.com/gezp/ubuntu-desktop:${{env.UBUNTU_VERSION}}-cu${{env.CUDA_VERSION}}-arm
