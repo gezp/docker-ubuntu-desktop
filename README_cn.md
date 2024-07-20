@@ -54,14 +54,32 @@ docker pull gezp/ubuntu-desktop:20.04-cu11.0.3
 
 docker run: 创建并运行容器
 ```bash
-# 支持ssh和 3D GUI
+# create conatiner with nomachine
 docker run -d --restart=on-failure \
     --name my_workspace \
     --cap-add=SYS_PTRACE \
     --gpus all  \
     --shm-size=1024m \
-    -p 10022:22  \
-    -p 14000:4000  \
+    -e USER=ubuntu \
+    -e PASSWORD=ubuntu \
+    -e GID=$(id -g) \
+    -e UID=$(id -u) \
+    -p 10022:22 \
+    -p 14000:4000 \
+    gezp/ubuntu-desktop:20.04-cu11.0.3
+
+# create conatiner with kasmvnc
+docker run -d --restart=on-failure \
+    --name my_workspace \
+    --gpus all  \
+    --shm-size=1024m \
+    -e USER=ubuntu \
+    -e PASSWORD=ubuntu \
+    -e GID=$(id -g) \
+    -e UID=$(id -u) \
+    -e REMOTE_DESKTOP=kasmvnc \
+    -p 10022:22 \
+    -p 14000:4000 \
     gezp/ubuntu-desktop:20.04-cu11.0.3
 ```
 * 默认用户名和密码均为ubuntu
@@ -74,29 +92,20 @@ ssh ubuntu@host-ip -p 10022
 
 * 可使用vscode + remote ssh插件访问
 
-远程桌面连接容器
+访问远程桌面 (nomachine方式)
 
-* 下载nomachine软件，ip为主机ip，端口为14000，进行连接即可
+* 下载安装[nomachine software](https://www.nomachine.com/).
+* ip为主机ip，端口为14000，进行连接即可
+
+访问远程桌面 (kasmvnc方式)
+
+* 使用浏览器访问 `https://<host-ip>:14000` (推荐chrome)
 
 ## 3.扩展使用
 
 ### 3.1 自定义用户参数
 
-在创建容器时可使用环境变量自定义`USER`, `PASSWORD`, `GID`, `UID`配置，例如：
-```bash
-docker run -d --restart=on-failure \
-    --name my_workspace \
-    --cap-add=SYS_PTRACE \
-    --gpus all  \
-    -e USER=cat \
-    -e PASSWORD=cat123 \
-    -e GID=1001 \
-    -e UID=1001 \
-    --shm-size=1024m \
-    -p 10022:22  \
-    -p 14000:4000  \
-    gezp/ubuntu-desktop:20.04-cu11.0.3
-```
+在创建容器时可使用环境变量自定义`REMOTE_DESKTOP`, `VNC_THREADS`配置
 
 ### 3.2 3D硬件渲染加速
 
@@ -126,8 +135,8 @@ export LD_LIBRARY_PATH=/usr/local/cuda/lib64:$LD_LIBRARY_PATH
 ```bash
 git clone https://github.com/gezp/docker-ubuntu-desktop.git
 cd docker-ubuntu-desktop
-# for 20.04 (基于nvidia/opengl基础镜像)
+# for 20.04
 ./docker_build.sh 20.04
-# for 20.04-cu11.0  (基于nvidia/cudagl基础镜像)
-./docker_build.sh 20.04-cu11.0
+# for 20.04-cu11.0.3  (based on nvidia/cuda)
+./docker_build.sh 20.04-cu11.0.3
 ```
