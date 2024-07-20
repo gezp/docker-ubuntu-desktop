@@ -14,7 +14,7 @@ Hardware GPU accelerated rendering for 3D GUI application is supported in contai
 
 ## Features
 
-* Remote access by ssh and nomachine (remote desktop).
+* Remote access by ssh and remote desktop (nomachine or kasmvnc).
 * OpenGL rendering based on software rasterizer (LLVMpipe) with high CPU usgae. (default)
 * OpenGL rendering based on Nvidia GPU hardware-accelerated.
 * Pre-installed Firefox web browser.
@@ -60,14 +60,32 @@ docker pull gezp/ubuntu-desktop:20.04-cu11.0.3
 
 create conatiner
 ```bash
-# create conatiner
+# create conatiner with nomachine
 docker run -d --restart=on-failure \
     --name my_workspace \
     --cap-add=SYS_PTRACE \
     --gpus all  \
     --shm-size=1024m \
-    -p 10022:22  \
-    -p 14000:4000  \
+    -e USER=ubuntu \
+    -e PASSWORD=ubuntu \
+    -e GID=$(id -g) \
+    -e UID=$(id -u) \
+    -p 10022:22 \
+    -p 14000:4000 \
+    gezp/ubuntu-desktop:20.04-cu11.0.3
+
+# create conatiner with kasmvnc
+docker run -d --restart=on-failure \
+    --name my_workspace \
+    --gpus all  \
+    --shm-size=1024m \
+    -e USER=ubuntu \
+    -e PASSWORD=ubuntu \
+    -e GID=$(id -g) \
+    -e UID=$(id -u) \
+    -e REMOTE_DESKTOP=kasmvnc \
+    -p 10022:22 \
+    -p 14000:4000 \
     gezp/ubuntu-desktop:20.04-cu11.0.3
 ```
 * the default username and password are both ubuntu.
@@ -78,30 +96,29 @@ ssh ubuntu@host-ip -p 10022
 ```
 * it's recommended to use vscode + remote ssh plugin
 
-access conatiner by nomachine client (remote desktop)
+access conatiner by remote desktop (nomachine)
 
 * download and install [nomachine software](https://www.nomachine.com/).
 * the ip is host's ip, the port is 14000.
+
+access conatiner by remote desktop (kasmvnc)
+
+* use browser to access `https://<host-ip>:14000` (chrome is recommended)
+
+Difference between moachine and kasmvnc:
+
+* moachine: need client software to access remote desktop, and support audio, uploads, downloads.
+* kasmvnc: provide remote web-based access to desktop, but it doesn't support audio, uploads, downloads, and microphone pass-through.
+
 
 ## Advanced Usage
 
 #### Custom User Argument
 
-configure `USER`, `PASSWORD`, `GID`, `UID` when you create conatiner，for example：
-```bash
-docker run -d --restart=on-failure \
-    --name my_workspace \
-    --cap-add=SYS_PTRACE \
-    --gpus all  \
-    -e USER=cat \
-    -e PASSWORD=cat123 \
-    -e GID=1001 \
-    -e UID=1001 \
-    --shm-size=1024m \
-    -p 10022:22  \
-    -p 14000:4000  \
-    gezp/ubuntu-desktop:20.04-cu11.0.3
-```
+configure `REMOTE_DESKTOP`, `VNC_THREADS` when you create conatiner.
+
+* `REMOTE_DESKTOP`: nomachine (default) or kasmvnc.
+* `VNC_THREADS`: RectThread num for vncserver, only used when `REMOTE_DESKTOP` = kasmvnc. default is 2, set 0 for auto.
 
 #### Enable GPU hardware-accelerated rendering
 
@@ -144,11 +161,15 @@ git clone https://github.com/gezp/docker-ubuntu-desktop.git
 cd docker-ubuntu-desktop
 # for 20.04
 ./docker_build.sh 20.04
-# for 20.04-cu11.0  (based on nvidia/cuda)
-./docker_build.sh 20.04-cu11.0
+# for 20.04-cu11.0.3  (based on nvidia/cuda)
+./docker_build.sh 20.04-cu11.0.3
 ```
 
 ## Acknowledgement
 
 thanks to the authors of following related projects:
 * https://github.com/selkies-project/docker-nvidia-egl-desktop
+* https://github.com/kasmtech/KasmVNC
+* https://github.com/VirtualGL/virtualgl
+* https://github.com/linuxserver/docker-baseimage-kasmvnc
+
