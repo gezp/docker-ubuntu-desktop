@@ -13,6 +13,8 @@ ENV USER=ubuntu \
 ENV NVIDIA_VISIBLE_DEVICES=all
 ENV NVIDIA_DRIVER_CAPABILITIES=all
 ENV VGL_DISPLAY=egl
+ENV REMOTE_DESKTOP=nomachine
+ENV VNC_THREADS=2
 
 ## Copy config
 COPY docker_config /docker_config
@@ -76,9 +78,11 @@ RUN apt-get update && apt-get install -y pulseaudio && mkdir -p /var/run/dbus &&
 
 ## Install nomachine
 RUN bash /docker_config/install_nomachine.sh &&\
-    groupmod -g 2000 nx &&\
-    sed -i "s|#EnableClipboard both|EnableClipboard both |g" /usr/NX/etc/server.cfg &&\
-    sed -i '/DefaultDesktopCommand/c\DefaultDesktopCommand "xset s off && /usr/bin/startxfce4"' /usr/NX/etc/node.cfg
+    groupmod -g 2000 nx 
+
+## Install kasmvnc
+RUN bash /docker_config/install_kasmvnc.sh &&\
+    rm -rf /var/lib/apt/lists/*
 
 ## Configure ssh 
 RUN mkdir /var/run/sshd &&  \
