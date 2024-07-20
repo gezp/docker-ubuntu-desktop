@@ -78,11 +78,7 @@ RUN apt-get update && apt-get install -y pulseaudio && mkdir -p /var/run/dbus &&
 RUN bash /docker_config/install_nomachine.sh &&\
     groupmod -g 2000 nx &&\
     sed -i "s|#EnableClipboard both|EnableClipboard both |g" /usr/NX/etc/server.cfg &&\
-    sed -i '/DefaultDesktopCommand/c\DefaultDesktopCommand "xset s off && /usr/bin/startxfce4"' /usr/NX/etc/node.cfg &&\
-    # config pulseaudio
-    cp -R /etc/pulse/* /usr/NX/share/audio/ &&\
-    sed -i '/AudioInterface pipewire/c\AudioInterface pulseaudio' /usr/NX/etc/node.cfg  &&\
-    sed -i '/CommandStartPulseAudio/c\CommandStartPulseAudio "/usr/bin/pulseaudio --high-priority=no"' /usr/NX/etc/node.cfg
+    sed -i '/DefaultDesktopCommand/c\DefaultDesktopCommand "xset s off && /usr/bin/startxfce4"' /usr/NX/etc/node.cfg
 
 ## Configure ssh 
 RUN mkdir /var/run/sshd &&  \
