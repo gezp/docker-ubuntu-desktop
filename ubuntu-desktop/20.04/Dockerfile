@@ -50,7 +50,7 @@ RUN apt-get update && \
 
 ## Install some common tools 
 RUN apt-get update && \
-    apt-get install -y sudo vim gedit locales wget curl git gnupg2 lsb-release net-tools iputils-ping mesa-utils \
+    apt-get install -y sudo vim gedit locales wget curl git git-lfs gnupg2 lsb-release net-tools iputils-ping mesa-utils \
                     openssh-server bash-completion software-properties-common python3-pip tmux && \
     update-alternatives --install /usr/bin/python python /usr/bin/python3 2 && \
     pip3 install --upgrade pip &&\
