@@ -1,6 +1,9 @@
 #!/bin/sh
 ## initialize environment
 if [ ! -f "/docker_config/init_flag" ]; then
+    # update /etc/environment
+    export PATH=/usr/NX/scripts/vgl:$PATH
+    env | grep -Ev "CMD=|PWD=|SHLVL=|_=|DEBIAN_FRONTEND=|USER=|HOME=|UID=|GID=|PASSWORD=" > /etc/environment
     # create user
     groupadd -g $GID $USER
     useradd --create-home --no-log-init -u $UID -g $GID $USER
@@ -13,9 +16,6 @@ if [ ! -f "/docker_config/init_flag" ]; then
     # config kasmvnc
     addgroup $USER ssl-cert
     su $USER -c "echo -e \"$PASSWORD\n$PASSWORD\n\" | vncpasswd -u $USER -o -w -r"
-    # vgl for user
-    echo "export PATH=/usr/NX/scripts/vgl:\$PATH" >> /home/$USER/.bashrc
-    echo "export VGL_DISPLAY=$VGL_DISPLAY" >> /home/$USER/.bashrc
     # extra env init for developer
     if [ -f "/docker_config/env_init.sh" ]; then
         bash /docker_config/env_init.sh
