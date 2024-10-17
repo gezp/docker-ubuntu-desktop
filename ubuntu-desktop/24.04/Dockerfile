@@ -52,9 +52,7 @@ RUN apt-get update && \
 }" > /etc/vulkan/icd.d/nvidia_icd.json
 
 ## Install some common tools 
-RUN apt-get update  && \
-    apt-get install -y sudo vim gedit locales wget curl git git-lfs gnupg2 lsb-release net-tools iputils-ping mesa-utils \
-                    openssh-server bash-completion software-properties-common python3-pip python3-numpy tmux dbus-x11 && \
+RUN bash /docker_config/install_common.sh &&\
     rm -rf /var/lib/apt/lists/* 
 
 ## Install desktop
@@ -66,7 +64,7 @@ RUN apt-get update && \
 Pin: release o=LP-PPA-mozillateam\n\
 Pin-Priority: 1001" > /etc/apt/preferences.d/mozilla-firefox &&\
     # install xfce4 and firefox
-    apt-get install -y xfce4 terminator fonts-wqy-zenhei ffmpeg firefox &&\
+    apt-get install -y xfce4 terminator fonts-wqy-zenhei ffmpeg firefox dbus-x11 &&\
     # remove and disable screensaver
     apt-get remove -y xfce4-screensaver --purge &&\
     # set firefox as default web browser

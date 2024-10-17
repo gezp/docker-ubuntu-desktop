@@ -49,11 +49,7 @@ RUN apt-get update && \
 }" > /etc/vulkan/icd.d/nvidia_icd.json
 
 ## Install some common tools 
-RUN apt-get update  && \
-    apt-get install -y sudo vim gedit locales wget curl git git-lfs gnupg2 lsb-release net-tools iputils-ping mesa-utils \
-                    openssh-server bash-completion software-properties-common python3-pip tmux && \
-    pip3 install --upgrade pip &&\
-    update-locale LC_CTYPE=C.UTF-8 &&\
+RUN bash /docker_config/install_common.sh &&\
     rm -rf /var/lib/apt/lists/* 
 
 ## Install desktop
@@ -71,6 +67,8 @@ Pin-Priority: 1001" > /etc/apt/preferences.d/mozilla-firefox &&\
     sed -i "s/if OPTIONS.nodbus:/if True:/" /usr/share/terminator/terminator &&\
     # set firefox as default web browser
     update-alternatives --set x-www-browser /usr/bin/firefox &&\
+    #
+    update-locale LC_CTYPE=C.UTF-8 &&\
     rm -rf /var/lib/apt/lists/*
 
 ENV DBUS_SYSTEM_BUS_ADDRESS=unix:path=/host/run/dbus/system_bus_socket

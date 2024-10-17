@@ -49,11 +49,7 @@ RUN apt-get update && \
 }" > /etc/vulkan/icd.d/nvidia_icd.json
 
 ## Install some common tools 
-RUN apt-get update  && \
-    apt-get install -y sudo vim gedit locales wget curl git git-lfs gnupg2 lsb-release net-tools iputils-ping mesa-utils \
-                    openssh-server bash-completion software-properties-common python3-pip python3-numpy tmux && \
-    update-alternatives --install /usr/bin/python python /usr/bin/python3 2 && \
-    pip3 install --upgrade pip &&\
+RUN bash /docker_config/install_common.sh &&\
     rm -rf /var/lib/apt/lists/* 
 
 ## Install desktop
