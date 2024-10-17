@@ -1,6 +1,6 @@
 #!/bin/bash
 
-# usage: ./docker_build.sh 20.04-cu11.0
+# usage: ./docker_build.sh 20.04-cu11.0.3
 
 # echo "argv: $1"
 UBUNTU_VERSION=`echo $1 | awk -F '-cu' '{print $1}'`
@@ -8,7 +8,7 @@ CUDA_VERSION=`echo $1 | awk -F '-cu' '{print $2}'`
 echo "ubuntu version:${UBUNTU_VERSION},cuda version:${CUDA_VERSION}"
 
 # check ubuntu version
-if [[(${UBUNTU_VERSION} != "18.04") && (${UBUNTU_VERSION} != "20.04") && (${UBUNTU_VERSION} != "22.04")]];then
+if [[(${UBUNTU_VERSION} != "18.04") && (${UBUNTU_VERSION} != "20.04") && (${UBUNTU_VERSION} != "22.04") && (${UBUNTU_VERSION} != "24.04")]];then
     echo "Invalid ubuntu version:${UBUNTU_VERSION}"
     exit -1
 fi

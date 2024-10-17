@@ -33,14 +33,15 @@ xfce4 desktop:
 ## Docker Image Tags:
 
 Supported Tags (you can find here [Github Tag](https://github.com/gezp/docker-ubuntu-desktop/tags))：
-* Tags of base image：`18.04`, `20.04`, `22.04`
+* Tags of base image：`18.04`, `20.04`, `22.04`, `24.04`
 * Tags of image with cuda (based on `nvidia/cuda`)：`18.04-cu11.0.3`, `20.04-cu11.0.3` etc. 
 * naming rules is `{UBUNTU VERSION}-cu{CUDA VERSION}`, you can find supported `{CUDA VERSION}` in [Docker Image <nvidia/cuda>](https://gitlab.com/nvidia/container-images/cuda/-/blob/master/doc/supported-tags.md)
 
 > Supported {CUDA VERSION}:
 > * Ubuntu18.04：`11.0.3`, `11.1.1`, `11.2.2`
 > * Ubuntu20.04：`11.0.3`, `11.1.0`, `11.2.2`, `11.3.1`, `11.4.3`, `11.5.2`, `11.6.2`, `11.7.1`
-> * Ubuntu22.04：`11.7.1`, `11.8.0`, `12.0.1`, `12.1.1`, `12.2.2`, `12.3.2`, `12.4.1`
+> * Ubuntu22.04：`11.7.1`, `11.8.0`, `12.0.1`, `12.1.1`, `12.2.2`, `12.3.2`, `12.4.1`, `12.5.1 `
+> * Ubuntu24.04：`12.5.1 `, `12.6.2`
 
 ## Preliminary
 
