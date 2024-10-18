@@ -12,8 +12,8 @@ ENV USER=ubuntu \
 
 ENV NVIDIA_VISIBLE_DEVICES=all
 ENV NVIDIA_DRIVER_CAPABILITIES=all
-ENV SERVER_SSL_CERT=/etc/ssl/certs/ssl-cert-snakeoil.pem
-ENV SERVER_SSL_KEY=/etc/ssl/private/ssl-cert-snakeoil.key
+ENV HTTPS_CERT=/etc/ssl/certs/ssl-cert-snakeoil.pem
+ENV HTTPS_CERT_KEY=/etc/ssl/private/ssl-cert-snakeoil.key
 ENV VGL_DISPLAY=egl
 ENV REMOTE_DESKTOP=nomachine
 ENV VNC_THREADS=2
