@@ -106,7 +106,7 @@ access conatiner by remote desktop (kasmvnc/novnc)
 
 * use browser to access `https://<host-ip>:14000` (chrome is recommended)
 
-> Tip `novnc` option based on [TurboVNC](https://github.com/TurboVNC/turbovnc) + [NoVNC](https://github.com/novnc/noVNC), which are free and open-source software.
+> Tip `novnc` option based on [TurboVNC](https://github.com/TurboVNC/turbovnc) + [noVNC](https://github.com/novnc/noVNC), which are free and open-source software.
 
 features of moachine/kasmvnc/novnc:
 
@@ -118,10 +118,12 @@ features of moachine/kasmvnc/novnc:
 
 #### Custom User Argument
 
-configure `REMOTE_DESKTOP`, `VNC_THREADS` when you create conatiner.
+configure by setting environment variables when you create conatiner.
 
 * `REMOTE_DESKTOP`: nomachine (default) , kasmvnc, novnc.
 * `VNC_THREADS`: RectThread num for vncserver, only used when `REMOTE_DESKTOP` = kasmvnc. default is 2, set 0 for auto.
+* `HTTPS_CERT`: SSL pem certificate file path to use for https server(kasmvnc/nonvc)
+* `HTTPS_CERT_KEY`: SSL pem key file path to use for https server(kasmvnc/nonvc)
 
 #### Enable GPU hardware-accelerated rendering
 
