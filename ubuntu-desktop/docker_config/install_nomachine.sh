@@ -11,5 +11,6 @@ fi
 dpkg -i nomachine.deb
 rm nomachine.deb
 # config nomachine
+groupmod -g 2000 nx
 sed -i "s|#EnableClipboard both|EnableClipboard both |g" /usr/NX/etc/server.cfg
 sed -i '/DefaultDesktopCommand/c\DefaultDesktopCommand "xset s off && /usr/bin/startxfce4"' /usr/NX/etc/node.cfg

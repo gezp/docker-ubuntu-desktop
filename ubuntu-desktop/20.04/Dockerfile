@@ -12,6 +12,8 @@ ENV USER=ubuntu \
 
 ENV NVIDIA_VISIBLE_DEVICES=all
 ENV NVIDIA_DRIVER_CAPABILITIES=all
+ENV SERVER_SSL_CERT=/etc/ssl/certs/ssl-cert-snakeoil.pem
+ENV SERVER_SSL_KEY=/etc/ssl/private/ssl-cert-snakeoil.key
 ENV VGL_DISPLAY=egl
 ENV REMOTE_DESKTOP=nomachine
 ENV VNC_THREADS=2
@@ -70,12 +72,10 @@ ENV DBUS_SYSTEM_BUS_ADDRESS=unix:path=/host/run/dbus/system_bus_socket
 RUN apt-get update && apt-get install -y pulseaudio && mkdir -p /var/run/dbus &&\
     rm -rf /var/lib/apt/lists/*
 
-## Install nomachine
+## Install remote desktop (nomachine,kasmvnc,novnc)
 RUN bash /docker_config/install_nomachine.sh &&\
-    groupmod -g 2000 nx 
-
-## Install kasmvnc
-RUN bash /docker_config/install_kasmvnc.sh &&\
+    bash /docker_config/install_kasmvnc.sh &&\
+    bash /docker_config/install_novnc.sh &&\
     rm -rf /var/lib/apt/lists/*
 
 ## Configure ssh

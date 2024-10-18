@@ -39,6 +39,9 @@ if [ "${REMOTE_DESKTOP}" = "nomachine" ]; then
 elif [ "${REMOTE_DESKTOP}" = "kasmvnc" ]; then
     echo "start kasmvnc"
     bash /docker_config/start_kasmvnc.sh
+elif [ "${REMOTE_DESKTOP}" = "novnc" ]; then
+    echo "start novnc"
+    bash /docker_config/start_novnc.sh
 else
     echo  "unspported remote desktop: $REMOTE_DESKTOP"
 fi
