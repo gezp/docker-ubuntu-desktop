@@ -8,6 +8,8 @@ else
     echo "unsupported architecture: $arch"
     exit -1
 fi
-
 dpkg -i nomachine.deb
 rm nomachine.deb
+# config nomachine
+sed -i "s|#EnableClipboard both|EnableClipboard both |g" /usr/NX/etc/server.cfg
+sed -i '/DefaultDesktopCommand/c\DefaultDesktopCommand "xset s off && /usr/bin/startxfce4"' /usr/NX/etc/node.cfg
