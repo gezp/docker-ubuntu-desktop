@@ -14,7 +14,7 @@ Hardware GPU accelerated rendering for 3D GUI application is supported in contai
 
 ## Features
 
-* Remote access by ssh and remote desktop (nomachine or kasmvnc).
+* Remote access by ssh and remote desktop (nomachine/kasmvnc/novnc).
 * OpenGL rendering based on software rasterizer (LLVMpipe) with high CPU usgae. (default)
 * OpenGL rendering based on Nvidia GPU hardware-accelerated.
 * Pre-installed Firefox web browser.
@@ -75,7 +75,7 @@ docker run -d --restart=on-failure \
     -p 14000:4000 \
     gezp/ubuntu-desktop:20.04-cu11.0.3
 
-# create conatiner with kasmvnc
+# create conatiner with kasmvnc/novnc
 docker run -d --restart=on-failure \
     --name my_workspace \
     --gpus all  \
@@ -102,14 +102,16 @@ access conatiner by remote desktop (nomachine)
 * download and install [nomachine software](https://www.nomachine.com/).
 * the ip is host's ip, the port is 14000.
 
-access conatiner by remote desktop (kasmvnc)
+access conatiner by remote desktop (kasmvnc/novnc)
 
 * use browser to access `https://<host-ip>:14000` (chrome is recommended)
 
-Difference between moachine and kasmvnc:
+> Tip `novnc` option based on [TurboVNC](https://github.com/TurboVNC/turbovnc) + [NoVNC](https://github.com/novnc/noVNC), which are free and open-source software.
+
+features of moachine/kasmvnc/novnc:
 
 * moachine: need client software to access remote desktop, and support audio, uploads, downloads.
-* kasmvnc: provide remote web-based access to desktop, but it doesn't support audio, uploads, downloads, and microphone pass-through.
+* kasmvnc/novnc: provide remote web-based access to desktop, but it doesn't support audio, uploads, downloads, and microphone pass-through.
 
 
 ## Advanced Usage
@@ -118,7 +120,7 @@ Difference between moachine and kasmvnc:
 
 configure `REMOTE_DESKTOP`, `VNC_THREADS` when you create conatiner.
 
-* `REMOTE_DESKTOP`: nomachine (default) or kasmvnc.
+* `REMOTE_DESKTOP`: nomachine (default) , kasmvnc, novnc.
 * `VNC_THREADS`: RectThread num for vncserver, only used when `REMOTE_DESKTOP` = kasmvnc. default is 2, set 0 for auto.
 
 #### Enable GPU hardware-accelerated rendering

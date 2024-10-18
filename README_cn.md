@@ -26,13 +26,14 @@ xfce4（远程）桌面示意图
 镜像TAG:
 
 支持的镜像TAG对应[Github Tag](https://github.com/gezp/docker-ubuntu-desktop/tags)，具有两类：
-* 基本镜像的TAG：`18.04`, `20.04`, `22.04`
+* 基本镜像的TAG：`18.04`, `20.04`, `22.04`, `24.04`
 * 支持CUDA的镜像(基于`nvidia/cuda`基础镜像)的TAG：`18.04-cu11.0.3`, `20.04-cu11.0.3`等, 命名规则为`{UBUNTU VERSION}-cu{CUDA VERSION}`, 其中cuda的版本号支持列表见[Docker Image <nvidia/cuda>](https://gitlab.com/nvidia/container-images/cuda/-/blob/master/doc/supported-tags.md)
 
 >目前支持CUDA版本号：
 > * Ubuntu18.04：`11.0.3`, `11.1.1`, `11.2.2`
 > * Ubuntu20.04：`11.0.3`, `11.1.0`, `11.2.2`, `11.3.1`, `11.4.3`, `11.5.2`, `11.6.2`, `11.7.1`
-> * Ubuntu22.04：`11.7.1`, `11.8.0`, `12.0.1`, `12.1.1`
+> * Ubuntu22.04：`11.7.1`, `11.8.0`, `12.0.1`, `12.1.1`, `12.2.2`, `12.3.2`, `12.4.1`, `12.5.1 `
+> * Ubuntu24.04：`12.5.1 `, `12.6.2`
 
 ## 2.基本使用
 
@@ -54,7 +55,6 @@ docker pull gezp/ubuntu-desktop:20.04-cu11.0.3
 
 docker run: 创建并运行容器
 ```bash
-# create conatiner with nomachine
 docker run -d --restart=on-failure \
     --name my_workspace \
     --cap-add=SYS_PTRACE \
@@ -68,7 +68,7 @@ docker run -d --restart=on-failure \
     -p 14000:4000 \
     gezp/ubuntu-desktop:20.04-cu11.0.3
 
-# create conatiner with kasmvnc
+# create conatiner with kasmvnc/novnc
 docker run -d --restart=on-failure \
     --name my_workspace \
     --gpus all  \
@@ -97,7 +97,7 @@ ssh ubuntu@host-ip -p 10022
 * 下载安装[nomachine software](https://www.nomachine.com/).
 * ip为主机ip，端口为14000，进行连接即可
 
-访问远程桌面 (kasmvnc方式)
+访问远程桌面 (kasmvnc/novnc方式)
 
 * 使用浏览器访问 `https://<host-ip>:14000` (推荐chrome)
 
@@ -106,6 +106,9 @@ ssh ubuntu@host-ip -p 10022
 ### 3.1 自定义用户参数
 
 在创建容器时可使用环境变量自定义`REMOTE_DESKTOP`, `VNC_THREADS`配置
+
+* `REMOTE_DESKTOP`: nomachine (default) , kasmvnc, novnc.
+* `VNC_THREADS`: 仅当 `REMOTE_DESKTOP` = kasmvnc时有效，用于设置vncserver的RectThread num. 默认是2, 设置0表示自动选择.
 
 ### 3.2 3D硬件渲染加速
 
