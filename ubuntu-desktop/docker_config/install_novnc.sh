@@ -5,6 +5,7 @@ wget -q -O- https://packagecloud.io/dcommander/turbovnc/gpgkey | gpg --dearmor >
 wget -O /etc/apt/sources.list.d/TurboVNC.list https://raw.githubusercontent.com/TurboVNC/repo/main/TurboVNC.list
 apt-get update
 apt-get install -y turbovnc
+rm /etc/apt/sources.list.d/TurboVNC.list
 # config turbovnc
 echo "xset s off && /usr/bin/startxfce4" > /opt/TurboVNC/bin/xstartup.turbovnc
 # install novnc

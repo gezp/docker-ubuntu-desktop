@@ -1,4 +1,5 @@
 #!/bin/sh
+# set password for TurboVNC
 if [ ! -f "/home/$USER/.vnc/passwd" ]; then
     su $USER -c "echo -e \"$PASSWORD\n$PASSWORD\ny\n\" | /opt/TurboVNC/bin/vncpasswd"
 fi
