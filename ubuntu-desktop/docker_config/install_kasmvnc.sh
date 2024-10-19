@@ -9,3 +9,5 @@ wget -nv https://github.com/kasmtech/KasmVNC/releases/download/v${releases_versi
 apt-get update
 apt-get install -y /tmp/kasmvncserver*.deb
 rm  /tmp/kasmvncserver*.deb
+# config kasmvnc
+sed -i 's/exec xfce4-session/xset s off;&/' /usr/lib/kasmvncserver/select-de.sh
