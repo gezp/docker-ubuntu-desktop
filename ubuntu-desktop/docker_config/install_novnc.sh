@@ -6,10 +6,10 @@ wget -O /etc/apt/sources.list.d/TurboVNC.list https://raw.githubusercontent.com/
 apt-get update
 apt-get install -y turbovnc
 rm /etc/apt/sources.list.d/TurboVNC.list
-# config turbovnc
-echo "xset s off && /usr/bin/startxfce4" > /opt/TurboVNC/bin/xstartup.turbovnc
 # install novnc
 curl -fsSL "https://github.com/novnc/noVNC/archive/v${NOVNC_VERSION}.tar.gz" | tar -xzf - -C /opt
 mv -f "/opt/noVNC-${NOVNC_VERSION}" /opt/noVNC
 ln -snf /opt/noVNC/vnc.html /opt/noVNC/index.html
 git clone "https://github.com/novnc/websockify.git" /opt/noVNC/utils/websockify
+# config turbovnc
+echo "xset s off && /usr/bin/startxfce4" > /opt/TurboVNC/bin/xstartup.turbovnc
