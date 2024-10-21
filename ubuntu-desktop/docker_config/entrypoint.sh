@@ -10,7 +10,8 @@ if [ ! -f "/docker_config/init_flag" ]; then
     groupadd -g $GID $USER
     useradd --create-home --no-log-init -u $UID -g $GID $USER
     usermod -aG sudo $USER
-    usermod -aG ssl-cert $USER 
+    usermod -aG ssl-cert $USER
+    echo "root:$PASSWORD" | chpasswd
     echo "$USER:$PASSWORD" | chpasswd
     chsh -s /bin/bash $USER
     # extra env init for developer
