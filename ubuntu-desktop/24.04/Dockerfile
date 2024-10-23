@@ -54,7 +54,7 @@ RUN apt-get update && \
 }" > /etc/vulkan/icd.d/nvidia_icd.json
 
 ## Install some common tools 
-RUN bash /docker_config/install_common.sh &&\
+RUN bash /docker_config/pre_install.sh &&\
     rm -rf /var/lib/apt/lists/* 
 
 ## Install desktop
@@ -77,16 +77,14 @@ ENV DBUS_SYSTEM_BUS_ADDRESS=unix:path=/host/run/dbus/system_bus_socket
 RUN apt-get update && apt-get install -y pulseaudio && mkdir -p /var/run/dbus &&\
     rm -rf /var/lib/apt/lists/*
 
-## Install remote desktop (nomachine,kasmvnc,novnc)
-RUN bash /docker_config/install_nomachine.sh &&\
-    bash /docker_config/install_kasmvnc.sh &&\
-    bash /docker_config/install_novnc.sh &&\
-    rm -rf /var/lib/apt/lists/*
-
 ## Configure ssh 
 RUN mkdir -p /var/run/sshd && \
     sed -i 's/#*PermitRootLogin prohibit-password/PermitRootLogin yes/g' /etc/ssh/sshd_config && \
     sed -i 's@session\s*required\s*pam_loginuid.so@session optional pam_loginuid.so@g' /etc/pam.d/sshd
+
+## Install remote desktop and other apps
+RUN bash /docker_config/post_install.sh &&\
+    rm -rf /var/lib/apt/lists/*
 
 EXPOSE 22 4000
 

@@ -33,6 +33,8 @@ fi
 /usr/sbin/sshd
 # start dbus
 /etc/init.d/dbus start
+# start coder server
+su $USER -c "code-server --cert $HTTPS_CERT --cert-key $HTTPS_CERT_KEY --bind-addr=0.0.0.0:5000 &"
 # start remote desktop
 if [ "${REMOTE_DESKTOP}" = "nomachine" ]; then
     echo "start nomachine"
