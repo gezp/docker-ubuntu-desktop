@@ -1,13 +1,12 @@
 #!/bin/sh
+version=1.3.2
+if [[ $codename == 'bionic' ]]; then
+    version=1.3.1
+fi
 arch=$(dpkg --print-architecture)
 codename=$(lsb_release --short --codename)
-releases_version=1.3.2
-if [[ $codename == 'bionic' ]]; then
-    releases_version=1.3.1
-fi
-wget -nv https://github.com/kasmtech/KasmVNC/releases/download/v${releases_version}/kasmvncserver_${codename}_${releases_version}_$arch.deb -P /tmp
-apt-get update
-apt-get install -y /tmp/kasmvncserver*.deb
-rm  /tmp/kasmvncserver*.deb
+curl -fSL "https://github.com/kasmtech/KasmVNC/releases/download/v${version}/kasmvncserver_${codename}_${version}_$arch.deb" -o kasmvncserver.deb
+apt-get install -y kasmvncserver.deb
+rm kasmvncserver.deb
 # config kasmvnc
 sed -i 's/exec xfce4-session/xset s off;&/' /usr/lib/kasmvncserver/select-de.sh

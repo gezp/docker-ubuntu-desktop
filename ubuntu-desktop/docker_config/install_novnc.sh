@@ -3,7 +3,6 @@ NOVNC_VERSION=1.4.0
 # install turbovnc
 wget -q -O- https://packagecloud.io/dcommander/turbovnc/gpgkey | gpg --dearmor >/etc/apt/trusted.gpg.d/TurboVNC.gpg
 wget -O /etc/apt/sources.list.d/TurboVNC.list https://raw.githubusercontent.com/TurboVNC/repo/main/TurboVNC.list
-apt-get update
 apt-get install -y turbovnc
 rm /etc/apt/sources.list.d/TurboVNC.list
 # install novnc
