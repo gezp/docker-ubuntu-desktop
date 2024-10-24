@@ -55,6 +55,7 @@ docker pull gezp/ubuntu-desktop:20.04-cu11.0.3
 
 docker run: 创建并运行容器
 ```bash
+# create container with nomachine
 docker run -d --restart=on-failure \
     --name my_workspace \
     --cap-add=SYS_PTRACE \
@@ -66,9 +67,10 @@ docker run -d --restart=on-failure \
     -e UID=$(id -u) \
     -p 10022:22 \
     -p 14000:4000 \
+    -p 15000:5000 \
     gezp/ubuntu-desktop:20.04-cu11.0.3
 
-# create conatiner with kasmvnc/novnc
+# create container with kasmvnc/novnc
 docker run -d --restart=on-failure \
     --name my_workspace \
     --gpus all  \
@@ -80,6 +82,7 @@ docker run -d --restart=on-failure \
     -e REMOTE_DESKTOP=kasmvnc \
     -p 10022:22 \
     -p 14000:4000 \
+    -p 15000:5000 \
     gezp/ubuntu-desktop:20.04-cu11.0.3
 ```
 * 默认用户名和密码均为ubuntu
@@ -100,6 +103,10 @@ ssh ubuntu@host-ip -p 10022
 访问远程桌面 (kasmvnc/novnc方式)
 
 * 使用浏览器访问 `https://<host-ip>:14000` (推荐chrome)
+
+访问网页版VS Code (基于[code-server](https://github.com/coder/code-server))
+
+* 使用浏览器访问 `https://<host-ip>:15000` (推荐chrome)
 
 ## 3.扩展使用
 

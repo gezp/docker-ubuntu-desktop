@@ -59,9 +59,9 @@ docker pull gezp/ubuntu-desktop:20.04-cu11.0.3
 # docker pull registry.cn-hongkong.aliyuncs.com/gezp/ubuntu-desktop:20.04-cu11.0.3
 ```
 
-create conatiner
+create container
 ```bash
-# create conatiner with nomachine
+# create container with nomachine
 docker run -d --restart=on-failure \
     --name my_workspace \
     --cap-add=SYS_PTRACE \
@@ -73,9 +73,10 @@ docker run -d --restart=on-failure \
     -e UID=$(id -u) \
     -p 10022:22 \
     -p 14000:4000 \
+    -p 15000:5000 \
     gezp/ubuntu-desktop:20.04-cu11.0.3
 
-# create conatiner with kasmvnc/novnc
+# create container with kasmvnc/novnc
 docker run -d --restart=on-failure \
     --name my_workspace \
     --gpus all  \
@@ -87,38 +88,42 @@ docker run -d --restart=on-failure \
     -e REMOTE_DESKTOP=kasmvnc \
     -p 10022:22 \
     -p 14000:4000 \
+    -p 15000:5000 \
     gezp/ubuntu-desktop:20.04-cu11.0.3
 ```
 * the default username and password are both ubuntu.
 
-access conatiner by ssh
+access container by ssh
 ```bash
 ssh ubuntu@host-ip -p 10022
 ```
 * it's recommended to use vscode + remote ssh plugin
 
-access conatiner by remote desktop (nomachine)
+access container by remote desktop (nomachine)
 
 * download and install [nomachine software](https://www.nomachine.com/).
 * the ip is host's ip, the port is 14000.
 
-access conatiner by remote desktop (kasmvnc/novnc)
+access container by remote desktop (kasmvnc/novnc)
 
 * use browser to access `https://<host-ip>:14000` (chrome is recommended)
 
-> Tip `novnc` option based on [TurboVNC](https://github.com/TurboVNC/turbovnc) + [noVNC](https://github.com/novnc/noVNC), which are free and open-source software.
+> Tip `novnc` option based on [TurboVNC](https://github.com/TurboVNC/turbovnc) + [noVNC](https://github.com/novnc/noVNC), which are free and open-source softwares.
 
 features of moachine/kasmvnc/novnc:
 
 * moachine: need client software to access remote desktop, and support audio, uploads, downloads.
 * kasmvnc/novnc: provide remote web-based access to desktop, but it doesn't support audio, uploads, downloads, and microphone pass-through.
 
+access container by [code-server](https://github.com/coder/code-server) (VS Code in the browser)
+
+* use browser to access `https://<host-ip>:15000` (chrome is recommended)
 
 ## Advanced Usage
 
 #### Custom User Argument
 
-configure by setting environment variables when you create conatiner.
+configure by setting environment variables when you create container.
 
 * `REMOTE_DESKTOP`: nomachine (default) , kasmvnc, novnc.
 * `VNC_THREADS`: RectThread num for vncserver, only used when `REMOTE_DESKTOP` = kasmvnc. default is 2, set 0 for auto.
