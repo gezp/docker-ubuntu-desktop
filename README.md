@@ -127,8 +127,9 @@ configure by setting environment variables when you create container.
 
 * `REMOTE_DESKTOP`: nomachine (default) , kasmvnc, novnc.
 * `VNC_THREADS`: RectThread num for vncserver, only used when `REMOTE_DESKTOP` = kasmvnc. default is 2, set 0 for auto.
-* `HTTPS_CERT`: SSL pem certificate file path to use for https server(kasmvnc/nonvc)
-* `HTTPS_CERT_KEY`: SSL pem key file path to use for https server(kasmvnc/nonvc)
+* `HTTPS_CERT`: SSL pem certificate file path to use for https server(kasmvnc/nonvc).
+* `HTTPS_CERT_KEY`: SSL pem key file path to use for https server(kasmvnc/nonvc).
+* `DISABLE_HTTPS`: set 1 for http server mode, which is useful for reverse proxy.
 
 #### Enable GPU hardware-accelerated rendering
 
