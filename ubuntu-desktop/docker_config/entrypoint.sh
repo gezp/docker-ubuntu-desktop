@@ -34,7 +34,11 @@ fi
 # start dbus
 /etc/init.d/dbus start
 # start coder server
-su $USER -c "code-server --cert $HTTPS_CERT --cert-key $HTTPS_CERT_KEY --bind-addr=0.0.0.0:5000 &"
+if [ ! -z ${DISABLE_HTTPS+x} ]; then
+    su $USER -c "code-server --bind-addr=0.0.0.0:5000 &"
+else
+    su $USER -c "code-server --cert $HTTPS_CERT --cert-key $HTTPS_CERT_KEY --bind-addr=0.0.0.0:5000 &"
+fi
 # start remote desktop
 if [ "${REMOTE_DESKTOP}" = "nomachine" ]; then
     echo "start nomachine"
