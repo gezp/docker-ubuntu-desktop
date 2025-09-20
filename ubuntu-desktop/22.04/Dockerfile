@@ -63,15 +63,11 @@ RUN apt-get update && \
 Pin: release o=LP-PPA-mozillateam\n\
 Pin-Priority: 1001" > /etc/apt/preferences.d/mozilla-firefox &&\
     # install xfce4 and firefox
-    apt-get install -y xfce4 terminator fonts-wqy-zenhei ffmpeg firefox &&\
+    apt-get install -y xfce4 terminator fonts-wqy-zenhei pulseaudio ffmpeg firefox &&\
     # remove and disable screensaver
     apt-get remove -y xfce4-screensaver --purge &&\
     # set firefox as default web browser
     update-alternatives --set x-www-browser /usr/bin/firefox &&\
-    rm -rf /var/lib/apt/lists/*
-
-ENV DBUS_SYSTEM_BUS_ADDRESS=unix:path=/host/run/dbus/system_bus_socket
-RUN apt-get update && apt-get install -y pulseaudio && mkdir -p /var/run/dbus &&\
     rm -rf /var/lib/apt/lists/*
 
 ## Install remote desktop and other apps

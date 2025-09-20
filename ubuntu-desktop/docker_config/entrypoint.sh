@@ -14,6 +14,9 @@ if [ ! -f "/docker_config/init_flag" ]; then
     echo "root:$PASSWORD" | chpasswd
     echo "$USER:$PASSWORD" | chpasswd
     chsh -s /bin/bash $USER
+    # /run/user/$UID
+    mkdir -p /run/user/$UID
+    chown $GID:$UID /run/user/$UID
     # extra env init for developer
     if [ -f "/docker_config/env_init.sh" ]; then
         bash /docker_config/env_init.sh
@@ -31,8 +34,6 @@ if [ -f "/docker_config/custom_startup.sh" ]; then
 fi
 # start sshd
 /usr/sbin/sshd
-# start dbus
-/etc/init.d/dbus start
 # start coder server
 if [ ! -z ${DISABLE_HTTPS+x} ]; then
     su $USER -c "code-server --bind-addr=0.0.0.0:5000 &"
