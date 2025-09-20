@@ -63,7 +63,7 @@ RUN apt-get update && \
 Pin: release o=LP-PPA-mozillateam\n\
 Pin-Priority: 1001" > /etc/apt/preferences.d/mozilla-firefox &&\
     # install xfce4 and firefox
-    apt-get install -y xfce4 terminator fonts-wqy-zenhei ffmpeg firefox &&\
+    apt-get install -y xfce4 terminator fonts-wqy-zenhei pulseaudio ffmpeg firefox &&\
     # set firefox as default web browser
     update-alternatives --set x-www-browser /usr/bin/firefox &&\
     rm -rf /var/lib/apt/lists/*
