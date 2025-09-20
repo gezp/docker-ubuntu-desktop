@@ -14,6 +14,9 @@ if [ ! -f "/docker_config/init_flag" ]; then
     echo "root:$PASSWORD" | chpasswd
     echo "$USER:$PASSWORD" | chpasswd
     chsh -s /bin/bash $USER
+    # /run/user/$UID
+    mkdir /run/user/$UID
+    chown $GID:$UID /run/user/$UID
     # extra env init for developer
     if [ -f "/docker_config/env_init.sh" ]; then
         bash /docker_config/env_init.sh
