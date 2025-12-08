@@ -1,0 +1,6 @@
+{
+  "image": "gezp/ubuntu-desktop:24.04",
+  "features": { "ghcr.io/devcontainers/features/docker-in-docker:2": {} },
+  "forwardPorts": [3389, 4000],
+  "postCreateCommand": "service nomachine start"
+}
