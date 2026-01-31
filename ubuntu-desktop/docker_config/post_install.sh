@@ -8,7 +8,7 @@ bash /docker_config/install_nomachine.sh
 bash /docker_config/install_kasmvnc.sh
 bash /docker_config/install_novnc.sh
 # Install code server
-CODE_VERSION=4.103.2
+CODE_VERSION=4.108.2
 if [[ $codename == 'bionic' ]]; then
     CODE_VERSION=4.16.1
 fi
